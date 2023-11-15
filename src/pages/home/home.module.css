@@ -1,0 +1,19 @@
+.homeWrapper {
+    padding-top: 10px;
+    min-height: 90vh;
+}
+
+.home {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    font-size: 40px;
+    font-weight: 700;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+    padding: 100px 0;
+}

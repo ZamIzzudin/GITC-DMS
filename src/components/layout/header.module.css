@@ -1,0 +1,87 @@
+header {
+    background-color: var(--color-primary);
+}
+
+.containerHeader {
+    align-items: center;
+    display: flex;
+    padding: 10px 0px;
+    color: white;
+    justify-content: space-between;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-right: 50px;
+}
+
+.profileName {
+    max-width: 150px;
+    height: 20px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.imgProfile {
+    background-color: white;
+    color: var(--color-primary);
+    padding: 2px 5px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    width: 40px;
+
+}
+
+.navContainer {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav {
+    padding: 4px 30px;
+    font-size: 18px;
+    text-decoration: none !important;
+    cursor: pointer;
+    user-select: none;
+    /* color: white !important; */
+}
+
+/* .nav:hover {
+    font-weight: bold;
+} */
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.active {
+    background-color: white;
+    color: black !important;
+    /* font-weight: bold; */
+    padding: 4px 30px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+.logout {
+    background-color: white;
+    color: black;
+    padding: 4px 30px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    cursor: pointer;
+}
