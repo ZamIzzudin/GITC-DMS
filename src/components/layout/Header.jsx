@@ -40,7 +40,7 @@ const Header = () => {
                 </div>
 
                 <button className={style.logout}
-                    onClick={() => { navigate('/login') }}
+                    onClick={() => { navigate('/') }}
                 >Logout</button>
 
             </div>
