@@ -15,7 +15,7 @@ function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Login />} />
+        <Route exact path="/login" element={<Login />} />
         <Route path="/home" element={<Layout><Home /></Layout>} />
         <Route path="/status" element={<Layout><Status /></Layout>} />
         <Route path="/create/:formattedLetterOption" element={<Layout><CreateLetter /></Layout>} />
