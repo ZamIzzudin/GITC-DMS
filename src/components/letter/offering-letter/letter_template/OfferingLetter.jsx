@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Logo from "../../../assets/picture/Logo Garuda.svg"
-import Style from "./letter.module.css"
+import Logo from "../../../../assets/picture/Logo Garuda.svg"
+import Style from "./offeringLetter.module.css"
 
 const Letter = () => {
     return (
@@ -11,6 +11,8 @@ const Letter = () => {
                     <img src={Logo} alt="Logo" />
                 </div>
                 <div className={Style.column}>
+
+                    {/* informasi perusahan Garuda */}
                     <div className={Style.colSatu}>
                         <div style={{ display: "flex", flexDirection: "column", marginTop: "175px", gap: "7px", marginBottom: "30px" }}>
                             <p style={{ fontWeight: "bold" }}>Kota/City</p>
@@ -56,7 +58,9 @@ const Letter = () => {
                         </div>
                     </div>
                     <div className={Style.colDua}>
-                        <div style={{ marginBottom: "5rem" }}>
+
+                        {/* informasi Customer */}
+                        <div style={{ marginBottom: "4rem", maxWidth: "220px" }}>
                             <p>Kepada</p>
                             <p>Yth. Ibu Mariati Soetjahja</p>
                             <p>Managing Director</p>
@@ -64,11 +68,14 @@ const Letter = () => {
                             <p>Apartment Permata Senayan, Jakarta Pusat</p>
                         </div>
 
+                        {/* Informasi Surat */}
                         <div style={{ marginBottom: "3rem" }}>
                             <p>Jakarta, 25 September 2023</p>
                             <p>GARUDA/JKTVZE/20359/2023</p>
                             <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Surat Penawaran</p>
                         </div>
+
+                        {/* Penawaran produk */}
                         <div style={{ marginBottom: "3rem" }}>
                             <p style={{ marginBottom: "16px" }}>Dengan hormat,</p>
                             <p>Menindaklanjuti email tanggal 31 Agustus 2023 perihal permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
@@ -77,6 +84,7 @@ const Letter = () => {
                                     <tr>
                                         <th>No</th>
                                         <th>Detail</th>
+                                        <th>Durasi</th>
                                         <th>Biaya / Peserta</th>
                                     </tr>
                                 </thead>
@@ -84,23 +92,28 @@ const Letter = () => {
                                     <tr>
                                         <td>1.</td>
                                         <td style={{ textAlign: "left" }}>Kunjungan Fasilitas GITC</td>
+                                        <td>1 hari*</td>
                                         <td>Rp 250.000,00</td>
                                     </tr>
                                 </tbody>
                             </table>
+
+                            {/* Term n Condition */}
                             <div style={{ marginBottom: "2rem", marginTop: "1rem" }}>
                                 <p style={{ fontSize: "12px" }}>*Termasuk fasilitas Simulator, Mockup, & Lunch</p>
                                 <p style={{ fontSize: "12px" }}> *Harga sudah termasuk PPN 11%</p>
                             </div>
                             <p >Demikian disampaikan, perkenan konfirmasi lebih lanjut apabila setuju dengan surat penawaran ini. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>
                         </div>
+
+                        {/* Sign */}
                         <div style={{ marginBottom: "3rem" }}>
                             <p>Hormat Kami,</p>
-                            <div className={Style.xxx}>
+                            <div className={Style.sign}>
                                 <p>PT GARUDA INDONESIA (PERSERO) Tbk</p>
                                 <p>LEARNING & DEVELOPMENT</p>
                                 <p>SM Excess Capacity Management</p>
-                                <div className={Style.tandaTangan} style={{ height: "100px" }}></div>
+                                <div className={Style.tandaTangan} style={{ height: "80px" }}></div>
                                 <p>VONNY FRANCISKA PINONTOAN</p>
                             </div>
                         </div>

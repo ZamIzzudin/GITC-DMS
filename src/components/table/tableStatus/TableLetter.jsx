@@ -7,9 +7,6 @@ import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
-import ModalCreateLetter from '../../modal/status/ModalCreateLetter';
-import ModalUploadLetter from '../../modal/status/ModalUploadLetter';
-
 import { dataCL } from '../../../utils/DummyData';
 
 import style from './tableLetter.module.css'
@@ -19,7 +16,7 @@ const TableLetter = () => {
     const [letterOption, setLetterOption] = useState("Confirmation Letter")
     const [filters, setFilters] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [dropdown, setDropdown] = useState(false)
+    const [dropdown, setDropdown] = useState(false);
 
     const navigate = useNavigate();
 
@@ -41,6 +38,13 @@ const TableLetter = () => {
         setData(dataCL);
         initFilters();
     }, [])
+
+    const handleCreateClick = () => {
+        // Mengganti spasi dengan tanda -
+        const formattedLetterOption = letterOption.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/create/${formattedLetterOption}`);
+    };
+
 
     //onChange Global Filter
     const onGlobalFilterChange = (e) => {
@@ -98,9 +102,12 @@ const TableLetter = () => {
                         }}
                     >Upload</button>
                     <button className={`btn`} style={{ backgroundColor: "#164391" }}
-                        onClick={() => {
-                            navigate('/status/create-letter')
-                        }}
+                        onClick={handleCreateClick
+                            //     () => {
+                            //     return (<CreateLetter letterOption={letterOption} />)
+                            //     navigate('/status/create-letter')
+                            // }
+                        }
                     >Create</button>
                     <span className="p-input-icon-left " style={{ display: "flex", justifyContent: "center" }}>
                         <i className="pi pi-search" />

@@ -1,0 +1,21 @@
+.title {
+    padding: 10px 20px;
+    background-color: var(--color-primary);
+    border-radius: 10px 10px 0 0;
+    color: white;
+}
+
+.title h4 {
+    margin: 0 !important;
+    text-align: center;
+}
+
+.formInputRevisi {
+    padding: 10px 20px 20px 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+    -moz-border-radius: 0 0 10px 10px;
+    -ms-border-radius: 0 0 10px 10px;
+    -o-border-radius: 0 0 10px 10px;
+}

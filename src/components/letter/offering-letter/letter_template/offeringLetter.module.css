@@ -9,6 +9,7 @@
 .logo {
     text-align: center;
     margin-bottom: 50px;
+    /* object-fit: fill; */
 }
 
 .logo img {
@@ -64,7 +65,7 @@
     background-color: rgba(0, 255, 255, 0.13);
 }
 
-.xxx p {
+.sign p {
     font-weight: bold;
     font-size: 12px;
 }
