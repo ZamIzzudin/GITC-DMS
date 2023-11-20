@@ -51,6 +51,6 @@
     margin: auto;
 }
 
-.btn:active {
+.btnLogin:active {
     background-color: #235fc7 !important;
 }

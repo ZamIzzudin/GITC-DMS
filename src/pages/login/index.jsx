@@ -62,10 +62,9 @@ const Login = () => {
                         </FloatingLabel>
                         <Button
                             as="input"
-                            type="button"
+                            type="submit"
                             value="Log in"
                             className={style.btnLogin}
-                            onClick={handleLogin}
                         />
                     </Form>
                 </div>
