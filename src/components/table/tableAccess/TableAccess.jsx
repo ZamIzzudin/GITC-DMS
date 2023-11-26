@@ -92,7 +92,7 @@ const TableAccess = () => {
                 value={data}
                 showGridlines
                 removableSort
-                paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}
+                paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]}
                 tableStyle={{ minWidth: '40rem', borderRight: " 1px solid #e9ecef", borderLeft: " 1px solid #e9ecef" }}
                 dataKey="id"
                 id='id'

@@ -6,10 +6,16 @@ import Login from './pages/login'
 import Home from './pages/home'
 import Status from "./pages/status";
 import Access from "./pages/access";
-import CreateLetter from "./pages/status/create_letter/CreateLetter";
+import CreateConfirmationLetter from "./pages/status/create_letter/create_confirmationLetter/CreateConfirmationLetter";
+import CreateOfferingLetter from "./pages/status/create_letter/create_offeringLetter/CreateOfferingLetter";
+import ViewConfirmationLetter from "./pages/status/view_letter/view_confirmationLetter/ViewConfirmationLetter";
+import EditLetter from "./pages/status/revision_letter/EditLetter";
+
 
 import OfferingLetter from "./components/letter/offering-letter/letter_template/OfferingLetter";
 import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
+
+import Loading from "./pages/test"
 
 function AppRouter() {
   return (
@@ -17,9 +23,17 @@ function AppRouter() {
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/home" element={<Layout><Home /></Layout>} />
+        <Route path="/test" element={<Loading />} />
         <Route path="/status" element={<Layout><Status /></Layout>} />
-        <Route path="/create/:formattedLetterOption" element={<Layout><CreateLetter /></Layout>} />
-        <Route path="/status/offering letter" element={<Layout><OfferingLetter /></Layout>} />
+        <Route path="/create/confirmation-letter" element={<Layout><CreateConfirmationLetter /></Layout>} />
+        <Route path="/create/offering-letter" element={<Layout><CreateOfferingLetter /></Layout>} />
+
+        <Route path="/view/confirmation-letter" element={<Layout><ViewConfirmationLetter /></Layout>} />
+
+
+        <Route path="/edit/offering-letter" element={<Layout><EditLetter /></Layout>} />
+
+        <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
         <Route path="/status/confirmation-letter" element={<Layout><ConfirmationLetter /></Layout>} />
         <Route path="/access" element={<Layout><Access /></Layout>} />
       </Routes>

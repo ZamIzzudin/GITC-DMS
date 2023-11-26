@@ -22,7 +22,7 @@ const ModalDeleteAccess = ({ showDeleteForm, setShowDeleteForm, rowData }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button className='text-bg-danger' style={{ backgroundColor: "#164391", border: "none" }} onClick={handleClose}>
+                    <Button className='text-bg-danger' style={{ border: "none" }} onClick={handleClose}>
                         Remove
                     </Button>
                 </Modal.Footer>

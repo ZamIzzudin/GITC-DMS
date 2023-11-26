@@ -19,3 +19,15 @@
     -ms-border-radius: 0 0 10px 10px;
     -o-border-radius: 0 0 10px 10px;
 }
+
+.btnSubmit {
+    border: none !important;
+}
+
+.btnSubmit:hover {
+    background-color: rgb(223, 96, 108) !important;
+}
+
+.btnSubmit:active {
+    background-color: rgb(221, 57, 74) !important;
+}

@@ -1,9 +1,15 @@
 import React from 'react'
+import { useState } from 'react';
+
 import { Form, InputGroup, Button } from 'react-bootstrap'
 
 import Style from "./inputLetter.module.css"
 
 const InputLetter = () => {
+
+    const [date, setDate] = useState('')
+
+    console.log(date)
     return (
         <div className={Style.inputLetter}>
             <Form className={Style.formInputLetter}>
@@ -18,7 +24,9 @@ const InputLetter = () => {
                 </Form.Group>
                 <Form.Group controlId="tanggalSurat" className="mb-2">
                     <Form.Label>Tanggal Surat</Form.Label>
-                    <Form.Control type="date" size='sm' />
+                    <Form.Control type="date" size='sm'
+                        onChange={(e) => setDate(e.target.value)}
+                    />
                 </Form.Group>
                 <Form.Group controlId="subject" className="mb-2">
                     <Form.Label>Subject/Perihal</Form.Label>
@@ -100,6 +108,13 @@ const InputLetter = () => {
                                 <Form.Control type="number" size='sm' />
                             </InputGroup>
                         </Form.Group>
+                    </Form.Group>
+                </Form.Group>
+                <Form.Group controlId="informasiTnC" className="mb-2">
+                    <p style={{ fontWeight: "bold" }}>Informasi Term n Condition</p>
+                    <Form.Group controlId="jumlahTnC" className="mb-2">
+                        <Form.Label>Jumlah Term n Condition</Form.Label>
+                        <Form.Control type="number" size='sm' />
                     </Form.Group>
                     <Form.Group controlId="termNCondition" className="mb-2">
                         <Form.Label>Term n Condition</Form.Label>

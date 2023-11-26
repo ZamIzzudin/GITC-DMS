@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { AsyncLogin } from "../../state/auth/middleware";
 
+import Loading from '../../components/tools/Loading';
 
 import style from "./login.module.css"
 
@@ -13,7 +14,7 @@ import Logo from "../../assets/picture/Logo Garuda.svg"
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { auth } = useSelector(states => states);
+    const { auth, loading } = useSelector(states => states);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -26,12 +27,12 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        dispatch(AsyncLogin({ username, password }))
-        console.log("test")
-    };
+        dispatch(AsyncLogin({ username, password }));
+    }
 
     return (
         <div style={{ backgroundColor: "#EAF8FF", height: "100vh" }}>
+            <Loading />
             <div className={`container ${style.loginContainer}`} >
                 <div className={style.loginForm}>
                     <img src={Logo} alt="Garuda" className={style.logo} />
@@ -65,6 +66,7 @@ const Login = () => {
                             type="submit"
                             value="Log in"
                             className={style.btnLogin}
+                            disabled={loading.status}
                         />
                     </Form>
                 </div>

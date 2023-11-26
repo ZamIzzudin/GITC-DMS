@@ -1,0 +1,45 @@
+.CreateLetter {
+    padding: 30px 0;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+.title {
+    padding: 10px 20px;
+    background-color: var(--color-primary);
+    border-radius: 10px 10px 0 0;
+    color: white;
+}
+
+.title h4 {
+    margin: 0 !important;
+    text-align: center;
+}
+
+.letterPreview {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    /*min-height: 297mm;
+    min-width: 210mm;
+    */
+    /* margin: -100px;
+    margin-top: -140px; */
+    margin-top: -30px;
+    max-height: 1200px;
+    overflow: auto;
+}
+
+.inputLetter {
+    width: 100%;
+    /* display: flex; */
+    height: 1075px;
+    overflow-y: auto;
+}
+
+.inputRevisi {
+    width: 25%;
+}

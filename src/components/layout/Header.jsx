@@ -12,7 +12,7 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     //test split name
-    const userData = dataUser.find(user => user.id === '2');
+    const userData = dataUser.find(user => user.id === '1');
     const userName = userData ? userData.username.split(' ')[0] : '';
 
     return (

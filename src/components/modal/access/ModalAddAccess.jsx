@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux';
+
+import { AsyncRegister } from '../../../state/auth/middleware';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -7,11 +10,25 @@ import Button from 'react-bootstrap/Button';
 
 const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
     const [username, setUsername] = useState(null);
+    const [displayName, setDisplayName] = useState(null);
     const [password, setPassword] = useState(null);
     const [role, setRole] = useState(null);
+    const dispatch = useDispatch();
 
     const handleClose = () => {
         setShowAddForm(false);
+    }
+
+    const handleAddAccess = (e) => {
+        e.preventDefault();
+        console.log("klik")
+        try {
+            dispatch(AsyncRegister({ username, displayName, password, role }));
+        } catch (err) {
+            console.error(err);
+        } finally {
+            console.log("done")
+        }
     }
 
     return (
@@ -21,15 +38,26 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
                     <Modal.Title>Add Access</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={handleAddAccess}>
                         <Form.Group className="mb-3" controlId="username">
                             <Form.Label>Username</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="username"
-                                // value={username}
+                                value={username}
                                 onChange={(e) => setUsername(e.target.value.trim())}
                                 autoFocus
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="display_name">
+                            <Form.Label>Display Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="display name"
+                                value={displayName}
+                                onChange={(e) => setDisplayName(e.target.value.trim())}
+                                required
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="password"
@@ -39,16 +67,18 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
                                 type='password'
                                 placeholder="password"
                                 rows={3}
-                                // value={password}
+                                value={password}
                                 onChange={e => setPassword(e.target.value)}
+                                required
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="role"
                         >
                             <Form.Label>Role</Form.Label>
                             <Form.Select
-                                // value={role}
+                                value={role}
                                 onChange={e => setRole(e.target.value)}
+                                required
                             >
                                 <option>admin</option>
                                 <option>guest</option>
@@ -60,8 +90,8 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button style={{ backgroundColor: "#164391", border: "none" }} onClick={handleClose}>
-                        Save Changes
+                    <Button style={{ backgroundColor: "#164391", border: "none" }} onClick={handleAddAccess}>
+                        Add
                     </Button>
                 </Modal.Footer>
             </Modal>

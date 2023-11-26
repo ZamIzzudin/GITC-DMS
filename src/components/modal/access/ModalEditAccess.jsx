@@ -13,6 +13,7 @@ const ModalEditAccess = ({ showEditForm, setShowEditForm, rowData }) => {
 
     const [username, setUsername] = useState(rowData.username);
     const [password, setPassword] = useState(rowData.password);
+    const [displayName, setDisplayName] = useState(rowData.display_name);
     const [role, setRole] = useState(rowData.role);
 
     const handleClose = () => {
@@ -35,6 +36,16 @@ const ModalEditAccess = ({ showEditForm, setShowEditForm, rowData }) => {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value.trim())}
                                 autoFocus
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="display_name">
+                            <Form.Label>Display Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="display name"
+                                value={displayName}
+                                onChange={(e) => setDisplayName(e.target.value.trim())}
+                                required
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="password"

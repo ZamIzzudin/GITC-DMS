@@ -13,10 +13,14 @@
 }
 
 .btnSubmit {
-    background-color: var(--color-primary) !important;
+    background-color: #164391 !important;
     border: none !important;
 }
 
 .btnSubmit:hover {
-    background-color: #244e96 !important;
+    background-color: #3c66af !important;
+}
+
+.btnSubmit:active {
+    background-color: #0a3175 !important;
 }

@@ -40,9 +40,40 @@ const TableLetter = () => {
     }, [])
 
     const handleCreateClick = () => {
-        // Mengganti spasi dengan tanda -
-        const formattedLetterOption = letterOption.toLowerCase().replace(/\s+/g, '-');
-        navigate(`/create/${formattedLetterOption}`);
+        letterOption === "Confirmation Letter"
+            ? navigate(`/create/confirmation-letter`)
+            : letterOption === "Offering Letter"
+                ? navigate(`/create/offering-letter`)
+                : null;
+    };
+
+    const handleViewClick = () => {
+        letterOption === "Confirmation Letter"
+            ? navigate(`/view/confirmation-letter`)
+            : letterOption === "Offering Letter"
+                ? navigate(`/view/offering-letter`)
+                : null;
+    };
+
+
+
+    const handleEditClick = () => {
+        navigate(`/edit/${formattedLetterOption}`);
+    };
+
+
+    const handleNavigate = () => {
+        // const bundle = {
+        //     _id,
+        //     profilePic,
+        //     name,
+        //     username,
+        //     description,
+        //     imageSrc,
+        //     category,
+        // };
+        // localStorage.setItem("postData", JSON.stringify(bundle));
+        // navigate(`/update-post/${_id}`);
     };
 
 
@@ -160,11 +191,15 @@ const TableLetter = () => {
             <React.Fragment>
                 {
                     rowData.status === "belum disetujui" || rowData.status === "revisi" ? (
-                        <i className="pi pi-file-edit" style={{ cursor: "pointer" }} />)
+                        <i className="pi pi-file-edit" style={{ cursor: "pointer" }}
+                            onClick={() => { navigate(`/edit/${formattedLetterOption}`) }}
+                        />)
                         : rowData.dokumen === null ?
                             (<span>-</span>)
                             :
-                            (<i className="pi pi-file" style={{ cursor: "pointer" }} />)
+                            (<i className="pi pi-file" style={{ cursor: "pointer" }}
+                                onClick={handleViewClick}
+                            />)
 
                 }
             </React.Fragment>
@@ -176,6 +211,7 @@ const TableLetter = () => {
             <div className={style.tableLetter}>
                 <DataTable
                     value={data}
+
                     showGridlines
                     removableSort
                     scrollable scrollHeight="650px" sortField="tanggal" sortOrder={-1}
