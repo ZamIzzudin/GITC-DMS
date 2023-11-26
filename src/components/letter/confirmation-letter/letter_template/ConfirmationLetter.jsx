@@ -253,7 +253,7 @@ const ConfirmationLetter = ({ templateOption, letterInfo, customerInfo, productI
                         <td></td>
                         <td>Biaya Kegiatan</td>
                         <td>:</td>
-                        <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta = function: {formatCurrency(data.totalBiayaKegiatan)} manual:{formatCurrency(data.biaya * parseInt(data.durasi.split(' ')[0], 10) * data.kursUSD * data.jumlahPeserta)}</td>
+                        <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta ={formatCurrency(data.totalBiayaKegiatan)} </td>
                     </tr>
                 ) : (
                     <React.Fragment>
