@@ -3,18 +3,17 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap'
 
+import OfferingLetter from '../../../../components/letter/offering-letter/letter_template/OfferingLetter'
+import OfferingInputLetter from '../../../../components/letter/offering-letter/input_letter/InputLetter'
+import OfferingInputRevisi from '../../../../components/letter/offering-letter/input_revisi/InputRevisi'
 
-import OfferingLetter from '../../../components/letter/offering-letter/letter_template/OfferingLetter'
-import OfferingInputLetter from '../../../components/letter/offering-letter/input_letter/InputLetter'
-import OfferingInputRevisi from '../../../components/letter/offering-letter/input_revisi/InputRevisi'
-
-import ConfirmationLetter from "../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
-import ConfirmationInputLetter from "../../../components/letter/confirmation-letter/input_letter/InputLetter"
-import ConfirmationInputRevisi from "../../../components/letter/confirmation-letter/input_revisi/InputRevisi"
+import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
+import ConfirmationInputLetter from "../../../../components/letter/confirmation-letter/input_letter/InputLetter"
+import ConfirmationInputRevisi from "../../../../components/letter/confirmation-letter/input_revisi/InputRevisi"
 
 import Style from "./editLetter.module.css"
 
-const EditLetter = () => {
+const EditOfferingLetter = () => {
     const [templateOption, setTemplateOption] = useState("Produk saja")
     const { formattedLetterOption } = useParams();
     const letterOption = formattedLetterOption;
@@ -55,4 +54,4 @@ const EditLetter = () => {
     )
 }
 
-export default EditLetter
+export default EditOfferingLetter

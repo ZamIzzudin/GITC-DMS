@@ -1,6 +1,6 @@
 import React from 'react'
 import Profile from '../../assets/picture/user-solid.svg'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 //test data dummy
 import { dataUser } from '../../utils/DummyData'
@@ -14,6 +14,8 @@ const Header = () => {
     //test split name
     const userData = dataUser.find(user => user.id === '1');
     const userName = userData ? userData.username.split(' ')[0] : '';
+    const { typeLetterData } = useParams();
+
 
     return (
         <header>
@@ -29,8 +31,8 @@ const Header = () => {
                         Home
                     </nav>
                     <nav
-                        className={`${style.nav} ${location.pathname === "/status" ? style.active : ""}`}
-                        onClick={() => { navigate('/status') }}>
+                        className={`${style.nav} ${(location.pathname === "/status" || location.pathname === `/status/${typeLetterData}`) ? style.active : ""}`}
+                        onClick={() => { navigate(`/status`) }}>
                         Status
                     </nav>
                     <nav className={`${style.nav} ${location.pathname === "/access" ? style.active : ""}`}

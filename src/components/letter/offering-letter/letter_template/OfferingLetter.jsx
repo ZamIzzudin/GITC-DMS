@@ -1,20 +1,40 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 import { getYear } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import Logo from "../../../../assets/picture/Logo Garuda.svg"
 import Style from "./offeringLetter.module.css"
 
-const OfferingLetter = ({ letterInfo, customerInfo, productInfo, infoPenawaran, infoTNC }) => {
+const OfferingLetter = ({ data }) => {
 
-    const { nomorSurat, namaPenerbit, tanggalSurat, perihal, mediaRef, tanggalRef, jenisPermohonan, catatan } = letterInfo;
-    const { namaTertuju, jabatan, namaPerusahaan, alamatPerusahaan } = customerInfo;
-    const { category, subCategory } = productInfo;
-    const { jumlahPenawaran, PenawaranForms: [] } = infoPenawaran;
-    const { jumlahTNC, TNC: [] } = infoTNC;
+    useEffect(() => {
+        setLetterData(data);
+    }, [data]);
+
+    const [letterData, setLetterData] = useState({
+        nomor_surat: data.nomor_surat,
+        nama_penerbit: data.nama_penerbit,
+        tanggal_surat: data.tanggal_surat,
+        perihal: data.perihal,
+        media_ref: data.media_ref,
+        tanggal_ref: data.tanggal_ref,
+        jenis_permohonan: data.jenis_permohonan,
+        catatan: data.catatan,
+        nama_tertuju: data.nama_tertuju,
+        jabatan: data.jabatan,
+        nama_perusahaan: data.nama_perusahaan,
+        alamat_perusahaan: data.alamat_perusahaan,
+        category: data.category,
+        sub_category: data.sub_category,
+        jumlah_penawaran: data.jumlah_penawaran,
+        penawaran_forms: data.penawaran_forms,
+        jumlah_TNC: data.jumlah_TNC,
+        TNC: data.TNC
+    });
 
 
     const renderPenutup = () => {
-        return (<p style={{ marginBottom: "3rem" }}>Demikian disampaikan, perkenan konfirmasi lebih lanjut apabila setuju dengan surat penawaran ini. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>)
+        return (<p style={{ marginBottom: "2rem" }}>Demikian disampaikan, perkenan konfirmasi lebih lanjut apabila setuju dengan surat penawaran ini. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>)
     }
 
     const renderSign = () => {
@@ -26,7 +46,7 @@ const OfferingLetter = ({ letterInfo, customerInfo, productInfo, infoPenawaran, 
                     <p>LEARNING & DEVELOPMENT</p>
                     <p>SM Excess Capacity Management</p>
                     <div className={Style.tandaTangan} style={{ height: "80px" }}></div>
-                    <p>{namaPenerbit.toUpperCase()}</p>
+                    <p>{letterData.nama_penerbit.toUpperCase()}</p>
                 </div>
             </div>
         )
@@ -99,20 +119,20 @@ const OfferingLetter = ({ letterInfo, customerInfo, productInfo, infoPenawaran, 
                         {/* informasi Customer */}
                         <div style={{ marginBottom: "4rem", maxWidth: "200px" }}>
                             <p>Kepada</p>
-                            <p>Yth. {namaTertuju}</p>
-                            <p>{jabatan}</p>
-                            <p>{namaPerusahaan}</p>
-                            <p>{alamatPerusahaan}</p>
+                            <p>Yth. {letterData.nama_tertuju}</p>
+                            <p>{letterData.jabatan}</p>
+                            <p>{letterData.nama_perusahaan}</p>
+                            <p>{letterData.alamat_perusahaan}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
-                            <p>Jakarta, {tanggalSurat}</p>
-                            <p>GARUDA/JKTVZE/20359/{getYear(tanggalSurat)}</p>
+                            <p>Jakarta, {letterData.tanggal_surat}</p>
+                            <p>GARUDA/JKTVZE/20359/{getYear(letterData.tanggal_surat)}</p>
                             <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Surat Penawaran</p>
                         </div>
                         {/* Penawaran produk */}
                         <div>
                             <p style={{ marginBottom: "16px" }}>Dengan hormat,</p>
-                            <p>Menindaklanjuti {mediaRef} tanggal {tanggalRef} perihal {perihal}, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
+                            <p>Menindaklanjuti {letterData.media_ref} tanggal {letterData.tanggal_ref} perihal {letterData.perihal}, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
 
                             <table key="tablePenawaran" className={Style.tablePenawaran} style={{ width: "100%", marginTop: "1rem" }}>
                                 <thead>
@@ -124,12 +144,12 @@ const OfferingLetter = ({ letterInfo, customerInfo, productInfo, infoPenawaran, 
                                     </tr>
                                 </thead>
                                 {
-                                    infoPenawaran.PenawaranForms.map((data, index) => (
+                                    letterData.penawaran_forms.map((data, index) => (
                                         <React.Fragment>
                                             <tbody>
                                                 <tr>
                                                     <td>{index + 1}.</td>
-                                                    <td style={{ textAlign: "left" }}>{data.jenisPenawaran}</td>
+                                                    <td style={{ textAlign: "left" }}>{data.jenis_penawaran}</td>
                                                     <td>{data.durasi}*</td>
                                                     <td>{formatCurrency(data.biaya)}</td>
                                                 </tr>
@@ -137,28 +157,27 @@ const OfferingLetter = ({ letterInfo, customerInfo, productInfo, infoPenawaran, 
                                         </React.Fragment>
                                     ))
                                 }
-
                             </table>
 
                             {/* Term n Condition */}
                             <div style={{ marginBottom: "2rem", marginTop: "1rem" }}>
                                 {
-                                    infoTNC.TNC.map(data => (
+                                    letterData.TNC.map(data => (
                                         <p style={{ fontSize: "12px" }}>*{data.detail}</p>
                                     ))
                                 }
                             </div>
-                            {infoPenawaran.PenawaranForms.length <= 4 &&
+                            {letterData.penawaran_forms.length <= 4 &&
                                 (renderPenutupToSign())}
-                            {((infoPenawaran.PenawaranForms.length >= 5 &&
-                                infoPenawaran.PenawaranForms.length <= 8)) &&
+                            {((letterData.penawaran_forms.length >= 5 &&
+                                letterData.penawaran_forms.length <= 8)) &&
                                 (renderPenutup())}
                         </div>
                     </div>
                 </div>
             </div>
             {/* page 2 */}
-            {infoPenawaran.PenawaranForms.length >= 5 &&
+            {letterData.penawaran_forms.length >= 5 &&
                 (
                     <div className={Style.letter}>
                         <div className={Style.logo}>
@@ -211,10 +230,10 @@ const OfferingLetter = ({ letterInfo, customerInfo, productInfo, infoPenawaran, 
                                 </div>
                             </div>
                             <div className={Style.colDua}>
-                                {((infoPenawaran.PenawaranForms.length >= 5 &&
-                                    infoPenawaran.PenawaranForms.length <= 8)) &&
+                                {((letterData.penawaran_forms.length >= 5 &&
+                                    letterData.penawaran_forms.length <= 8)) &&
                                     (renderSign())}
-                                {(infoPenawaran.PenawaranForms.length >= 9) &&
+                                {(letterData.penawaran_forms.length >= 9) &&
                                     (renderPenutupToSign())}
                             </div>
                         </div>

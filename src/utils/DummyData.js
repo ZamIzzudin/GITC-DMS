@@ -256,6 +256,7 @@ export const isiOL = {
     category: "FLIGHT ATTENDANT",
     sub_category: "Crew Emergency Training A320 - Dry-Lease",
     jumlah_penawaran: 3,
+    upload: "pdf",
     penawaran_forms: [
         {
             jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
@@ -280,36 +281,36 @@ export const isiOL = {
             durasi: "3 hari",
             biaya: "2800000"
         },
-        // {
-        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
-        //     durasi: "3 hari",
-        //     biaya: "2800000"
-        // },
-        // {
-        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
-        //     durasi: "3 hari",
-        //     biaya: "2800000"
-        // },
-        // {
-        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
-        //     durasi: "3 hari",
-        //     biaya: "2800000"
-        // },
-        // {
-        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
-        //     durasi: "3 hari",
-        //     biaya: "2800000"
-        // },
-        // {
-        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
-        //     durasi: "3 hari",
-        //     biaya: "2800000"
-        // },
-        // {
-        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
-        //     durasi: "3 hari",
-        //     biaya: "2800000"
-        // }
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        },
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        },
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        },
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        },
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        },
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        }
     ],
     jumlah_TNC: 1,
     TNC: [
@@ -321,3 +322,382 @@ export const isiOL = {
         }
     ]
 }
+
+export const offeringLetterData = [
+    {
+        id: '17',
+        status: 'done',
+        nomor_surat: "OLFAT01-20000-0201",
+        nama_penerbit: "Vonny Franciska Pinontoan",
+        tanggal_surat: "25 September 2023",
+        perihal: "Permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "31 Agustus 2023",
+        jenis_permohonan: "",
+        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+        nama_tertuju: "Ibu Mariati Soetjahja",
+        jabatan: "Managing Director",
+        nama_perusahaan: "Lotus Tour & Travel",
+        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+        category: "FLIGHT ATTENDANT",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        jumlah_penawaran: 3,
+        upload: "pdf",
+        penawaran_forms: [
+            {
+                jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+                durasi: "3 hari",
+                biaya: "2800000"
+            },
+            {
+                jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+                durasi: "3 hari",
+                biaya: "2800000"
+            },
+            {
+                jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+                durasi: "3 hari",
+                biaya: "2800000"
+            }
+        ],
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: "Termasuk fasilitas Simulator, Mockup, & Lunch"
+            },
+            {
+                detail: "Harga sudah termasuk PPN 11%"
+            }
+        ]
+    },
+    {
+        id: '18',
+        status: 'done',
+        nomor_surat: "OLFAT01-20000-0202",
+        nama_penerbit: "John Doe",
+        tanggal_surat: "26 September 2023",
+        perihal: "Permohonan kunjungan ke XYZ Training Center dan ABC Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "1 September 2023",
+        jenis_permohonan: "",
+        catatan: "Catatan untuk permohonan ke-2",
+        nama_tertuju: "Mr. Smith",
+        jabatan: "CEO",
+        nama_perusahaan: "ABC Tour & Travel",
+        alamat_perusahaan: "123 Main Street, City Center",
+        category: "PILOT",
+        sub_category: "Flight Simulator Training - Boeing 737",
+        jumlah_penawaran: 2,
+        upload: "pdf",
+        penawaran_forms: [
+            {
+                jenis_penawaran: "Sewa Kelas Pilot Training",
+                durasi: "5 hari",
+                biaya: "5000000"
+            },
+            {
+                jenis_penawaran: "Sewa Simulator Boeing 737",
+                durasi: "2 hari",
+                biaya: "8000000"
+            }
+        ],
+        jumlah_TNC: 2,
+        TNC: [
+            {
+                detail: "Termasuk penggunaan simulator dan kelas training"
+            },
+            {
+                detail: "Biaya tidak termasuk akomodasi"
+            }
+        ]
+    },
+    {
+        id: '19',
+        status: 'done',
+        nomor_surat: "OLFAT01-20000-0203",
+        nama_penerbit: "Amanda Johnson",
+        tanggal_surat: "27 September 2023",
+        perihal: "Permohonan kunjungan ke Delta Training Center dan Wonderful Tours",
+        media_ref: "email",
+        tanggal_ref: "2 September 2023",
+        jenis_permohonan: "",
+        catatan: "Catatan untuk permohonan ke-3",
+        nama_tertuju: "Mr. Brown",
+        jabatan: "Operations Manager",
+        nama_perusahaan: "Wonderful Tours",
+        alamat_perusahaan: "456 Park Avenue, City Center",
+        category: "GROUND CREW",
+        sub_category: "Ground Handling Training - Equipment Operation",
+        jumlah_penawaran: 4,
+        upload: "pdf",
+        penawaran_forms: [
+            {
+                jenis_penawaran: "Sewa Kelas Ground Handling Training",
+                durasi: "4 hari",
+                biaya: "3500000"
+            },
+            {
+                jenis_penawaran: "Sewa Simulator Equipment Operation",
+                durasi: "2 hari",
+                biaya: "5000000"
+            },
+            {
+                jenis_penawaran: "Sewa Kelas Safety Procedures",
+                durasi: "3 hari",
+                biaya: "3200000"
+            },
+            {
+                jenis_penawaran: "Sewa Kelas Emergency Response",
+                durasi: "3 hari",
+                biaya: "3000000"
+            }
+        ],
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: "Termasuk materi pelatihan dan sertifikat"
+            }
+        ]
+    },
+    {
+        id: '20',
+        status: 'revisi',
+        nomor_surat: "OLFAT01-20000-0204",
+        nama_penerbit: "Michael Smith",
+        tanggal_surat: "28 September 2023",
+        perihal: "Permohonan kunjungan ke Alpha Training Institute dan Adventure Travel",
+        media_ref: "email",
+        tanggal_ref: "3 September 2023",
+        jenis_permohonan: "",
+        catatan: "Catatan untuk permohonan ke-4",
+        nama_tertuju: "Ms. White",
+        jabatan: "Training Coordinator",
+        nama_perusahaan: "Adventure Travel",
+        alamat_perusahaan: "789 Oak Street, Downtown",
+        category: "CABIN CREW",
+        sub_category: "In-Flight Service Training - Beverage Preparation",
+        jumlah_penawaran: 2,
+        upload: "pdf",
+        penawaran_forms: [
+            {
+                jenis_penawaran: "Sewa Kelas In-Flight Service Training",
+                durasi: "2 hari",
+                biaya: "2500000"
+            },
+            {
+                jenis_penawaran: "Sewa Kelas Beverage Preparation",
+                durasi: "1 hari",
+                biaya: "1500000"
+            }
+        ],
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: "Termasuk bahan pelatihan dan sertifikat"
+            }
+        ]
+    },
+]
+
+export const dataConfirmationLetter = [
+    {
+        id: '17',
+        status: 'done',
+        template_option: "Produk saja",
+        nomor_surat: "CLFAT01-20000-0201",
+        nama_penerbit: "Vonny Franciska Pinontoan",
+        tanggal_surat: "25 September 2023",
+        perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "31 Agustus 2023",
+        jenis_permohonan: "",
+        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+        nama_tertuju: "Ibu Mariati Soetjahja",
+        jabatan: "Managing Director",
+        nama_perusahaan: "Lotus Tour & Travel",
+        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+        category: "FLIGHT ATTENDANT",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        jumlah_produk: 3,
+        produk_forms: [
+            {
+                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
+                tanggal_kegiatan: "7 Februari 2023",
+                jumlah_peserta: 17,
+                biaya_meal: 5,
+                kurs_USD: 15000,
+                biaya: 200,
+                total_biaya_meals: 14343,
+                total_biaya_kegiatan: 5100000,
+                durasi: "4 jam",
+            }
+        ],
+        total_biaya: 5000000,
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: ""
+            }
+        ]
+    },
+    {
+        id: '18',
+        status: 'done',
+        template_option: "Produk saja",
+        nomor_surat: "CLFAT01-20000-0202",
+        nama_penerbit: "Vonny Franciska Pinontoan",
+        tanggal_surat: "25 September 2023",
+        perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "31 Agustus 2023",
+        jenis_permohonan: "",
+        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+        nama_tertuju: "Ibu Mariati Soetjahja",
+        jabatan: "Managing Director",
+        nama_perusahaan: "Lotus Tour & Travel",
+        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+        category: "FLIGHT ATTENDANT",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        jumlah_produk: 3,
+        produk_forms: [
+            {
+                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
+                tanggal_kegiatan: "7 Februari 2023",
+                jumlah_peserta: 17,
+                biaya_meal: 5,
+                kurs_USD: 15000,
+                biaya: 200,
+                total_biaya_meals: 14343,
+                total_biaya_kegiatan: 5100000,
+                durasi: "4 jam",
+            }
+        ],
+        total_biaya: 5000000,
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: ""
+            }
+        ]
+    },
+    {
+        id: '19',
+        status: 'done',
+        template_option: "Produk saja",
+        nomor_surat: "CLFAT01-20000-0203",
+        nama_penerbit: "Vonny Franciska Pinontoan",
+        tanggal_surat: "25 September 2023",
+        perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "31 Agustus 2023",
+        jenis_permohonan: "",
+        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+        nama_tertuju: "Ibu Mariati Soetjahja",
+        jabatan: "Managing Director",
+        nama_perusahaan: "Lotus Tour & Travel",
+        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+        category: "FLIGHT ATTENDANT",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        jumlah_produk: 3,
+        produk_forms: [
+            {
+                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
+                tanggal_kegiatan: "7 Februari 2023",
+                jumlah_peserta: 17,
+                biaya_meal: 5,
+                kurs_USD: 15000,
+                biaya: 200,
+                total_biaya_meals: 14343,
+                total_biaya_kegiatan: 5100000,
+                durasi: "4 jam",
+            }
+        ],
+        total_biaya: 5000000,
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: ""
+            }
+        ]
+    },
+    {
+        id: '20',
+        status: 'revisi',
+        template_option: "Produk saja",
+        nomor_surat: "CLFAT01-20000-0204",
+        nama_penerbit: "Vonny Franciska Pinontoan",
+        tanggal_surat: "25 September 2023",
+        perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "31 Agustus 2023",
+        jenis_permohonan: "",
+        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+        nama_tertuju: "Ibu Mariati Soetjahja",
+        jabatan: "Managing Director",
+        nama_perusahaan: "Lotus Tour & Travel",
+        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+        category: "FLIGHT ATTENDANT",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        jumlah_produk: 3,
+        produk_forms: [
+            {
+                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
+                tanggal_kegiatan: "7 Februari 2023",
+                jumlah_peserta: 17,
+                biaya_meal: 5,
+                kurs_USD: 15000,
+                biaya: 200,
+                total_biaya_meals: 14343,
+                total_biaya_kegiatan: 5100000,
+                durasi: "4 jam",
+            }
+        ],
+        total_biaya: 5000000,
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: ""
+            }
+        ]
+    },
+    {
+        id: '21',
+        status: 'done',
+        template_option: "Produk saja",
+        nomor_surat: "CLFAT01-20000-0205",
+        nama_penerbit: "Vonny Franciska Pinontoan",
+        tanggal_surat: "25 September 2023",
+        perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+        media_ref: "email",
+        tanggal_ref: "31 Agustus 2023",
+        jenis_permohonan: "",
+        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+        nama_tertuju: "Ibu Mariati Soetjahja",
+        jabatan: "Managing Director",
+        nama_perusahaan: "Lotus Tour & Travel",
+        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+        category: "FLIGHT ATTENDANT",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        jumlah_produk: 3,
+        produk_forms: [
+            {
+                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
+                tanggal_kegiatan: "7 Februari 2023",
+                jumlah_peserta: 17,
+                biaya_meal: 5,
+                kurs_USD: 15000,
+                biaya: 200,
+                total_biaya_meals: 14343,
+                total_biaya_kegiatan: 5100000,
+                durasi: "4 jam",
+            }
+        ],
+        total_biaya: 5000000,
+        jumlah_TNC: 1,
+        TNC: [
+            {
+                detail: ""
+            }
+        ]
+    },
+];

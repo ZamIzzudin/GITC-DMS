@@ -7,47 +7,31 @@ import OfferingInputLetter from '../../../../components/letter/offering-letter/i
 import Style from './createOfferingLetter.module.css'
 
 const CreateConfirmationLetter = () => {
-    // informasi Letter
-    const [letterInfo, setLetterInfo] = useState({
-        nomorSurat: '',
-        namaPenerbit: '',
-        tanggalSurat: '',
-        perihal: '',
-        mediaRef: '',
-        tanggalRef: '',
-        jenisPermohonan: '',
-        catatan: '',
-    });
 
-    //informasi Customer
-    const [customerInfo, setCustomerInfo] = useState({
-        namaTertuju: '',
-        jabatan: '',
-        namaPerusahaan: '',
-        alamatPerusahaan: '',
-    });
-
-    // informasi produk
-    const [productInfo, setProductInfo] = useState({
-        category: '',
-        subCategory: '',
-    });
-
-    //informasi Penawaran
-    const [infoPenawaran, setInfoPenawaran] = useState({
-        jumlahPenawaran: 1,
-        PenawaranForms: [
+    const [letterData, setLetterData] = useState({
+        nomor_surat: "",
+        nama_penerbit: "",
+        tanggal_surat: "",
+        perihal: "",
+        media_ref: "",
+        tanggal_ref: "",
+        jenis_permohonan: "",
+        catatan: "",
+        nama_tertuju: "",
+        jabatan: "",
+        nama_perusahaan: "",
+        alamat_perusahaan: "",
+        category: "",
+        sub_category: "",
+        jumlah_penawaran: 1,
+        penawaran_forms: [
             {
-                jenisPenawaran: '',
+                jenis_penawaran: '',
                 durasi: '',
-                biaya: ''
+                biaya: '',
             }
-        ]
-    });
-
-    //term n condition
-    const [infoTNC, setInfoTNC] = useState({
-        jumlahTNC: 1,
+        ],
+        jumlah_TNC: 1,
         TNC: [
             {
                 detail: ''
@@ -61,11 +45,7 @@ const CreateConfirmationLetter = () => {
             <div className={Style.CreateLetter}>
                 <div className={Style.letterPreview}>
                     <OfferingLetter
-                        letterInfo={letterInfo}
-                        customerInfo={customerInfo}
-                        productInfo={productInfo}
-                        infoPenawaran={infoPenawaran}
-                        infoTNC={infoTNC}
+                        data={letterData}
                     />
                 </div>
                 <div style={{ width: "30%" }}>
@@ -74,20 +54,8 @@ const CreateConfirmationLetter = () => {
                     </div>
                     <div className={Style.inputLetter}>
                         <OfferingInputLetter
-                            letterInfo={letterInfo}
-                            setLetterInfo={setLetterInfo}
-
-                            customerInfo={customerInfo}
-                            setCustomerInfo={setCustomerInfo}
-
-                            productInfo={productInfo}
-                            setProductInfo={setProductInfo}
-
-                            infoPenawaran={infoPenawaran}
-                            setInfoPenawaran={setInfoPenawaran}
-
-                            infoTNC={infoTNC}
-                            setInfoTNC={setInfoTNC}
+                            letterData={letterData}
+                            setLetterData={setLetterData}
                         />
                     </div>
                 </div>
@@ -97,3 +65,50 @@ const CreateConfirmationLetter = () => {
 }
 
 export default CreateConfirmationLetter
+// informasi Letter
+// const [letterInfo, setLetterInfo] = useState({
+//     nomorSurat: '',
+//     namaPenerbit: '',
+//     tanggalSurat: '',
+//     perihal: '',
+//     mediaRef: '',
+//     tanggalRef: '',
+//     jenisPermohonan: '',
+//     catatan: '',
+// });
+
+// //informasi Customer
+// const [customerInfo, setCustomerInfo] = useState({
+//     namaTertuju: '',
+//     jabatan: '',
+//     namaPerusahaan: '',
+//     alamatPerusahaan: '',
+// });
+
+// // informasi produk
+// const [productInfo, setProductInfo] = useState({
+//     category: '',
+//     subCategory: '',
+// });
+
+// //informasi Penawaran
+// const [infoPenawaran, setInfoPenawaran] = useState({
+//     jumlahPenawaran: 1,
+//     PenawaranForms: [
+//         {
+//             jenisPenawaran: '',
+//             durasi: '',
+//             biaya: ''
+//         }
+//     ]
+// });
+
+// //term n condition
+// const [infoTNC, setInfoTNC] = useState({
+//     jumlahTNC: 1,
+//     TNC: [
+//         {
+//             detail: ''
+//         }
+//     ]
+// });

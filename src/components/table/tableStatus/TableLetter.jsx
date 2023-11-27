@@ -1,22 +1,24 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
-import { dataCL } from '../../../utils/DummyData';
+import { dataConfirmationLetter, offeringLetterData } from '../../../utils/DummyData';
 
 import style from './tableLetter.module.css'
 
 const TableLetter = () => {
     const [data, setData] = useState([])
+    const [dataOfferingLetter, setDataOfferingLetter] = useState([])
     const [letterOption, setLetterOption] = useState("Confirmation Letter")
     const [filters, setFilters] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState("");
     const [dropdown, setDropdown] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -24,20 +26,29 @@ const TableLetter = () => {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [showUploadForm, setShowUploadForm] = useState(false);
 
+    const typeLetterData = letterOption.toLowerCase().replace(/\s+/g, '-');
 
     const letter = ["Confirmation Letter", "Offering Letter"];
 
     //letter option
     const handleOptionClick = (option) => {
         setLetterOption(option);
+        navigate(`/status/${typeLetterData.toLowerCase().replace(/\s+/g, '-')}`);
         setDropdown(false);
+        // setLoading()
     };
 
     //getDataCL
     useEffect(() => {
-        setData(dataCL);
+        if (letterOption === "Confirmation Letter") {
+            setData(dataConfirmationLetter);
+        } else if (letterOption === "Offering Letter") {
+            setData(offeringLetterData)
+        }
         initFilters();
-    }, [])
+    }, [letterOption])
+
+    console.log(dataOfferingLetter)
 
     const handleCreateClick = () => {
         letterOption === "Confirmation Letter"
@@ -47,20 +58,21 @@ const TableLetter = () => {
                 : null;
     };
 
-    const handleViewClick = () => {
+    const handleViewClick = (id) => {
         letterOption === "Confirmation Letter"
-            ? navigate(`/view/confirmation-letter`)
+            ? navigate(`/view/confirmation-letter/${id}`)
             : letterOption === "Offering Letter"
-                ? navigate(`/view/offering-letter`)
+                ? navigate(`/view/offering-letter/${id}`)
                 : null;
     };
 
-
-
-    const handleEditClick = () => {
-        navigate(`/edit/${formattedLetterOption}`);
+    const handleEditClick = (id) => {
+        letterOption === "Confirmation Letter"
+            ? navigate(`/edit/confirmation-letter/${id}`)
+            : letterOption === "Offering Letter"
+                ? navigate(`/edit/offering-letter/${id}`)
+                : null;
     };
-
 
     const handleNavigate = () => {
         // const bundle = {
@@ -192,13 +204,13 @@ const TableLetter = () => {
                 {
                     rowData.status === "belum disetujui" || rowData.status === "revisi" ? (
                         <i className="pi pi-file-edit" style={{ cursor: "pointer" }}
-                            onClick={() => { navigate(`/edit/${formattedLetterOption}`) }}
+                            onClick={() => handleEditClick(rowData.id)}
                         />)
                         : rowData.dokumen === null ?
                             (<span>-</span>)
                             :
                             (<i className="pi pi-file" style={{ cursor: "pointer" }}
-                                onClick={handleViewClick}
+                                onClick={() => handleViewClick(rowData.id)}
                             />)
 
                 }
@@ -211,7 +223,6 @@ const TableLetter = () => {
             <div className={style.tableLetter}>
                 <DataTable
                     value={data}
-
                     showGridlines
                     removableSort
                     scrollable scrollHeight="650px" sortField="tanggal" sortOrder={-1}
@@ -223,12 +234,12 @@ const TableLetter = () => {
                     filters={filters} globalFilterFields={['id', 'nama_dokumen', 'tanggal', 'customer', 'dokumen', 'status']}
                 >
                     <Column field="id" header="No" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={(data, e) => e.rowIndex + 1} style={{ textAlign: "center" }} />
-                    <Column field="nama_dokumen" header="Nama" sortable headerStyle={{ borderBottom: "1px solid #000", }} />
-                    <Column field="tanggal" header="Tanggal" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
-                    <Column field="customer" header="Customer" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
+                    <Column field="nomor_surat" header="Nama" sortable headerStyle={{ borderBottom: "1px solid #000", }} />
+                    <Column field="tanggal_surat" header="Tanggal" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
+                    <Column field="nama_perusahaan" header="Customer" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
                     <Column field="status" header="Status" sortable headerStyle={{ borderBottom: "1px solid #000" }} body={statusBodyTemplate} />
                     <Column header="" headerStyle={{ borderBottom: "1px solid #000" }} body={uploadScanBodyTemplate} style={{ textAlign: "center" }} />
-                    <Column field="dokumen" header="Doc" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={documentBodyTemplate} style={{ textAlign: "center" }} />
+                    <Column field="" header="Doc" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={documentBodyTemplate} style={{ textAlign: "center" }} />
                 </DataTable>
 
                 {/* {

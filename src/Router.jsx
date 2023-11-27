@@ -10,8 +10,9 @@ import CreateConfirmationLetter from "./pages/status/create_letter/create_confir
 import CreateOfferingLetter from "./pages/status/create_letter/create_offeringLetter/CreateOfferingLetter";
 import ViewConfirmationLetter from "./pages/status/view_letter/view_confirmationLetter/ViewConfirmationLetter";
 import ViewOfferingLetter from "./pages/status/view_letter/view_offeringLetter/ViewOfferingLetter";
-import EditLetter from "./pages/status/revision_letter/EditLetter";
 
+import EditOfferingLetter from "./pages/status/revision_letter/revision_offeringLetter/EditOfferingLetter";
+import EditConfirmationLetter from "./pages/status/revision_letter/revision_confirmationLetter/EditConfirmationLetter";
 
 import OfferingLetter from "./components/letter/offering-letter/letter_template/OfferingLetter";
 import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
@@ -26,17 +27,19 @@ function AppRouter() {
         <Route path="/home" element={<Layout><Home /></Layout>} />
         <Route path="/test" element={<Loading />} />
         <Route path="/status" element={<Layout><Status /></Layout>} />
+        <Route path="/status/:typeLetterData" element={<Layout><Status /></Layout>} />
         <Route path="/create/confirmation-letter" element={<Layout><CreateConfirmationLetter /></Layout>} />
         <Route path="/create/offering-letter" element={<Layout><CreateOfferingLetter /></Layout>} />
 
-        <Route path="/view/confirmation-letter" element={<Layout><ViewConfirmationLetter /></Layout>} />
-        <Route path="/view/offering-letter" element={<Layout><ViewOfferingLetter /></Layout>} />
+        <Route path="/view/confirmation-letter/:id" element={<Layout><ViewConfirmationLetter /></Layout>} />
+        <Route path="/view/offering-letter/:id" element={<Layout><ViewOfferingLetter /></Layout>} />
 
 
-        <Route path="/edit/offering-letter" element={<Layout><EditLetter /></Layout>} />
+        <Route path="/edit/confirmation-letter/:id" element={<Layout><EditConfirmationLetter /></Layout>} />
+        <Route path="/edit/offering-letter/:id" element={<Layout><EditOfferingLetter /></Layout>} />
 
-        <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
-        <Route path="/status/confirmation-letter" element={<Layout><ConfirmationLetter /></Layout>} />
+        {/* <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
+        <Route path="/status/confirmation-letter" element={<Layout><ConfirmationLetter /></Layout>} /> */}
         <Route path="/access" element={<Layout><Access /></Layout>} />
       </Routes>
     </Router >

@@ -10,18 +10,7 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat
 
-const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterInfo, customerInfo, setCustomerInfo, productInfo, setProductInfo, infoKegiatan, setInfoKegiatan, infoTNC, setInfoTNC
-}) => {
-    // Descturctering state
-    const { nomorSurat, namaPenerbit, tanggalSurat, perihal, mediaRef, tanggalRef, jenisPermohonan, catatan } = letterInfo;
-
-    const { namaTertuju, jabatan, namaPerusahaan, alamatPerusahaan } = customerInfo;
-
-    const { category, subCategory } = productInfo;
-
-    const { jumlahProduk, produkForms: [] } = infoKegiatan;
-
-    const { jumlahTNC, TNC: [] } = infoTNC;
+const InputLetter = ({ letterData, setLetterData }) => {
 
     const [totalBiayaPerKegiatan, setTotalBiayaPerKegiatan] = useState([]);
     const [totalBiayaMealsPerKegiatan, seTotalBiayaMealsPerKegiatan] = useState([]);
@@ -29,41 +18,62 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
     const [inputDurasi, setInputDurasi] = useState('');
     const [totalBiaya, setTotalBiaya] = useState('');
 
+    const {
+        template_option,
+        nomor_surat,
+        nama_penerbit,
+        tanggal_surat,
+        perihal,
+        media_ref,
+        tanggal_ref,
+        jenis_permohonan,
+        catatan,
+        nama_tertuju,
+        jabatan,
+        nama_perusahaan,
+        alamat_perusahaan,
+        category,
+        sub_category,
+        jumlah_produk,
+        produk_forms,
+        total_biaya,
+        jumlah_TNC,
+        TNC
+    } = letterData;
+
     const productCode = Products.categories.find((cat) => cat.name === category)
-        ?.subcategories.find((subCat) => subCat.name === subCategory)?.code
+        ?.subcategories.find((subCat) => subCat.name === sub_category)?.code
 
-    const dateLetter = formatDateToLetterNumber(tanggalSurat)
+    const dateLetter = formatDateToLetterNumber(tanggal_surat)
 
-    // console.log(tanggalSurat)
     useEffect(() => {
-        if (tanggalSurat && productCode) {
-            setLetterInfo({ ...letterInfo, nomorSurat: `CL${productCode}-20015-${dateLetter}` });
+        if (tanggal_surat && productCode) {
+            setLetterData({ ...letterData, nomor_surat: `CL${productCode}-20015-${dateLetter}` });
         }
-    }, [nomorSurat, productCode, dateLetter])
+    }, [nomor_surat, productCode, dateLetter])
 
     const calculateTotalBiayaKegiatan = (newForms) => {
         const totalBiayaKegiatan = newForms.map((data, index) => {
             let totalBiaya = 0;
 
-            if (templateOption === "Produk saja") {
-                totalBiaya = data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10);
-            } else if (templateOption === "Produk + Meals") {
-                totalBiaya = ((data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10)) + data.totalBiayaMeals);
-            } else if (templateOption === "Produk - Meals") {
-                totalBiaya = ((data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10)) - data.totalBiayaMeals);
+            if (template_option === "Produk saja") {
+                totalBiaya = data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10);
+            } else if (template_option === "Produk + Meals") {
+                totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) + data.total_biaya_meals);
+            } else if (template_option === "Produk - Meals") {
+                totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) - data.total_biaya_meals);
             }
             return totalBiaya;
         });
         setTotalBiayaPerKegiatan(totalBiayaKegiatan);
     };
 
-
     const calculateTotalBiayaMeals = (newForms) => {
         const totalBiayaMeals = newForms.map((data) => {
             let totalBiaya = 0;
 
-            if (templateOption === "Produk + Meals" || templateOption === "Produk - Meals") {
-                totalBiaya = data.biayaMeal * data.kursUSD * data.jumlahPeserta
+            if (template_option === "Produk + Meals" || template_option === "Produk - Meals") {
+                totalBiaya = data.biaya_meal * data.kurs_USD * data.jumlah_peserta
             } else {
                 totalBiaya;
             }
@@ -72,41 +82,39 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
 
         seTotalBiayaMealsPerKegiatan(totalBiayaMeals)
     };
-    // console.log(`total meals ${totalBiayaMealsPerKegiatan}`)
 
     const calculateTotalBiaya = (newForms) => {
         const totalBiaya = newForms.reduce((acc, data) => {
-            const HitungTotalBiaya = acc + data.totalBiayaKegiatan
+            const HitungTotalBiaya = acc + data.total_biaya_kegiatan
 
             return HitungTotalBiaya;
         }, 0);
 
         setTotalBiaya(totalBiaya)
     };
-    console.log(`total biaya ${formatCurrency(totalBiaya)}`)
 
     useEffect(() => {
-        setInfoKegiatan((prevInfoKegiatan) => {
-            const newForms = prevInfoKegiatan.produkForms.map((form, index) => {
+        setLetterData((prevLetterData) => {
+            const newForms = prevLetterData.produk_forms.map((form, index) => {
                 return {
                     ...form,
-                    totalBiayaMeals: totalBiayaMealsPerKegiatan[index],
-                    totalBiayaKegiatan: totalBiayaPerKegiatan[index]
+                    total_biaya_meals: totalBiayaMealsPerKegiatan[index],
+                    total_biaya_kegiatan: totalBiayaPerKegiatan[index]
                 };
             });
 
 
             return {
-                ...prevInfoKegiatan,
-                produkForms: newForms,
-                totalBiaya: totalBiaya
+                ...prevLetterData,
+                produk_forms: newForms,
+                total_biaya: totalBiaya
             };
         });
-    }, [totalBiayaPerKegiatan, setInfoKegiatan, totalBiayaMealsPerKegiatan, totalBiaya]);
+    }, [totalBiayaPerKegiatan, setLetterData, totalBiayaMealsPerKegiatan, totalBiaya]);
 
     const handleProdukFormsChange = (index, prop, value) => {
-        setInfoKegiatan((prevInfoKegiatan) => {
-            const newForms = [...prevInfoKegiatan.produkForms];
+        setLetterData((prevLetterData) => {
+            const newForms = [...prevLetterData.produk_forms];
             newForms[index][prop] = value;
 
             calculateTotalBiayaMeals(newForms);
@@ -115,8 +123,8 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
             calculateTotalBiaya(newForms);
 
             return {
-                ...prevInfoKegiatan,
-                produkForms: newForms,
+                ...prevLetterData,
+                produk_forms: newForms,
             };
         });
     };
@@ -132,50 +140,49 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
 
     const handleJumlahProdukChange = (e) => {
         const newValue = parseInt(e.target.value, 10 || 1);
-        setInfoKegiatan((prevInfoKegiatan) => ({
-            ...prevInfoKegiatan,
-            jumlahProduk: newValue,
-            produkForms: Array.from({ length: newValue }, (_, index) => prevInfoKegiatan.produkForms[index] || {
-                jenisKegiatan: '',
-                tanggalKegiatan: '',
-                jumlahPeserta: '',
-                biayaMeal: '',
-                kursUSD: '',
+        setLetterData((prevLetterData) => ({
+            ...prevLetterData,
+            jumlah_produk: newValue,
+            produk_forms: Array.from({ length: newValue }, (_, index) => prevLetterData.produk_forms[index] || {
+                jenis_kegiatan: '',
+                tanggal_kegiatan: '',
+                jumlah_peserta: '',
+                biaya_meal: '',
+                kurs_USD: '',
                 biaya: '',
-                totalBiayaMeals: '',
-                totalBiayaKegiatan: '',
-                durasi: ''
+                total_biaya_meals: "",
+                total_biaya_kegiatan: "",
+                durasi: '',
             }),
         }));
     };
 
-    // console.log(infoKegiatan.produkForms)
-    // console.log(typeDurasi)
+    console.log(letterData)
 
     const handleJumlahTNCChange = (e) => {
         const newValue = parseInt(e.target.value, 10 || 1);
-        setInfoTNC((prevInfoTNC) => ({
-            ...prevInfoTNC,
-            jumlahTNC: newValue,
-            TNC: Array.from({ length: newValue }, (_, index) => prevInfoTNC.TNC[index] || {
+        setLetterData((prevLetterData) => ({
+            ...prevLetterData,
+            jumlah_TNC: newValue,
+            TNC: Array.from({ length: newValue }, (_, index) => prevLetterData.TNC[index] || {
                 detail: ''
             }),
         }));
     };
 
     const handleTNCChange = (index, prop, value) => {
-        setInfoTNC((prevInfoTNC) => {
-            const newForms = [...prevInfoTNC.TNC];
+        setLetterData((prevLetterData) => {
+            const newForms = [...prevLetterData.TNC];
             newForms[index][prop] = value;
             return {
-                ...prevInfoTNC,
+                ...prevLetterData,
                 TNC: newForms,
             };
         });
     };
 
     const renderTNC = () => {
-        return infoTNC.TNC.map((tnc, index) => (
+        return letterData.TNC.map((tnc, index) => (
             <Form.Group key={index} controlId={`TNC-${index}`} className="mb-2">
                 <Form.Label>Term n Condition ke-{index + 1}</Form.Label>
                 <Form.Control type="text" size='md'
@@ -187,34 +194,34 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
     }
 
     const renderProdukForms = () => {
-        return infoKegiatan.produkForms.map((form, index) => (
+        return letterData.produk_forms.map((form, index) => (
             <Form.Group key={index} controlId="kegiatan" className="mb-2">
                 <p style={{ fontWeight: "bold" }}>Kegiatan ke-{index + 1}</p>
                 <Form.Group controlId={`jenisKegiatan-${index}`} className="mb-2">
                     <Form.Label>Jenis Kegiatan</Form.Label>
                     <Form.Control type="text" size='md'
                         value={form.jenisKegiatan}
-                        onChange={(e) => handleProdukFormsChange(index, 'jenisKegiatan', e.target.value)}
+                        onChange={(e) => handleProdukFormsChange(index, 'jenis_kegiatan', e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group controlId={`tanggalKegiatan-${index}`} className="mb-2">
                     <Form.Label>Tanggal Kegiatan</Form.Label>
                     <Form.Control type="date" size='md'
-                        onChange={(e) => handleProdukFormsChange(index, 'tanggalKegiatan', formatDate(e.target.value))}
+                        onChange={(e) => handleProdukFormsChange(index, 'tanggal_kegiatan', formatDate(e.target.value))}
                     />
                 </Form.Group>
                 <Form.Group controlId={`jumlahPeserta-${index}`} className="mb-2">
                     <Form.Label>Jumlah Peserta</Form.Label>
                     <Form.Control type="number" size='md'
                         value={form.jumlahPeserta}
-                        onChange={(e) => handleProdukFormsChange(index, 'jumlahPeserta', e.target.value)}
+                        onChange={(e) => handleProdukFormsChange(index, 'jumlah_peserta', e.target.value)}
                     />
                 </Form.Group>
 
                 <Form.Group controlId={`durasi-${index}`} className="mb-2">
                     <Form.Label>Durasi</Form.Label>
                     <InputGroup className="mb-3">
-                        <Form.Control type="number" size='sm'
+                        <Form.Control controlId={`jumlah durasi - ${index} `} type="number" size='sm'
                             onChange={(e) => {
                                 // console.log(e.target.value, index);
                                 setInputDurasi(e.target.value)
@@ -222,18 +229,19 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                                 if (input) {
                                     handleProdukFormsChange(index, 'durasi', input + ' ' + typeDurasi[index]);
                                 }
-                                // console.log(infoKegiatan.produkForms)
+                                // console.log(LetterData.produkForms)
                             }
                             }
                         />
-                        <Form.Select onChange={(e) => {
-                            handleDurasiChange(index, e.target.value)
-                            const input = e.target.value;
-                            if (input) {
-                                handleProdukFormsChange(index, 'durasi', inputDurasi + ' ' + input);
-                            }
-                            // console.log(infoKegiatan.produkForms)
-                        }} >
+                        <Form.Select controlId={`waktu durasi - -${index}`}
+                            onChange={(e) => {
+                                handleDurasiChange(index, e.target.value)
+                                const input = e.target.value;
+                                if (input) {
+                                    handleProdukFormsChange(index, 'durasi', inputDurasi + ' ' + input);
+                                }
+                                // console.log(LetterData.produkForms)
+                            }} >
                             <option>choose</option>
                             <option>jam</option>
                             <option>hari</option>
@@ -247,21 +255,21 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                     <InputGroup className="mb-3">
                         <InputGroup.Text id="basic-addon1">Rp</InputGroup.Text>
                         <Form.Control type="number" size='sm'
-                            value={form.kursUSD}
-                            onChange={(e) => handleProdukFormsChange(index, 'kursUSD', e.target.value)}
+                            value={form.kurs_USD}
+                            onChange={(e) => handleProdukFormsChange(index, 'kurs_USD', e.target.value)}
                         />
                     </InputGroup>
                 </Form.Group >
 
                 {
-                    templateOption !== "Produk saja" && (
+                    template_option !== "Produk saja" && (
                         <Form.Group controlId={`biayaMeal-${index}`} className="mb-2">
                             <Form.Label>Biaya Meal</Form.Label>
                             <InputGroup className="mb-3">
                                 <InputGroup.Text id="basic-addon1">USD</InputGroup.Text>
                                 <Form.Control type="number" size='sm'
-                                    value={form.biayaMeal}
-                                    onChange={(e) => handleProdukFormsChange(index, 'biayaMeal', e.target.value)}
+                                    value={form.biaya_meal}
+                                    onChange={(e) => handleProdukFormsChange(index, 'biaya_meal', e.target.value)}
                                 />
                             </InputGroup>
                         </Form.Group>
@@ -284,11 +292,11 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
 
     return (
         <div className={Style.inputLetter}>
-            {/* <p>Nilai yang dipilih: {templateOption}</p> */}
+            {/* <p>Nilai yang dipilih: {template_option}</p> */}
             <Form className={Style.formInputLetter}>
                 <Form.Group controlId="template" className="mb-2" >
                     <Form.Label style={{ fontWeight: "bold" }}>Pilih Template Surat</Form.Label>
-                    <Form.Select value={templateOption} onChange={(e) => { setTemplateOption(e.target.value) }}>
+                    <Form.Select value={template_option} onChange={(e) => { setLetterData({ ...letterData, template_option: e.target.value }) }}>
                         <option>Produk saja</option>
                         <option>Produk + Meals</option>
                         <option>Produk - Meals</option>
@@ -297,10 +305,10 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
 
                 <Form.Group controlId="infromasiSurat" className="mb-2">
                     <p style={{ fontWeight: "bold" }}>Informasi Surat</p>
-                    <Form.Group controlId="nomorSurat" className="mb-2">
+                    <Form.Group controlId="nomor_surat" className="mb-2">
                         <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
                         <Form.Control type="text" size='sm' readOnly
-                            value={nomorSurat}
+                            value={nomor_surat}
                         />
                     </Form.Group>
                     <Form.Group controlId="namaPenerbit" className="mb-2">
@@ -308,47 +316,47 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                         <Form.Control
                             placeholder='ex: Vonny Franciska Pinontoan'
                             type="text" size='sm'
-                            value={namaPenerbit}
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, namaPenerbit: e.target.value }) }} />
+                            value={nama_penerbit}
+                            onChange={(e) => { setLetterData({ ...letterData, nama_penerbit: e.target.value }) }} />
                     </Form.Group>
-                    <Form.Group controlId="tanggalSurat" className="mb-2">
+                    <Form.Group controlId="tanggal_surat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, tanggalSurat: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setLetterData({ ...letterData, tanggal_surat: formatDate(e.target.value) }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="subject" className="mb-2">
                         <Form.Label>Subject/Perihal</Form.Label>
                         <Form.Control type="text" size='sm'
                             value={perihal}
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, perihal: e.target.value }) }}
+                            onChange={(e) => { setLetterData({ ...letterData, perihal: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="mediaReferensi" className="mb-2">
                         <Form.Label>Media Referensi</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={mediaRef}
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, mediaRef: e.target.value }) }}
+                            value={media_ref}
+                            onChange={(e) => { setLetterData({ ...letterData, media_ref: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, tanggalRef: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setLetterData({ ...letterData, tanggal_ref: formatDate(e.target.value) }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="jenisPermohonan" className="mb-2">
                         <Form.Label>Jenis Permohonan</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={jenisPermohonan}
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, jenisPermohonan: e.target.value }) }}
+                            value={jenis_permohonan}
+                            onChange={(e) => { setLetterData({ ...letterData, jenis_permohonan: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="catatan" className="mb-2">
                         <Form.Label>Catatan <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*optional</span></Form.Label>
                         <Form.Control as="textarea" size='sm' rows={3}
                             value={catatan}
-                            onChange={(e) => { setLetterInfo({ ...letterInfo, catatan: e.target.value }) }}
+                            onChange={(e) => { setLetterData({ ...letterData, catatan: e.target.value }) }}
                         />
                     </Form.Group>
                 </Form.Group>
@@ -359,29 +367,29 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                         <Form.Label>Nama Tertuju</Form.Label>
                         <Form.Control type="text" size='sm'
                             placeholder='ex: Ibu Vonny Franciska Pinontoan'
-                            value={namaTertuju}
-                            onChange={(e) => { setCustomerInfo({ ...customerInfo, namaTertuju: e.target.value }) }}
+                            value={nama_tertuju}
+                            onChange={(e) => { setLetterData({ ...letterData, nama_tertuju: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="jabatan" className="mb-2">
                         <Form.Label>Jabatan</Form.Label>
                         <Form.Control type="text" size='sm'
                             value={jabatan}
-                            onChange={(e) => { setCustomerInfo({ ...customerInfo, jabatan: e.target.value }) }}
+                            onChange={(e) => { setLetterData({ ...letterData, jabatan: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="namaPerusahaan" className="mb-2">
                         <Form.Label>Nama Perusahaan</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={namaPerusahaan}
-                            onChange={(e) => { setCustomerInfo({ ...customerInfo, namaPerusahaan: e.target.value }) }}
+                            value={nama_perusahaan}
+                            onChange={(e) => { setLetterData({ ...letterData, nama_perusahaan: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="alamatPerusahaan" className="mb-2">
                         <Form.Label>Alamat Perusahaan</Form.Label>
                         <Form.Control as="textarea" size='sm'
-                            value={alamatPerusahaan}
-                            onChange={(e) => { setCustomerInfo({ ...customerInfo, alamatPerusahaan: e.target.value }) }}
+                            value={alamat_perusahaan}
+                            onChange={(e) => { setLetterData({ ...letterData, alamat_perusahaan: e.target.value }) }}
                         />
                     </Form.Group>
                 </Form.Group>
@@ -392,7 +400,7 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                         <Form.Label>Kategori Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
                             value={category}
-                            onChange={(e) => { setProductInfo({ ...productInfo, category: e.target.value }) }}
+                            onChange={(e) => { setLetterData({ ...letterData, category: e.target.value }) }}
                         >
                             <option>Open this select menu</option>
                             {
@@ -405,8 +413,8 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                     <Form.Group controlId="subCategory" className="mb-2">
                         <Form.Label>Jenis Sub-Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={subCategory}
-                            onChange={(e) => { setProductInfo({ ...productInfo, subCategory: e.target.value }) }}
+                            value={sub_category}
+                            onChange={(e) => { setLetterData({ ...letterData, sub_category: e.target.value }) }}
                         >
                             <option>Open this select menu</option>
                             {
@@ -420,7 +428,7 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                     <Form.Group controlId="jumlahProduk" className="mb-2">
                         <Form.Label>Jumlah Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={jumlahProduk}
+                            value={jumlah_produk}
                             onChange={handleJumlahProdukChange}
                         >
                             {Array.from({ length: 10 }).map((_, index) => (
@@ -438,7 +446,7 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                     <Form.Group controlId="jumlahTnC" className="mb-2">
                         <Form.Label>Jumlah Term n Condition</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={jumlahTNC}
+                            value={jumlah_TNC}
                             onChange={handleJumlahTNCChange}
                         >
                             {Array.from({ length: 5 }).map((_, index) => (

@@ -1,75 +1,71 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
-
-import { isiCL } from '../../../../utils/DummyData';
+import { dataConfirmationLetter } from '../../../../utils/DummyData';
 
 const ViewConfirmationLetter = () => {
+    const { id } = useParams();
+    // const [dataCL, setDataCL] = useState()
+    const [dataCL, setDataCL] = useState(dataConfirmationLetter.find(item => item.id === id))
 
-    const updatedProdukForms = isiCL.produk_forms.map(data => ({
-        jenisKegiatan: data.jenis_kegiatan,
-        tanggalKegiatan: data.tanggal_kegiatan,
-        jumlahPeserta: data.jumlah_peserta,
-        biayaMeal: data.biaya_meal,
-        kursUSD: data.kurs_USD,
-        biaya: data.biaya,
-        totalBiayaMeals: data.total_biaya_meals,
-        totalBiayaKegiatan: data.total_biaya_kegiatan,
-        durasi: data.durasi
-    }));
+    // useEffect(() => {
+    //     if (dataConfirmationLetter) {
+    //         console.log(id)
 
-    const [templateOption] = useState("Produk + Meals")
-    // const [templateOption] = useState(isiCL.template_option)
+    //         const foundData = dataConfirmationLetter.find(item => item.id === id);
+    //         if (foundData) {
+    //             setDataCL(foundData);
+    //         }
+    //     }
+    // }, [id, dataConfirmationLetter]);
 
-    const [letterInfo] = useState({
-        nomorSurat: isiCL.nomor_surat,
-        namaPenerbit: isiCL.nama_penerbit,
-        tanggalSurat: isiCL.tanggal_surat,
-        perihal: isiCL.perihal,
-        mediaRef: isiCL.media_ref,
-        tanggalRef: isiCL.tanggal_ref,
-        jenisPermohonan: isiCL.jenis_permohonan,
-        catatan: isiCL.catatan,
-    });
+    console.log(dataCL)
 
-    //informasi Customer
-    const [customerInfo] = useState({
-        namaTertuju: isiCL.nama_tertuju,
-        jabatan: isiCL.jabatan,
-        namaPerusahaan: isiCL.nama_perusahaan,
-        alamatPerusahaan: isiCL.alamat_perusahaan,
-    });
+    // const updatedProdukForms = dataCL.produk_forms.map(data => ({
+    //     jenisKegiatan: data.jenis_kegiatan,
+    //     tanggalKegiatan: data.tanggal_kegiatan,
+    //     jumlahPeserta: data.jumlah_peserta,
+    //     biayaMeal: data.biaya_meal,
+    //     kursUSD: data.kurs_USD,
+    //     biaya: data.biaya,
+    //     totalBiayaMeals: data.total_biaya_meals,
+    //     totalBiayaKegiatan: data.total_biaya_kegiatan,
+    //     durasi: data.durasi
+    // }));
 
-    // informasi produk
-    const [productInfo] = useState({
-        category: isiCL.category,
-        subCategory: isiCL.sub_category,
-    });
-
-    //informasi kegiatan
-    const [infoKegiatan] = useState({
-        jumlahProduk: isiCL.jumlah_produk,
-        produkForms: updatedProdukForms,
-        totalBiaya: 200000
-    });
-
-    //term n condition
-    const [infoTNC] = useState({
-        jumlahTNC: 1,
-        TNC: [
-            {
-                detail: ''
-            }
-        ]
-    });
-    const [totalBiayaMealsPerKegiatan, seTotalBiayaMealsPerKegiatan] = useState([]);
-
+    // const [letterData] = useState({
+    //     templateOption: dataCL.template_option,
+    //     nomorSurat: dataCL.nomor_surat,
+    //     namaPenerbit: dataCL.nama_penerbit,
+    //     tanggalSurat: dataCL.tanggal_surat,
+    //     perihal: dataCL.perihal,
+    //     mediaRef: dataCL.media_ref,
+    //     tanggalRef: dataCL.tanggal_ref,
+    //     jenisPermohonan: dataCL.jenis_permohonan,
+    //     catatan: dataCL.catatan,
+    //     namaTertuju: dataCL.nama_tertuju,
+    //     jabatan: dataCL.jabatan,
+    //     namaPerusahaan: dataCL.nama_perusahaan,
+    //     alamatPerusahaan: dataCL.alamat_perusahaan,
+    //     category: dataCL.category,
+    //     subCategory: dataCL.sub_category,
+    //     jumlahProduk: dataCL.jumlah_produk,
+    //     produkForms: updatedProdukForms,
+    //     totalBiaya: dataCL.total_biaya,
+    //     jumlahTNC: 1,
+    //     TNC: [
+    //         {
+    //             detail: ''
+    //         }
+    //     ]
+    // });
 
     return (
         <div className='container' style={{ paddingBottom: "50px" }}>
             <div>
-                <ConfirmationLetter
+                {/* <ConfirmationLetter
                     templateOption={templateOption}
                     letterInfo={letterInfo}
                     customerInfo={customerInfo}
@@ -78,6 +74,9 @@ const ViewConfirmationLetter = () => {
                     infoTNC={infoTNC}
                     totalBiayaMealsPerKegiatan={totalBiayaMealsPerKegiatan}
                     seTotalBiayaMealsPerKegiatan={seTotalBiayaMealsPerKegiatan}
+                /> */}
+                <ConfirmationLetter
+                    data={dataCL}
                 />
             </div>
         </div>
