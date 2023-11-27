@@ -9,6 +9,7 @@ import Access from "./pages/access";
 import CreateConfirmationLetter from "./pages/status/create_letter/create_confirmationLetter/CreateConfirmationLetter";
 import CreateOfferingLetter from "./pages/status/create_letter/create_offeringLetter/CreateOfferingLetter";
 import ViewConfirmationLetter from "./pages/status/view_letter/view_confirmationLetter/ViewConfirmationLetter";
+import ViewOfferingLetter from "./pages/status/view_letter/view_offeringLetter/ViewOfferingLetter";
 import EditLetter from "./pages/status/revision_letter/EditLetter";
 
 
@@ -29,6 +30,7 @@ function AppRouter() {
         <Route path="/create/offering-letter" element={<Layout><CreateOfferingLetter /></Layout>} />
 
         <Route path="/view/confirmation-letter" element={<Layout><ViewConfirmationLetter /></Layout>} />
+        <Route path="/view/offering-letter" element={<Layout><ViewOfferingLetter /></Layout>} />
 
 
         <Route path="/edit/offering-letter" element={<Layout><EditLetter /></Layout>} />

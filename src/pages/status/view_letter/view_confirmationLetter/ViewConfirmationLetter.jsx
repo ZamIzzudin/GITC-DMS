@@ -51,7 +51,7 @@ const ViewConfirmationLetter = () => {
     const [infoKegiatan] = useState({
         jumlahProduk: isiCL.jumlah_produk,
         produkForms: updatedProdukForms,
-        totalBiaya: 0
+        totalBiaya: 200000
     });
 
     //term n condition
@@ -65,7 +65,6 @@ const ViewConfirmationLetter = () => {
     });
     const [totalBiayaMealsPerKegiatan, seTotalBiayaMealsPerKegiatan] = useState([]);
 
-    console.log(infoKegiatan.produkForms)
 
     return (
         <div className='container' style={{ paddingBottom: "50px" }}>

@@ -27,6 +27,7 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
     const [totalBiayaMealsPerKegiatan, seTotalBiayaMealsPerKegiatan] = useState([]);
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
+    const [totalBiaya, setTotalBiaya] = useState('');
 
     const productCode = Products.categories.find((cat) => cat.name === category)
         ?.subcategories.find((subCat) => subCat.name === subCategory)?.code
@@ -40,31 +41,77 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
         }
     }, [nomorSurat, productCode, dateLetter])
 
-    const calculateTotalBiaya = (newForms) => {
+    const calculateTotalBiayaKegiatan = (newForms) => {
         const totalBiayaKegiatan = newForms.map((data, index) => {
             let totalBiaya = 0;
 
             if (templateOption === "Produk saja") {
                 totalBiaya = data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10);
             } else if (templateOption === "Produk + Meals") {
-                totalBiaya = (data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10));
+                totalBiaya = ((data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10)) + data.totalBiayaMeals);
             } else if (templateOption === "Produk - Meals") {
-                totalBiaya = (data.biaya * data.kursUSD * data.jumlahPeserta) * parseInt(data.durasi.split(' ')[0], 10);
+                totalBiaya = ((data.biaya * data.kursUSD * data.jumlahPeserta * parseInt(data.durasi.split(' ')[0], 10)) - data.totalBiayaMeals);
+            }
+            return totalBiaya;
+        });
+        setTotalBiayaPerKegiatan(totalBiayaKegiatan);
+    };
+
+
+    const calculateTotalBiayaMeals = (newForms) => {
+        const totalBiayaMeals = newForms.map((data) => {
+            let totalBiaya = 0;
+
+            if (templateOption === "Produk + Meals" || templateOption === "Produk - Meals") {
+                totalBiaya = data.biayaMeal * data.kursUSD * data.jumlahPeserta
+            } else {
+                totalBiaya;
             }
             return totalBiaya;
         });
 
-        setTotalBiayaPerKegiatan(totalBiayaKegiatan);
+        seTotalBiayaMealsPerKegiatan(totalBiayaMeals)
     };
-    console.log(infoKegiatan.produkForms)
-
     // console.log(`total meals ${totalBiayaMealsPerKegiatan}`)
+
+    const calculateTotalBiaya = (newForms) => {
+        const totalBiaya = newForms.reduce((acc, data) => {
+            const HitungTotalBiaya = acc + data.totalBiayaKegiatan
+
+            return HitungTotalBiaya;
+        }, 0);
+
+        setTotalBiaya(totalBiaya)
+    };
+    console.log(`total biaya ${formatCurrency(totalBiaya)}`)
+
+    useEffect(() => {
+        setInfoKegiatan((prevInfoKegiatan) => {
+            const newForms = prevInfoKegiatan.produkForms.map((form, index) => {
+                return {
+                    ...form,
+                    totalBiayaMeals: totalBiayaMealsPerKegiatan[index],
+                    totalBiayaKegiatan: totalBiayaPerKegiatan[index]
+                };
+            });
+
+
+            return {
+                ...prevInfoKegiatan,
+                produkForms: newForms,
+                totalBiaya: totalBiaya
+            };
+        });
+    }, [totalBiayaPerKegiatan, setInfoKegiatan, totalBiayaMealsPerKegiatan, totalBiaya]);
 
     const handleProdukFormsChange = (index, prop, value) => {
         setInfoKegiatan((prevInfoKegiatan) => {
             const newForms = [...prevInfoKegiatan.produkForms];
             newForms[index][prop] = value;
 
+            calculateTotalBiayaMeals(newForms);
+            calculateTotalBiayaKegiatan(newForms);
+            calculateTotalBiayaKegiatan(newForms);
             calculateTotalBiaya(newForms);
 
             return {
@@ -73,43 +120,6 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
             };
         });
     };
-
-    useEffect(() => {
-        setInfoKegiatan((prevInfoKegiatan) => {
-            const newForms = prevInfoKegiatan.produkForms.map((form, index) => {
-                return {
-                    ...form,
-                    totalBiayaKegiatan: totalBiayaPerKegiatan[index],
-                };
-            });
-
-            return {
-                ...prevInfoKegiatan,
-                produkForms: newForms,
-            };
-        });
-    }, [totalBiayaPerKegiatan, setInfoKegiatan]);
-
-    useEffect(() => {
-        const totalBiayaMeals = infoKegiatan.produkForms.map((data) => {
-            let totalBiaya = 0;
-
-            if (templateOption === "Produk + Meals" || templateOption === "Produk - Meals") {
-                totalBiaya = data.biaya * data.kursUSD * data.jumlahPeserta
-            } else {
-                totalBiaya = 0;
-            }
-            return totalBiaya;
-        });
-
-        seTotalBiayaMealsPerKegiatan(totalBiayaMeals)
-    }, [infoKegiatan.produkForms, templateOption])
-
-
-
-    console.log(totalBiayaMealsPerKegiatan)
-    // console.log(totalBiayaPerKegiatan)
-    // console.log(infoKegiatan.produkForms)
 
     const handleDurasiChange = (index, value) => {
         console.log(`Updating typeDurasi[${index}] to ${value}`);
@@ -132,7 +142,8 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
                 biayaMeal: '',
                 kursUSD: '',
                 biaya: '',
-                totalBiayaPerKegiatan: '',
+                totalBiayaMeals: '',
+                totalBiayaKegiatan: '',
                 durasi: ''
             }),
         }));
@@ -162,7 +173,6 @@ const InputLetter = ({ templateOption, setTemplateOption, letterInfo, setLetterI
             };
         });
     };
-
 
     const renderTNC = () => {
         return infoTNC.TNC.map((tnc, index) => (

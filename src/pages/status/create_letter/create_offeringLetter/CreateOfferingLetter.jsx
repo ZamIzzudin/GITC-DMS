@@ -33,21 +33,16 @@ const CreateConfirmationLetter = () => {
         subCategory: '',
     });
 
-    //informasi kegiatan
-    const [infoKegiatan, setInfoKegiatan] = useState({
-        jumlahProduk: 1,
-        produkForms: [
+    //informasi Penawaran
+    const [infoPenawaran, setInfoPenawaran] = useState({
+        jumlahPenawaran: 1,
+        PenawaranForms: [
             {
-                jenisKegiatan: '',
-                tanggalKegiatan: '',
-                jumlahPeserta: '',
-                biayaMeal: '',
-                kursUSD: '',
-                biaya: '',
+                jenisPenawaran: '',
+                durasi: '',
+                biaya: ''
             }
-        ],
-        totalBiaya: ''
-
+        ]
     });
 
     //term n condition
@@ -65,14 +60,35 @@ const CreateConfirmationLetter = () => {
         <div className='container'>
             <div className={Style.CreateLetter}>
                 <div className={Style.letterPreview}>
-                    <OfferingLetter />
+                    <OfferingLetter
+                        letterInfo={letterInfo}
+                        customerInfo={customerInfo}
+                        productInfo={productInfo}
+                        infoPenawaran={infoPenawaran}
+                        infoTNC={infoTNC}
+                    />
                 </div>
                 <div style={{ width: "30%" }}>
                     <div className={Style.title}>
                         <h4>Create Offering Letter</h4>
                     </div>
                     <div className={Style.inputLetter}>
-                        <OfferingInputLetter />
+                        <OfferingInputLetter
+                            letterInfo={letterInfo}
+                            setLetterInfo={setLetterInfo}
+
+                            customerInfo={customerInfo}
+                            setCustomerInfo={setCustomerInfo}
+
+                            productInfo={productInfo}
+                            setProductInfo={setProductInfo}
+
+                            infoPenawaran={infoPenawaran}
+                            setInfoPenawaran={setInfoPenawaran}
+
+                            infoTNC={infoTNC}
+                            setInfoTNC={setInfoTNC}
+                        />
                     </div>
                 </div>
             </div>

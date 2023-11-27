@@ -46,7 +46,8 @@ const CreateConfirmationLetter = () => {
                 biayaMeal: '',
                 kursUSD: '',
                 biaya: '',
-                totalBiayaKegiatan: 0,
+                totalBiayaKegiatan: "",
+                totalBiayaMeals: "",
                 durasi: '',
             }
         ],

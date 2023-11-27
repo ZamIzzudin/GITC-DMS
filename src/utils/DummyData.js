@@ -238,37 +238,86 @@ export const isiCL = {
 }
 
 
-export const isiOL = [
-    {
-        id: '17',
-        status: 'done',
-        nomor_surat: "OLFAT01-20000-0201",
-        nama_penerbit: "Vonny Franciska Pinontoan",
-        tanggal_surat: "25 September 2023",
-        perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
-        media_ref: "email",
-        tanggal_ref: "31 Agustus 2023",
-        jenis_permohonan: "",
-        catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
-        nama_tertuju: "Ibu Mariati Soetjahja",
-        jabatan: "Managing Director",
-        nama_perusahaan: "Lotus Tour & Travel",
-        alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
-        category: "FLIGHT ATTENDANT",
-        sub_category: "Crew Emergency Training A320 - Dry-Lease",
-        jumlah_penawaran: 3,
-        penawaran: [
-            {
-                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
-                durasi: "3 hari",
-                biaya: "280"
-            }
-        ],
-        jumlah_TNC: 1,
-        TNC: [
-            {
-                detail: ""
-            }
-        ]
-    }
-]
+export const isiOL = {
+    id: '17',
+    status: 'done',
+    nomor_surat: "OLFAT01-20000-0201",
+    nama_penerbit: "Vonny Franciska Pinontoan",
+    tanggal_surat: "25 September 2023",
+    perihal: "permohonan kunjungan ke Garuda Indonesia Training Center dan Sekolah Charis (Batam) dan Lotus Tour & Travel",
+    media_ref: "email",
+    tanggal_ref: "31 Agustus 2023",
+    jenis_permohonan: "",
+    catatan: "Mulai tanggal 4 oktober 2021 setiap training tidak disediakan meals, sehingga akan dikurangi biaya meals sebesar USD 5/peserta. Ref. PKSNo. GARUDA: IG/PERJ/DI-3032/2019 & No.CITILINK: CITILINK/JKTDSQG/PERJ-6069/0119 harga sewa kelas sebesar USD 280/Hari dan harga CET akan dikurangi biaya meals USD 5 sesuai dengan jumlah peserta training",
+    nama_tertuju: "Ibu Mariati Soetjahja",
+    jabatan: "Managing Director",
+    nama_perusahaan: "Lotus Tour & Travel",
+    alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
+    category: "FLIGHT ATTENDANT",
+    sub_category: "Crew Emergency Training A320 - Dry-Lease",
+    jumlah_penawaran: 3,
+    penawaran_forms: [
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        }
+        ,
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        }
+        ,
+        {
+            jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        }
+        ,
+        {
+            jenis_penawaran: "Sewa Kelas Training Recurrent Training  AID",
+            durasi: "3 hari",
+            biaya: "2800000"
+        },
+        // {
+        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+        //     durasi: "3 hari",
+        //     biaya: "2800000"
+        // },
+        // {
+        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+        //     durasi: "3 hari",
+        //     biaya: "2800000"
+        // },
+        // {
+        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+        //     durasi: "3 hari",
+        //     biaya: "2800000"
+        // },
+        // {
+        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+        //     durasi: "3 hari",
+        //     biaya: "2800000"
+        // },
+        // {
+        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+        //     durasi: "3 hari",
+        //     biaya: "2800000"
+        // },
+        // {
+        //     jenis_penawaran: "Sewa Kelas Recurrent Training First AID",
+        //     durasi: "3 hari",
+        //     biaya: "2800000"
+        // }
+    ],
+    jumlah_TNC: 1,
+    TNC: [
+        {
+            detail: "Termasuk fasilitas Simulator, Mockup, & Lunch"
+        },
+        {
+            detail: "Harga sudah termasuk PPN 11%"
+        }
+    ]
+}

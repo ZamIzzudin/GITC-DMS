@@ -20,10 +20,8 @@ const ConfirmationLetter = ({ templateOption, letterInfo, customerInfo, productI
     const { jumlahTNC, TNC: [] } = infoTNC;
 
     const banyakKegiatan = infoKegiatan.produkForms.length;
-    const totalKegiatan = 3500000;
-    const terbilang = Terbilang(totalKegiatan)
 
-    // console.log(infoKegiatan.totalBiaya)
+    console.log(letterInfo)
     const renderTotalBiaya = () => (
         <React.Fragment>
             <tr>
@@ -31,7 +29,7 @@ const ConfirmationLetter = ({ templateOption, letterInfo, customerInfo, productI
                 <td >Total Biaya</td>
                 <td >:</td>
                 <td >
-                    {infoKegiatan.totalBiaya} ({terbilang} rupiah)
+                    <span style={{ fontWeight: "bold" }}> {formatCurrency(infoKegiatan.totalBiaya)} ({Terbilang(infoKegiatan.totalBiaya)} rupiah) </span>
                 </td>
             </tr>
         </React.Fragment>
@@ -253,7 +251,7 @@ const ConfirmationLetter = ({ templateOption, letterInfo, customerInfo, productI
                         <td></td>
                         <td>Biaya Kegiatan</td>
                         <td>:</td>
-                        <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta ={formatCurrency(data.totalBiayaKegiatan)} </td>
+                        <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(data.totalBiayaKegiatan)} ({Terbilang(data.totalBiayaKegiatan)} rupiah)</span></td>
                     </tr>
                 ) : (
                     <React.Fragment>
@@ -263,18 +261,12 @@ const ConfirmationLetter = ({ templateOption, letterInfo, customerInfo, productI
                             <td>:</td>
                             <td>USD {data.biayaMeal} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta = {formatCurrency(data.totalBiayaMeals)}</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td>Biaya Kegiatan</td>
-                            <td>:</td>
-                            <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta = {formatCurrency(data.totalBiayaKegiatan)}</td>
-                        </tr>
                         {templateOption === "Produk - Meals" && (
                             <tr>
                                 <td></td>
-                                <td>Total Biaya Kegiatan</td>
+                                <td>Total Biaya Kegiatan - Biaya Meals</td>
                                 <td>:</td>
-                                <td>Rp {data.biaya - data.biayaMeal} = Rp {data.biaya - data.biayaMeal} ({terbilang} rupiah)</td>
+                                <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta - {formatCurrency(data.totalBiayaMeals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(data.totalBiayaKegiatan)} ({Terbilang(data.totalBiayaKegiatan)} rupiah)</span></td>
                             </tr>
                         )}
                         {templateOption === "Produk + Meals" && (
@@ -282,7 +274,7 @@ const ConfirmationLetter = ({ templateOption, letterInfo, customerInfo, productI
                                 <td></td>
                                 <td>Total Biaya Kegiatan</td>
                                 <td>:</td>
-                                <td>{formatCurrency(data.biaya + data.biayaMeal)} = Rp {data.biaya + data.biayaMeal} ({terbilang} rupiah)</td>
+                                <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kursUSD)} x {data.jumlahPeserta} Peserta + {formatCurrency(data.totalBiayaMeals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(data.totalBiayaKegiatan)} ({Terbilang(data.totalBiayaKegiatan)} rupiah) </span></td>
                             </tr>
                         )}
                     </React.Fragment>
