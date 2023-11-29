@@ -14,20 +14,45 @@ import Style from "./editLetter.module.css"
 const EditConfirmationLetter = () => {
     const { id } = useParams();
     const [dataCL, setDataCL] = useState(dataConfirmationLetter.find(item => item.id === id))
-    const [templateOption, setTemplateOption] = useState("Produk saja")
+
+    const [editDataCL, setEditDataCL] = useState({
+        template_option: dataCL.template_option,
+        nomor_surat: dataCL.nomor_surat,
+        nama_penerbit: dataCL.nama_penerbit,
+        tanggal_surat: dataCL.tanggal_surat,
+        perihal: dataCL.perihal,
+        media_ref: dataCL.media_ref,
+        tanggal_ref: dataCL.tanggal_ref,
+        jenis_permohonan: dataCL.jenis_permohonan,
+        catatan: dataCL.catatan,
+        nama_tertuju: dataCL.nama_tertuju,
+        jabatan: dataCL.jabatan,
+        nama_perusahaan: dataCL.nama_perusahaan,
+        alamat_perusahaan: dataCL.alamat_perusahaan,
+        category: dataCL.category,
+        sub_category: dataCL.sub_category,
+        jumlah_produk: dataCL.jumlah_produk,
+        produk_forms: dataCL.produk_forms,
+        total_biaya: dataCL.total_biaya,
+        jumlah_TNC: dataCL.jumlah_TNC,
+        TNC: dataCL.TNC
+    });
 
     return (
         <div className='container' style={{ paddingBottom: "50px" }}>
             <div className={Style.CreateLetter}>
                 <div className={Style.letterPreview}>
-                    <ConfirmationLetter data={dataCL} />
+                    <ConfirmationLetter data={editDataCL} />
                 </div>
                 <div style={{ width: "26%" }}>
                     <div className={Style.title}>
                         <h4>EDIT LETTER</h4>
                     </div>
                     <div className={Style.inputLetter}>
-                        {/* <ConfirmationInputLetter templateOption={templateOption} setTemplateOption={setTemplateOption} /> */}
+                        <ConfirmationInputLetter
+                            inputLetter={editDataCL}
+                            setInputLetter={setEditDataCL}
+                        />
                     </div>
                 </div>
                 <div style={{ width: "26%" }}>
@@ -35,7 +60,7 @@ const EditConfirmationLetter = () => {
                         <h4>INPUT REVISI</h4>
                     </div>
                     <div className={Style.inputRevisi}>
-                        {/* <ConfirmationInputRevisi /> */}
+                        <ConfirmationInputRevisi />
                     </div>
                 </div>
             </div>

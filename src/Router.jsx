@@ -27,7 +27,7 @@ function AppRouter() {
         <Route path="/home" element={<Layout><Home /></Layout>} />
         <Route path="/test" element={<Loading />} />
         <Route path="/status" element={<Layout><Status /></Layout>} />
-        <Route path="/status/:typeLetterData" element={<Layout><Status /></Layout>} />
+        {/* <Route path="/status/:typeLetterData" element={<Layout><Status /></Layout>} /> */}
         <Route path="/create/confirmation-letter" element={<Layout><CreateConfirmationLetter /></Layout>} />
         <Route path="/create/offering-letter" element={<Layout><CreateOfferingLetter /></Layout>} />
 

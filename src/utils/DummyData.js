@@ -372,7 +372,7 @@ export const offeringLetterData = [
     },
     {
         id: '18',
-        status: 'done',
+        status: 'belum disetujui',
         nomor_surat: "OLFAT01-20000-0202",
         nama_penerbit: "John Doe",
         tanggal_surat: "26 September 2023",
@@ -413,7 +413,7 @@ export const offeringLetterData = [
     },
     {
         id: '19',
-        status: 'done',
+        status: 'disetujui',
         nomor_surat: "OLFAT01-20000-0203",
         nama_penerbit: "Amanda Johnson",
         tanggal_surat: "27 September 2023",
@@ -542,7 +542,7 @@ export const dataConfirmationLetter = [
     },
     {
         id: '18',
-        status: 'done',
+        status: 'belum disetujui',
         template_option: "Produk saja",
         nomor_surat: "CLFAT01-20000-0202",
         nama_penerbit: "Vonny Franciska Pinontoan",
@@ -582,7 +582,7 @@ export const dataConfirmationLetter = [
     },
     {
         id: '19',
-        status: 'done',
+        status: 'disetujui',
         template_option: "Produk saja",
         nomor_surat: "CLFAT01-20000-0203",
         nama_penerbit: "Vonny Franciska Pinontoan",
@@ -623,7 +623,7 @@ export const dataConfirmationLetter = [
     {
         id: '20',
         status: 'revisi',
-        template_option: "Produk saja",
+        template_option: "Produk - Meals",
         nomor_surat: "CLFAT01-20000-0204",
         nama_penerbit: "Vonny Franciska Pinontoan",
         tanggal_surat: "25 September 2023",
@@ -638,8 +638,19 @@ export const dataConfirmationLetter = [
         alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
         category: "FLIGHT ATTENDANT",
         sub_category: "Crew Emergency Training A320 - Dry-Lease",
-        jumlah_produk: 3,
+        jumlah_produk: 1,
         produk_forms: [
+            {
+                jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
+                tanggal_kegiatan: "7 Februari 2023",
+                jumlah_peserta: 17,
+                biaya_meal: 5,
+                kurs_USD: 15000,
+                biaya: 200,
+                total_biaya_meals: 14343,
+                total_biaya_kegiatan: 5100000,
+                durasi: "4 jam",
+            },
             {
                 jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
                 tanggal_kegiatan: "7 Februari 2023",
@@ -678,7 +689,7 @@ export const dataConfirmationLetter = [
         alamat_perusahaan: "Apartment Permata Senayan, Jakarta Pusat",
         category: "FLIGHT ATTENDANT",
         sub_category: "Crew Emergency Training A320 - Dry-Lease",
-        jumlah_produk: 3,
+        jumlah_produk: 1,
         produk_forms: [
             {
                 jenis_kegiatan: "Sewa Kelas Recurrent Training First AID",
@@ -701,3 +712,35 @@ export const dataConfirmationLetter = [
         ]
     },
 ];
+
+export const dataDashboard = [
+    {
+        id: "1",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        category: "FLIGHT ATTENDANT",
+        jumlah_produk: "2",
+        total_biaya: "3000000"
+    },
+    {
+        id: "2",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        category: "FLIGHT OPERATION OFFICER",
+        jumlah_produk: "2",
+        total_biaya: "3000000"
+    },
+    {
+        id: "3",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        category: "AIRLINE BUSINESS TRAINING",
+        jumlah_produk: "2",
+        total_biaya: "3000000"
+    },
+    {
+        id: "4",
+        sub_category: "Crew Emergency Training A320 - Dry-Lease",
+        category: "FLIGHT CREW TRAINING",
+        jumlah_produk: "2",
+        total_biaya: "3000000"
+    },
+
+]

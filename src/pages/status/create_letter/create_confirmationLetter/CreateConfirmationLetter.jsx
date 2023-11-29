@@ -33,8 +33,8 @@ const CreateConfirmationLetter = () => {
                 biaya_meal: '',
                 kurs_USD: '',
                 biaya: '',
-                total_biaya_meals: "",
-                total_biaya_kegiatan: "",
+                total_biaya_meals: '',
+                total_biaya_kegiatan: '',
                 durasi: '',
             }
         ],
@@ -46,6 +46,9 @@ const CreateConfirmationLetter = () => {
             }
         ]
     });
+
+    // console.log("test")
+    // console.log(letterData.produk_forms[0].biaya)
 
     return (
 
@@ -63,8 +66,8 @@ const CreateConfirmationLetter = () => {
                     <div className={Style.inputLetter}>
 
                         <ConfirmationInputLetter
-                            letterData={letterData}
-                            setLetterData={setLetterData}
+                            inputLetter={letterData}
+                            setInputLetter={setLetterData}
                         />
                     </div>
                 </div>

@@ -12,33 +12,29 @@ import { dataConfirmationLetter, offeringLetterData } from '../../../utils/Dummy
 import style from './tableLetter.module.css'
 
 const TableLetter = () => {
+    const navigate = useNavigate();
     const [data, setData] = useState([])
-    const [dataOfferingLetter, setDataOfferingLetter] = useState([])
     const [letterOption, setLetterOption] = useState("Confirmation Letter")
     const [filters, setFilters] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState("");
     const [dropdown, setDropdown] = useState(false);
-    const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
-
+    // const [loading, setLoading] = useState(false);s
     // const [selectedData, setSelectedData] = useState([]);
-    const [showCreateForm, setShowCreateForm] = useState(false);
-    const [showUploadForm, setShowUploadForm] = useState(false);
+    // const [showCreateForm, setShowCreateForm] = useState(false);
+    // const [showUploadForm, setShowUploadForm] = useState(false);
 
     const typeLetterData = letterOption.toLowerCase().replace(/\s+/g, '-');
-
     const letter = ["Confirmation Letter", "Offering Letter"];
 
     //letter option
     const handleOptionClick = (option) => {
         setLetterOption(option);
-        navigate(`/status/${typeLetterData.toLowerCase().replace(/\s+/g, '-')}`);
+        // navigate(`/status/${typeLetterData.toLowerCase().replace(/\s+/g, '-')}`);
         setDropdown(false);
         // setLoading()
     };
 
-    //getDataCL
+    //getData
     useEffect(() => {
         if (letterOption === "Confirmation Letter") {
             setData(dataConfirmationLetter);
@@ -47,8 +43,6 @@ const TableLetter = () => {
         }
         initFilters();
     }, [letterOption])
-
-    console.log(dataOfferingLetter)
 
     const handleCreateClick = () => {
         letterOption === "Confirmation Letter"
@@ -73,21 +67,6 @@ const TableLetter = () => {
                 ? navigate(`/edit/offering-letter/${id}`)
                 : null;
     };
-
-    const handleNavigate = () => {
-        // const bundle = {
-        //     _id,
-        //     profilePic,
-        //     name,
-        //     username,
-        //     description,
-        //     imageSrc,
-        //     category,
-        // };
-        // localStorage.setItem("postData", JSON.stringify(bundle));
-        // navigate(`/update-post/${_id}`);
-    };
-
 
     //onChange Global Filter
     const onGlobalFilterChange = (e) => {
@@ -140,17 +119,10 @@ const TableLetter = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "30px", }}>
                     <button className={`btn`} style={{ backgroundColor: "#9D9D9D" }}
-                        onClick={() => {
-                            setShowUploadForm(true);
-                        }}
+                        onClick={() => { setShowUploadForm(true); }}
                     >Upload</button>
                     <button className={`btn`} style={{ backgroundColor: "#164391" }}
-                        onClick={handleCreateClick
-                            //     () => {
-                            //     return (<CreateLetter letterOption={letterOption} />)
-                            //     navigate('/status/create-letter')
-                            // }
-                        }
+                        onClick={handleCreateClick}
                     >Create</button>
                     <span className="p-input-icon-left " style={{ display: "flex", justifyContent: "center" }}>
                         <i className="pi pi-search" />
@@ -212,7 +184,6 @@ const TableLetter = () => {
                             (<i className="pi pi-file" style={{ cursor: "pointer" }}
                                 onClick={() => handleViewClick(rowData.id)}
                             />)
-
                 }
             </React.Fragment>
         )

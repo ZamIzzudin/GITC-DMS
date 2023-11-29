@@ -1,0 +1,78 @@
+.tableDashboard :where(td, th, span) {
+    font-size: 14px !important;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    /* background-color: aqua; */
+}
+
+/* header wrapper */
+.tableDashboard div:nth-child(1) {
+    padding: 10px 20px 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px 15px 0 0;
+    -webkit-border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    -ms-border-radius: 15px 15px 0 0;
+    -o-border-radius: 15px 15px 0 0;
+}
+
+.tableDashboard div:nth-child(1) div div span input {
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+
+/*tabledatawrapper*/
+.tableDashboard div:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid #e9ecef;
+    border-bottom: 0px;
+    border-top: 0px;
+}
+
+/* table data  */
+.tableDashboard div:nth-child(2) table {
+    max-width: 90% !important;
+    border: none !important;
+}
+
+.tableDashboard div:nth-child(2) td {
+    padding: 10px !important;
+}
+
+/* header table */
+.tableDashboard div:nth-child(2) table tbody :where(td) {
+    text-align: center;
+}
+
+.tableDashboard div:nth-child(2) div {
+    padding: 0 0 5px 0;
+}
+
+.tableDashboard div:nth-child(2) table thead th {
+    padding: 10px;
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.tableDashboard div:nth-child(2) table thead th div {
+    display: flex;
+    justify-content: center;
+}
+
+/* pagination wrapper */
+.tableDashboard div:nth-child(3) {
+    padding: 10px 0px 50px;
+    border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    -ms-border-radius: 0 0 15px 15px;
+    -o-border-radius: 0 0 15px 15px;
+}

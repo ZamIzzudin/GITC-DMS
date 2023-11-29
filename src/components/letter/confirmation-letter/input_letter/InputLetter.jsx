@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Form, InputGroup, Button } from 'react-bootstrap'
 
 import { formatDate, formatDateToLetterNumber } from '../../../tools/FormatDate'
@@ -10,123 +10,77 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat
 
-const InputLetter = ({ letterData, setLetterData }) => {
-
-    const [totalBiayaPerKegiatan, setTotalBiayaPerKegiatan] = useState([]);
-    const [totalBiayaMealsPerKegiatan, seTotalBiayaMealsPerKegiatan] = useState([]);
+const InputOfferingLetter = ({ inputLetter, setInputLetter }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
-    const [totalBiaya, setTotalBiaya] = useState('');
 
-    const {
-        template_option,
-        nomor_surat,
-        nama_penerbit,
-        tanggal_surat,
-        perihal,
-        media_ref,
-        tanggal_ref,
-        jenis_permohonan,
-        catatan,
-        nama_tertuju,
-        jabatan,
-        nama_perusahaan,
-        alamat_perusahaan,
-        category,
-        sub_category,
-        jumlah_produk,
-        produk_forms,
-        total_biaya,
-        jumlah_TNC,
-        TNC
-    } = letterData;
+    const productCode = Products.categories.find((cat) => cat.name === inputLetter.category)
+        ?.subcategories.find((subCat) => subCat.name === inputLetter.sub_category)?.code
 
-    const productCode = Products.categories.find((cat) => cat.name === category)
-        ?.subcategories.find((subCat) => subCat.name === sub_category)?.code
-
-    const dateLetter = formatDateToLetterNumber(tanggal_surat)
+    const dateLetter = formatDateToLetterNumber(inputLetter.tanggal_surat)
 
     useEffect(() => {
-        if (tanggal_surat && productCode) {
-            setLetterData({ ...letterData, nomor_surat: `CL${productCode}-20015-${dateLetter}` });
+        if (inputLetter.tanggal_surat && productCode) {
+            setInputLetter({ ...inputLetter, nomor_surat: `CL${productCode}-20015-${dateLetter}` });
         }
-    }, [nomor_surat, productCode, dateLetter])
+    }, [inputLetter.nomor_surat, productCode, dateLetter])
 
-    const calculateTotalBiayaKegiatan = (newForms) => {
-        const totalBiayaKegiatan = newForms.map((data, index) => {
-            let totalBiaya = 0;
+    const updateTotalBiaya = () => {
+        const updatedProdukForms = inputLetter.produk_forms.map((produkForm, index) => {
+            let totalBiayaKegiatan = 0;
 
-            if (template_option === "Produk saja") {
-                totalBiaya = data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10);
-            } else if (template_option === "Produk + Meals") {
-                totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) + data.total_biaya_meals);
-            } else if (template_option === "Produk - Meals") {
-                totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) - data.total_biaya_meals);
+            if (inputLetter.template_option === "Produk saja") {
+                totalBiayaKegiatan =
+                    produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10);
+                console.log(index, totalBiayaKegiatan)
+            } else if (inputLetter.template_option === "Produk + Meals") {
+                totalBiayaKegiatan =
+                    produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) +
+                    produkForm.total_biaya_meals;
+            } else if (inputLetter.template_option === "Produk - Meals") {
+                totalBiayaKegiatan =
+                    produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) -
+                    produkForm.total_biaya_meals;
             }
-            return totalBiaya;
-        });
-        setTotalBiayaPerKegiatan(totalBiayaKegiatan);
-    };
 
-    const calculateTotalBiayaMeals = (newForms) => {
-        const totalBiayaMeals = newForms.map((data) => {
-            let totalBiaya = 0;
-
-            if (template_option === "Produk + Meals" || template_option === "Produk - Meals") {
-                totalBiaya = data.biaya_meal * data.kurs_USD * data.jumlah_peserta
-            } else {
-                totalBiaya;
-            }
-            return totalBiaya;
-        });
-
-        seTotalBiayaMealsPerKegiatan(totalBiayaMeals)
-    };
-
-    const calculateTotalBiaya = (newForms) => {
-        const totalBiaya = newForms.reduce((acc, data) => {
-            const HitungTotalBiaya = acc + data.total_biaya_kegiatan
-
-            return HitungTotalBiaya;
-        }, 0);
-
-        setTotalBiaya(totalBiaya)
-    };
-
-    useEffect(() => {
-        setLetterData((prevLetterData) => {
-            const newForms = prevLetterData.produk_forms.map((form, index) => {
-                return {
-                    ...form,
-                    total_biaya_meals: totalBiayaMealsPerKegiatan[index],
-                    total_biaya_kegiatan: totalBiayaPerKegiatan[index]
-                };
-            });
-
+            const totalBiayaMeals =
+                inputLetter.template_option === "Produk + Meals" || inputLetter.template_option === "Produk - Meals"
+                    ? produkForm.biaya_meal * produkForm.kurs_USD * produkForm.jumlah_peserta
+                    : 0;
 
             return {
-                ...prevLetterData,
-                produk_forms: newForms,
-                total_biaya: totalBiaya
+                ...produkForm,
+                total_biaya_meals: totalBiayaMeals,
+                total_biaya_kegiatan: totalBiayaKegiatan,
             };
         });
-    }, [totalBiayaPerKegiatan, setLetterData, totalBiayaMealsPerKegiatan, totalBiaya]);
+
+        const totalBiayaKeseluruhan = updatedProdukForms.reduce(
+            (total, produkForm) => total + produkForm.total_biaya_kegiatan,
+            0
+        );
+        console.log(totalBiayaKeseluruhan)
+
+        setInputLetter((prevData) => ({
+            ...prevData,
+            produk_forms: updatedProdukForms,
+            total_biaya: totalBiayaKeseluruhan,
+        }));
+    };
+
+    console.log(inputLetter.produk_forms)
 
     const handleProdukFormsChange = (index, prop, value) => {
-        setLetterData((prevLetterData) => {
-            const newForms = [...prevLetterData.produk_forms];
+        setInputLetter((prevInputLetter) => {
+            const newForms = [...prevInputLetter.produk_forms];
             newForms[index][prop] = value;
 
-            calculateTotalBiayaMeals(newForms);
-            calculateTotalBiayaKegiatan(newForms);
-            calculateTotalBiayaKegiatan(newForms);
-            calculateTotalBiaya(newForms);
-
             return {
-                ...prevLetterData,
+                ...prevInputLetter,
                 produk_forms: newForms,
             };
         });
+        updateTotalBiaya()
     };
 
     const handleDurasiChange = (index, value) => {
@@ -140,10 +94,10 @@ const InputLetter = ({ letterData, setLetterData }) => {
 
     const handleJumlahProdukChange = (e) => {
         const newValue = parseInt(e.target.value, 10 || 1);
-        setLetterData((prevLetterData) => ({
-            ...prevLetterData,
+        setInputLetter((prevInputLetter) => ({
+            ...prevInputLetter,
             jumlah_produk: newValue,
-            produk_forms: Array.from({ length: newValue }, (_, index) => prevLetterData.produk_forms[index] || {
+            produk_forms: Array.from({ length: newValue }, (_, index) => prevInputLetter.produk_forms[index] || {
                 jenis_kegiatan: '',
                 tanggal_kegiatan: '',
                 jumlah_peserta: '',
@@ -157,32 +111,32 @@ const InputLetter = ({ letterData, setLetterData }) => {
         }));
     };
 
-    console.log(letterData)
+    // console.log(letterData)
 
     const handleJumlahTNCChange = (e) => {
         const newValue = parseInt(e.target.value, 10 || 1);
-        setLetterData((prevLetterData) => ({
-            ...prevLetterData,
+        setInputLetter((prevInputLetter) => ({
+            ...prevInputLetter,
             jumlah_TNC: newValue,
-            TNC: Array.from({ length: newValue }, (_, index) => prevLetterData.TNC[index] || {
+            TNC: Array.from({ length: newValue }, (_, index) => prevInputLetter.TNC[index] || {
                 detail: ''
             }),
         }));
     };
 
     const handleTNCChange = (index, prop, value) => {
-        setLetterData((prevLetterData) => {
-            const newForms = [...prevLetterData.TNC];
+        setInputLetter((prevInputLetter) => {
+            const newForms = [...prevInputLetter.TNC];
             newForms[index][prop] = value;
             return {
-                ...prevLetterData,
+                ...prevInputLetter,
                 TNC: newForms,
             };
         });
     };
 
     const renderTNC = () => {
-        return letterData.TNC.map((tnc, index) => (
+        return inputLetter.TNC.map((tnc, index) => (
             <Form.Group key={index} controlId={`TNC-${index}`} className="mb-2">
                 <Form.Label>Term n Condition ke-{index + 1}</Form.Label>
                 <Form.Control type="text" size='md'
@@ -194,34 +148,35 @@ const InputLetter = ({ letterData, setLetterData }) => {
     }
 
     const renderProdukForms = () => {
-        return letterData.produk_forms.map((form, index) => (
+        return inputLetter.produk_forms.map((form, index) => (
             <Form.Group key={index} controlId="kegiatan" className="mb-2">
                 <p style={{ fontWeight: "bold" }}>Kegiatan ke-{index + 1}</p>
                 <Form.Group controlId={`jenisKegiatan-${index}`} className="mb-2">
                     <Form.Label>Jenis Kegiatan</Form.Label>
                     <Form.Control type="text" size='md'
-                        value={form.jenisKegiatan}
+                        value={form.jenis_kegiatan}
                         onChange={(e) => handleProdukFormsChange(index, 'jenis_kegiatan', e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group controlId={`tanggalKegiatan-${index}`} className="mb-2">
                     <Form.Label>Tanggal Kegiatan</Form.Label>
                     <Form.Control type="date" size='md'
+                        value={form.tanggal_kegiatan}
                         onChange={(e) => handleProdukFormsChange(index, 'tanggal_kegiatan', formatDate(e.target.value))}
                     />
                 </Form.Group>
                 <Form.Group controlId={`jumlahPeserta-${index}`} className="mb-2">
                     <Form.Label>Jumlah Peserta</Form.Label>
                     <Form.Control type="number" size='md'
-                        value={form.jumlahPeserta}
+                        value={form.jumlah_peserta}
                         onChange={(e) => handleProdukFormsChange(index, 'jumlah_peserta', e.target.value)}
                     />
                 </Form.Group>
 
-                <Form.Group controlId={`durasi-${index}`} className="mb-2">
+                <Form.Group className="mb-2">
                     <Form.Label>Durasi</Form.Label>
                     <InputGroup className="mb-3">
-                        <Form.Control controlId={`jumlah durasi - ${index} `} type="number" size='sm'
+                        <Form.Control type="number" size='sm'
                             onChange={(e) => {
                                 // console.log(e.target.value, index);
                                 setInputDurasi(e.target.value)
@@ -229,18 +184,18 @@ const InputLetter = ({ letterData, setLetterData }) => {
                                 if (input) {
                                     handleProdukFormsChange(index, 'durasi', input + ' ' + typeDurasi[index]);
                                 }
-                                // console.log(LetterData.produkForms)
+                                // console.log(InputLetter.produkForms)
                             }
                             }
                         />
-                        <Form.Select controlId={`waktu durasi - -${index}`}
+                        <Form.Select
                             onChange={(e) => {
                                 handleDurasiChange(index, e.target.value)
                                 const input = e.target.value;
                                 if (input) {
                                     handleProdukFormsChange(index, 'durasi', inputDurasi + ' ' + input);
                                 }
-                                // console.log(LetterData.produkForms)
+                                // console.log(InputLetter.produkForms)
                             }} >
                             <option>choose</option>
                             <option>jam</option>
@@ -262,7 +217,7 @@ const InputLetter = ({ letterData, setLetterData }) => {
                 </Form.Group >
 
                 {
-                    template_option !== "Produk saja" && (
+                    inputLetter.template_option !== "Produk saja" && (
                         <Form.Group controlId={`biayaMeal-${index}`} className="mb-2">
                             <Form.Label>Biaya Meal</Form.Label>
                             <InputGroup className="mb-3">
@@ -296,7 +251,7 @@ const InputLetter = ({ letterData, setLetterData }) => {
             <Form className={Style.formInputLetter}>
                 <Form.Group controlId="template" className="mb-2" >
                     <Form.Label style={{ fontWeight: "bold" }}>Pilih Template Surat</Form.Label>
-                    <Form.Select value={template_option} onChange={(e) => { setLetterData({ ...letterData, template_option: e.target.value }) }}>
+                    <Form.Select value={inputLetter.template_option} onChange={(e) => { setInputLetter({ ...inputLetter, template_option: e.target.value }) }}>
                         <option>Produk saja</option>
                         <option>Produk + Meals</option>
                         <option>Produk - Meals</option>
@@ -308,7 +263,7 @@ const InputLetter = ({ letterData, setLetterData }) => {
                     <Form.Group controlId="nomor_surat" className="mb-2">
                         <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
                         <Form.Control type="text" size='sm' readOnly
-                            value={nomor_surat}
+                            value={inputLetter.nomor_surat}
                         />
                     </Form.Group>
                     <Form.Group controlId="namaPenerbit" className="mb-2">
@@ -316,47 +271,47 @@ const InputLetter = ({ letterData, setLetterData }) => {
                         <Form.Control
                             placeholder='ex: Vonny Franciska Pinontoan'
                             type="text" size='sm'
-                            value={nama_penerbit}
-                            onChange={(e) => { setLetterData({ ...letterData, nama_penerbit: e.target.value }) }} />
+                            value={inputLetter.nama_penerbit}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, nama_penerbit: e.target.value }) }} />
                     </Form.Group>
                     <Form.Group controlId="tanggal_surat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
-                            onChange={(e) => { setLetterData({ ...letterData, tanggal_surat: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: formatDate(e.target.value) }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="subject" className="mb-2">
                         <Form.Label>Subject/Perihal</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={perihal}
-                            onChange={(e) => { setLetterData({ ...letterData, perihal: e.target.value }) }}
+                            value={inputLetter.perihal}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, perihal: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="mediaReferensi" className="mb-2">
                         <Form.Label>Media Referensi</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={media_ref}
-                            onChange={(e) => { setLetterData({ ...letterData, media_ref: e.target.value }) }}
+                            value={inputLetter.media_ref}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, media_ref: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
-                            onChange={(e) => { setLetterData({ ...letterData, tanggal_ref: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: formatDate(e.target.value) }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="jenisPermohonan" className="mb-2">
                         <Form.Label>Jenis Permohonan</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={jenis_permohonan}
-                            onChange={(e) => { setLetterData({ ...letterData, jenis_permohonan: e.target.value }) }}
+                            value={inputLetter.jenis_permohonan}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, jenis_permohonan: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="catatan" className="mb-2">
                         <Form.Label>Catatan <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*optional</span></Form.Label>
                         <Form.Control as="textarea" size='sm' rows={3}
-                            value={catatan}
-                            onChange={(e) => { setLetterData({ ...letterData, catatan: e.target.value }) }}
+                            value={inputLetter.catatan}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, catatan: e.target.value }) }}
                         />
                     </Form.Group>
                 </Form.Group>
@@ -367,29 +322,29 @@ const InputLetter = ({ letterData, setLetterData }) => {
                         <Form.Label>Nama Tertuju</Form.Label>
                         <Form.Control type="text" size='sm'
                             placeholder='ex: Ibu Vonny Franciska Pinontoan'
-                            value={nama_tertuju}
-                            onChange={(e) => { setLetterData({ ...letterData, nama_tertuju: e.target.value }) }}
+                            value={inputLetter.nama_tertuju}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, nama_tertuju: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="jabatan" className="mb-2">
                         <Form.Label>Jabatan</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={jabatan}
-                            onChange={(e) => { setLetterData({ ...letterData, jabatan: e.target.value }) }}
+                            value={inputLetter.jabatan}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, jabatan: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="namaPerusahaan" className="mb-2">
                         <Form.Label>Nama Perusahaan</Form.Label>
                         <Form.Control type="text" size='sm'
-                            value={nama_perusahaan}
-                            onChange={(e) => { setLetterData({ ...letterData, nama_perusahaan: e.target.value }) }}
+                            value={inputLetter.nama_perusahaan}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, nama_perusahaan: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="alamatPerusahaan" className="mb-2">
                         <Form.Label>Alamat Perusahaan</Form.Label>
                         <Form.Control as="textarea" size='sm'
-                            value={alamat_perusahaan}
-                            onChange={(e) => { setLetterData({ ...letterData, alamat_perusahaan: e.target.value }) }}
+                            value={inputLetter.alamat_perusahaan}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, alamat_perusahaan: e.target.value }) }}
                         />
                     </Form.Group>
                 </Form.Group>
@@ -399,8 +354,8 @@ const InputLetter = ({ letterData, setLetterData }) => {
                     <Form.Group controlId="kategoriProduk" className="mb-2">
                         <Form.Label>Kategori Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={category}
-                            onChange={(e) => { setLetterData({ ...letterData, category: e.target.value }) }}
+                            value={inputLetter.category}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, category: e.target.value }) }}
                         >
                             <option>Open this select menu</option>
                             {
@@ -413,12 +368,12 @@ const InputLetter = ({ letterData, setLetterData }) => {
                     <Form.Group controlId="subCategory" className="mb-2">
                         <Form.Label>Jenis Sub-Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={sub_category}
-                            onChange={(e) => { setLetterData({ ...letterData, sub_category: e.target.value }) }}
+                            value={inputLetter.sub_category}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, sub_category: e.target.value }) }}
                         >
                             <option>Open this select menu</option>
                             {
-                                Products.categories.find(cat => cat.name === category)?.subcategories.map((subCat, index) => (
+                                Products.categories.find(cat => cat.name === inputLetter.category)?.subcategories.map((subCat, index) => (
                                     <option key={index}>{subCat.name}</option>
                                 ))
                             }
@@ -428,7 +383,7 @@ const InputLetter = ({ letterData, setLetterData }) => {
                     <Form.Group controlId="jumlahProduk" className="mb-2">
                         <Form.Label>Jumlah Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={jumlah_produk}
+                            value={inputLetter.jumlah_produk}
                             onChange={handleJumlahProdukChange}
                         >
                             {Array.from({ length: 10 }).map((_, index) => (
@@ -446,7 +401,7 @@ const InputLetter = ({ letterData, setLetterData }) => {
                     <Form.Group controlId="jumlahTnC" className="mb-2">
                         <Form.Label>Jumlah Term n Condition</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={jumlah_TNC}
+                            value={inputLetter.jumlah_TNC}
                             onChange={handleJumlahTNCChange}
                         >
                             {Array.from({ length: 5 }).map((_, index) => (
@@ -466,4 +421,166 @@ const InputLetter = ({ letterData, setLetterData }) => {
     )
 }
 
-export default InputLetter
+export default InputOfferingLetter
+
+// const updateTotalBiaya = () => {
+//     const updatedProdukForms = letterData.produk_forms.map((produkForm) => {
+//         let totalBiayaKegiatan = 0;
+
+//         if (inputLetter.template_option === "Produk saja") {
+//             totalBiayaKegiatan =
+//                 produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10);
+//         } else if (inputLetter.template_option === "Produk + Meals") {
+//             totalBiayaKegiatan =
+//                 produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) +
+//                 produkForm.total_biaya_meals;
+//         } else if (inputLetter.template_option === "Produk - Meals") {
+//             totalBiayaKegiatan =
+//                 produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) -
+//                 produkForm.total_biaya_meals;
+//         }
+
+//         const totalBiayaMeals =
+//             inputLetter.template_option === "Produk + Meals" || inputLetter.template_option === "Produk - Meals"
+//                 ? produkForm.biaya_meal * produkForm.kurs_USD * produkForm.jumlah_peserta
+//                 : 0;
+
+//         return {
+//             ...produkForm,
+//             total_biaya_meals: totalBiayaMeals,
+//             total_biaya_kegiatan: totalBiayaKegiatan,
+//         };
+//     });
+
+//     const totalBiayaKeseluruhan = updatedProdukForms.reduce(
+//         (total, produkForm) => total + produkForm.total_biaya_kegiatan,
+//         0
+//     );
+
+//     setLetterData((prevData) => ({
+//         ...prevData,
+//         produk_forms: updatedProdukForms,
+//         total_biaya: totalBiayaKeseluruhan,
+//     }));
+// };
+
+// useEffect(() => {
+//     const calculateTotalBiayaKegiatan = () => {
+//         let newTotalBiayaPerKegiatan = [];
+
+//         for (let index = 0; index < inputLetter.produk_forms.length; index++) {
+//             const data = inputLetter.produk_forms[index];
+//             let totalBiaya = 0;
+
+//             if (inputLetter.template_option === "Produk saja") {
+//                 totalBiaya = data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10);
+//             } else if (inputLetter.template_option === "Produk + Meals") {
+//                 totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) + data.total_biaya_meals);
+//             } else if (inputLetter.template_option === "Produk - Meals") {
+//                 totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) - data.total_biaya_meals);
+//             }
+
+//             newTotalBiayaPerKegiatan.push(totalBiaya);
+//         }
+
+//         setTotalBiayaPerKegiatan(newTotalBiayaPerKegiatan);
+//     };
+
+//     calculateTotalBiayaKegiatan();
+// }, [setInputLetter]);
+// Fail ---------------------------------------------------------------------
+// const totalBiayaKegiatan = useMemo(() => {
+//     return inputLetter.produk_forms.map((data, index) => {
+//         let totalBiaya = 0;
+
+//         if (inputLetter.template_option === "Produk saja") {
+//             totalBiaya = data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10);
+//         } else if (inputLetter.template_option === "Produk + Meals") {
+//             totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) + data.total_biaya_meals);
+//         } else if (inputLetter.template_option === "Produk - Meals") {
+//             totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) - data.total_biaya_meals);
+//         }
+//         return totalBiaya;
+//     });
+// }, [inputLetter.produk_forms, inputLetter.template_option]);
+
+// useEffect(() => {
+//     // Disini, Anda dapat menggunakan totalBiayaPerKegiatan untuk melakukan sesuatu
+//     // seperti memperbarui state datanya
+//     setTotalBiayaPerKegiatan(totalBiayaKegiatan);
+// }, [totalBiayaPerKegiatan, setTotalBiayaPerKegiatan]);
+// Fail---------------------------------------------------------------------
+// useEffect(() => {
+//     const totalBiayaKegiatan = inputLetter.produk_forms.map((data, index) => {
+//         let totalBiaya = 0;
+
+//         if (inputLetter.template_option === "Produk saja") {
+//             totalBiaya = data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10);
+//         } else if (inputLetter.template_option === "Produk + Meals") {
+//             totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) + data.total_biaya_meals);
+//         } else if (inputLetter.template_option === "Produk - Meals") {
+//             totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) - data.total_biaya_meals);
+//         }
+//         return totalBiaya;
+//     });
+//     setTotalBiayaPerKegiatan(totalBiayaKegiatan);
+// }, [inputLetter.produk_forms])
+// const calculateTotalBiayaKegiatan = (newForms) => {
+//     const totalBiayaKegiatan = newForms.map((data, index) => {
+//         let totalBiaya = 0;
+
+//         if (inputLetter.template_option === "Produk saja") {
+//             totalBiaya = data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10);
+//         } else if (inputLetter.template_option === "Produk + Meals") {
+//             totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) + data.total_biaya_meals);
+//         } else if (inputLetter.template_option === "Produk - Meals") {
+//             totalBiaya = ((data.biaya * data.kurs_USD * data.jumlah_peserta * parseInt(data.durasi.split(' ')[0], 10)) - data.total_biaya_meals);
+//         }
+//         return totalBiaya;
+//     });
+//     setTotalBiayaPerKegiatan(totalBiayaKegiatan);
+// };
+
+// const calculateTotalBiayaMeals = (newForms) => {
+//     const totalBiayaMeals = newForms.map((data) => {
+//         let totalBiaya = 0;
+
+//         if (inputLetter.template_option === "Produk + Meals" || inputLetter.template_option === "Produk - Meals") {
+//             totalBiaya = data.biaya_meal * data.kurs_USD * data.jumlah_peserta
+//         } else {
+//             totalBiaya;
+//         }
+//         return totalBiaya;
+//     });
+
+//     seTotalBiayaMealsPerKegiatan(totalBiayaMeals)
+// };
+
+// const calculateTotalBiaya = (newForms) => {
+//     const totalBiaya = newForms.reduce((acc, data) => {
+//         const HitungTotalBiaya = acc + data.total_biaya_kegiatan
+
+//         return HitungTotalBiaya;
+//     }, 0);
+
+//     setTotalBiaya(totalBiaya)
+// };
+
+// useEffect(() => {
+//     setInputLetter((prevInputLetter) => {
+//         const newForms = prevInputLetter.produk_forms.map((form, index) => {
+//             return {
+//                 ...form,
+//                 total_biaya_meals: totalBiayaMealsPerKegiatan[index],
+//                 total_biaya_kegiatan: totalBiayaPerKegiatan[index]
+//             };
+//         });
+
+//         return {
+//             ...prevInputLetter,
+//             produk_forms: newForms,
+//             total_biaya: totalBiaya
+//         };
+//     });
+
+// }, [totalBiayaPerKegiatan, setInputLetter, totalBiayaMealsPerKegiatan, totalBiaya]);

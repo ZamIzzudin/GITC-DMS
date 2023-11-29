@@ -40,7 +40,7 @@ const ConfirmationLetter = ({ data }) => {
         TNC: data.TNC
     });
 
-    console.log(letterData)
+    // console.log(letterData)
     const banyakKegiatan = letterData.produk_forms.length;
     // console.log(letterInfo)
     const renderTotalBiaya = () => (
