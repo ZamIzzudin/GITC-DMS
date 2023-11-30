@@ -5,14 +5,16 @@ import { Form, InputGroup, Button } from 'react-bootstrap'
 import { formatDate, formatDateToLetterNumber } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import Products from "../../../../utils/Product.json"
+import InputFile from '../../../tools/inputFile'
 
 import Style from "./inputLetter.module.css"
 
-//Catatan: Sisa nomor surat
+//Catatan: Sisa nomor surat, file
 
-const InputOfferingLetter = ({ inputLetter, setInputLetter }) => {
+const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
+    const [file, setFile] = useState(null)
 
     const productCode = Products.categories.find((cat) => cat.name === inputLetter.category)
         ?.subcategories.find((subCat) => subCat.name === inputLetter.sub_category)?.code
@@ -20,10 +22,10 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter }) => {
     const dateLetter = formatDateToLetterNumber(inputLetter.tanggal_surat)
 
     useEffect(() => {
-        if (inputLetter.tanggal_surat && productCode) {
+        if (!isUpload && inputLetter.tanggal_surat && productCode) {
             setInputLetter({ ...inputLetter, nomor_surat: `CL${productCode}-20015-${dateLetter}` });
         }
-    }, [inputLetter.nomor_surat, productCode, dateLetter])
+    }, [inputLetter.nomor_surat, productCode, dateLetter, isUpload])
 
     const updateTotalBiaya = () => {
         const updatedProdukForms = inputLetter.produk_forms.map((produkForm, index) => {
@@ -260,12 +262,24 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter }) => {
 
                 <Form.Group controlId="infromasiSurat" className="mb-2">
                     <p style={{ fontWeight: "bold" }}>Informasi Surat</p>
-                    <Form.Group controlId="nomor_surat" className="mb-2">
-                        <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
-                        <Form.Control type="text" size='sm' readOnly
-                            value={inputLetter.nomor_surat}
-                        />
-                    </Form.Group>
+
+                    {
+                        isUpload ? (<Form.Group controlId="nomor_surat" className="mb-2">
+                            <Form.Label>Nomor Surat</Form.Label>
+                            <Form.Control type="text" size='sm'
+                                value={inputLetter.nomor_surat}
+                                onChange={(e) => { setInputLetter({ ...inputLetter, nomor_surat: e.target.value }) }}
+                            />
+                        </Form.Group>) : (
+                            <Form.Group controlId="nomor_surat" className="mb-2">
+                                <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
+                                <Form.Control type="text" size='sm' readOnly
+                                    value={inputLetter.nomor_surat}
+                                />
+                            </Form.Group>
+                        )
+                    }
+
                     <Form.Group controlId="namaPenerbit" className="mb-2">
                         <Form.Label>Nama Penerbit</Form.Label>
                         <Form.Control
@@ -410,7 +424,16 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter }) => {
                         </Form.Select>
                     </Form.Group>
                     {renderTNC()}
+
                 </Form.Group>
+                {
+                    isUpload && (
+                        <Form.Group controlId="upload" className="mb-2">
+                            <p style={{ fontWeight: "bold" }}>Upload Dokumen</p>
+                            <InputFile getData={setFile} />
+                        </Form.Group>
+                    )
+                }
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Button type="submit" className={Style.btnSubmit}>
                         Submit

@@ -1,13 +1,12 @@
 import React from 'react'
 import { useState } from 'react';
 
-import OfferingLetter from '../../../../components/letter/offering-letter/letter_template/OfferingLetter'
+import OfferingLetter from '../../../../components/letter/offering-letter/letter_template/OfferingLetter';
 import OfferingInputLetter from '../../../../components/letter/offering-letter/input_letter/InputLetter'
 
-import Style from './createOfferingLetter.module.css'
+import Style from '../../create_letter/create_offeringLetter/createOfferingLetter.module.css'
 
-const CreateConfirmationLetter = () => {
-
+const UploadOfferingLetter = () => {
     const [letterData, setLetterData] = useState({
         nomor_surat: "",
         nama_penerbit: "",
@@ -38,7 +37,6 @@ const CreateConfirmationLetter = () => {
             }
         ]
     });
-
     return (
         <div className='container'>
             <div className={Style.CreateLetter}>
@@ -55,59 +53,12 @@ const CreateConfirmationLetter = () => {
                         <OfferingInputLetter
                             letterData={letterData}
                             setLetterData={setLetterData}
+                            isUpload
                         />
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        </div>)
 }
 
-export default CreateConfirmationLetter
-// informasi Letter
-// const [letterInfo, setLetterInfo] = useState({
-//     nomorSurat: '',
-//     namaPenerbit: '',
-//     tanggalSurat: '',
-//     perihal: '',
-//     mediaRef: '',
-//     tanggalRef: '',
-//     jenisPermohonan: '',
-//     catatan: '',
-// });
-
-// //informasi Customer
-// const [customerInfo, setCustomerInfo] = useState({
-//     namaTertuju: '',
-//     jabatan: '',
-//     namaPerusahaan: '',
-//     alamatPerusahaan: '',
-// });
-
-// // informasi produk
-// const [productInfo, setProductInfo] = useState({
-//     category: '',
-//     subCategory: '',
-// });
-
-// //informasi Penawaran
-// const [infoPenawaran, setInfoPenawaran] = useState({
-//     jumlahPenawaran: 1,
-//     PenawaranForms: [
-//         {
-//             jenisPenawaran: '',
-//             durasi: '',
-//             biaya: ''
-//         }
-//     ]
-// });
-
-// //term n condition
-// const [infoTNC, setInfoTNC] = useState({
-//     jumlahTNC: 1,
-//     TNC: [
-//         {
-//             detail: ''
-//         }
-//     ]
-// });
+export default UploadOfferingLetter

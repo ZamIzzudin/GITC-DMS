@@ -87,7 +87,6 @@ const TableAccess = () => {
                 )
             }
 
-
             <DataTable
                 value={data}
                 showGridlines

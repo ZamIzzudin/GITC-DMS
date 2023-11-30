@@ -7,6 +7,8 @@ import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
+import ModalUploadFile from '../../modal/upload_file/ModalUploadFile';
+
 import { dataConfirmationLetter, offeringLetterData } from '../../../utils/DummyData';
 
 import style from './tableLetter.module.css'
@@ -18,8 +20,9 @@ const TableLetter = () => {
     const [filters, setFilters] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState("");
     const [dropdown, setDropdown] = useState(false);
-    // const [loading, setLoading] = useState(false);s
-    // const [selectedData, setSelectedData] = useState([]);
+    const [showUploadModal, setShowUploadModal] = useState(false)
+    const [selectedData, setSelectedData] = useState([]);
+    // const [loading, setLoading] = useState(false);
     // const [showCreateForm, setShowCreateForm] = useState(false);
     // const [showUploadForm, setShowUploadForm] = useState(false);
 
@@ -43,6 +46,14 @@ const TableLetter = () => {
         }
         initFilters();
     }, [letterOption])
+
+    const handleUploadClick = () => {
+        letterOption === "Confirmation Letter"
+            ? navigate(`/upload/confirmation-letter`)
+            : letterOption === "Offering Letter"
+                ? navigate(`/upload/offering-letter`)
+                : null;
+    };
 
     const handleCreateClick = () => {
         letterOption === "Confirmation Letter"
@@ -119,7 +130,7 @@ const TableLetter = () => {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "30px", }}>
                     <button className={`btn`} style={{ backgroundColor: "#9D9D9D" }}
-                        onClick={() => { setShowUploadForm(true); }}
+                        onClick={handleUploadClick}
                     >Upload</button>
                     <button className={`btn`} style={{ backgroundColor: "#164391" }}
                         onClick={handleCreateClick}
@@ -162,7 +173,10 @@ const TableLetter = () => {
                     rowData.status === "done" ? (
                         <i className="pi pi-eye" style={{ cursor: "pointer" }} />)
                         : rowData.status === "disetujui" ?
-                            (<i className="pi pi-upload" style={{ cursor: "pointer" }} />)
+                            (<i className="pi pi-upload" style={{ cursor: "pointer" }} onClick={() => {
+                                setShowUploadModal(true)
+                                setSelectedData(rowData)
+                            }} />)
                             : (<span>-</span>)
                 }
             </React.Fragment>
@@ -212,6 +226,15 @@ const TableLetter = () => {
                     <Column header="" headerStyle={{ borderBottom: "1px solid #000" }} body={uploadScanBodyTemplate} style={{ textAlign: "center" }} />
                     <Column field="" header="Doc" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={documentBodyTemplate} style={{ textAlign: "center" }} />
                 </DataTable>
+
+
+
+                {
+                    showUploadModal && (
+                        <ModalUploadFile show={showUploadModal} setShow={setShowUploadModal} data={selectedData} />
+                    )
+                }
+
 
                 {/* {
                     showCreateForm && (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OfferingLetter from "../../../../components/letter/offering-letter/letter_template/OfferingLetter"
 import { useParams } from 'react-router-dom';
 
@@ -9,10 +9,15 @@ const ViewOfferingLetter = () => {
     const { id } = useParams();
     const [dataOL, setDataOL] = useState(offeringLetterData.find(item => item.id === id))
 
-
     return (
-        <div className='container' style={{ paddingBottom: "50px" }}>
-            <div>
+        <div className='' style={{ paddingBottom: "50px" }}>
+            <div className='label-wrapper'>
+                <div className={`container label`}>
+                    <span>{dataOL.nomor_surat}</span>
+                    <i className={`pi pi-download download`} style={{ fontSize: '1rem' }} />
+                </div>
+            </div>
+            <div className='container'>
                 <OfferingLetter
                     data={dataOL}
                 />

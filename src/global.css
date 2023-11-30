@@ -75,3 +75,26 @@ main {
   -o-border-radius: 10px;
   border: none;
 }
+
+
+.label-wrapper {
+  background-color: #8a8a8a;
+  position: sticky;
+  top: 0px;
+}
+
+.label {
+  width: 100%;
+  color: #fff;
+  padding: 10px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-print {
+  background-color: #8a8a8a;
+  color: white;
+  border: none;
+}
