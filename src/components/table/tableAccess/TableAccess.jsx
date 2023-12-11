@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { AsyncGetUsers } from '../../../state/users/middleware'
+
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -11,16 +14,22 @@ import ModalAddAccess from '../../modal/access/ModalAddAccess';
 import { dataUser } from '../../../utils/DummyData'
 
 const TableAccess = () => {
+    const { users = [] } = useSelector(states => states)
+    const dispatch = useDispatch()
 
     const [data, setData] = useState([])
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
     const [showAddForm, setShowAddForm] = useState(false);
-    const [selectedData, setSelectedData] = useState([]);
+    const [selectedData, setSelectedData] = useState({});
 
     useEffect(() => {
         setData(dataUser)
     }, [data])
+
+    useEffect(() => {
+        dispatch(AsyncGetUsers())
+    }, [dispatch])
 
     //Column Template
     const actionBodyTemplate = (rowData) => {
@@ -88,7 +97,8 @@ const TableAccess = () => {
             }
 
             <DataTable
-                value={data}
+                // value={data}
+                value={users}
                 showGridlines
                 removableSort
                 paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]}

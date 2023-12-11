@@ -1,4 +1,3 @@
-import React from 'react'
 import TableAccess from '../../components/table/tableAccess/TableAccess'
 
 const Access = () => {

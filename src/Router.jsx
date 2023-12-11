@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from 'react'
+import { AsyncRefreshToken, AsyncCheckLogin, AsyncLogout } from './state/auth/middleware'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Layout from './components/layout'
 // import Header from './components/layout/Header'
@@ -16,38 +19,74 @@ import ViewUploadFile from "./pages/status/view_letter/view_uploadFile/ViewUploa
 import EditOfferingLetter from "./pages/status/revision_letter/revision_offeringLetter/EditOfferingLetter";
 import EditConfirmationLetter from "./pages/status/revision_letter/revision_confirmationLetter/EditConfirmationLetter";
 
-import OfferingLetter from "./components/letter/offering-letter/letter_template/OfferingLetter";
-import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
+// import OfferingLetter from "./components/letter/offering-letter/letter_template/OfferingLetter";
+// import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
 
 import Loading from "./pages/test"
 
 function AppRouter() {
+  const { auth = {} } = useSelector(states => states)
+  const dispatch = useDispatch()
+
+  // Refresh Token Cycle
+  useEffect(() => {
+    // do refresh token where token is'nt undefined
+    if (auth.token !== undefined) {
+      try {
+        // Do in 8 minutes
+        const interval = setInterval(() => {
+          dispatch(AsyncRefreshToken())
+        }, 480000);
+
+        return () => clearInterval(interval);
+      } catch (err) {
+        dispatch(AsyncLogout())
+      }
+    } else {
+      // Try Tto get token from Session Storage
+      try {
+        dispatch(AsyncCheckLogin())
+      } catch (err) {
+        dispatch(AsyncLogout())
+      }
+    }
+  }, [auth, dispatch])
+
   return (
     <Router>
-      <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route path="/home" element={<Layout><Home /></Layout>} />
-        <Route path="/test" element={<Loading />} />
-        <Route path="/status" element={<Layout><Status /></Layout>} />
-        {/* <Route path="/status/:typeLetterData" element={<Layout><Status /></Layout>} /> */}
-        <Route path="/upload/confirmation-letter" element={<Layout><UploadConfirmationLetter /></Layout>} />
-        <Route path="/upload/offering-letter" element={<Layout><UploadOfferingLetter /></Layout>} />
+      {auth?.token === undefined ? (
+        <Routes>
+          <Route exact path="/" element={<Login />} />
+        </Routes>
+      ) : (
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/test" element={<Loading />} />
+            <Route path="/status" element={<Status />} />
+            {/* <Route path="/status/:typeLetterData" element={<Layout><Status /></Layout>} /> */}
+            <Route path="/upload/confirmation-letter" element={<UploadConfirmationLetter />} />
+            <Route path="/upload/offering-letter" element={<UploadOfferingLetter />} />
 
-        <Route path="/create/confirmation-letter" element={<Layout><CreateConfirmationLetter /></Layout>} />
-        <Route path="/create/offering-letter" element={<Layout><CreateOfferingLetter /></Layout>} />
+            <Route path="/create/confirmation-letter" element={<CreateConfirmationLetter />} />
+            <Route path="/create/offering-letter" element={<CreateOfferingLetter />} />
 
-        <Route path="/view/confirmation-letter/:id" element={<Layout><ViewConfirmationLetter /></Layout>} />
-        <Route path="/view/offering-letter/:id" element={<Layout><ViewOfferingLetter /></Layout>} />
+            <Route path="/view/confirmation-letter/:id" element={<ViewConfirmationLetter />} />
+            <Route path="/view/offering-letter/:id" element={<ViewOfferingLetter />} />
 
 
-        <Route path="/edit/confirmation-letter/:id" element={<Layout><EditConfirmationLetter /></Layout>} />
-        <Route path="/edit/offering-letter/:id" element={<Layout><EditOfferingLetter /></Layout>} />
-        <Route path="/view/upload-dokumen" element={<Layout><ViewUploadFile /></Layout>} />
+            <Route path="/edit/confirmation-letter/:id" element={<EditConfirmationLetter />} />
+            <Route path="/edit/offering-letter/:id" element={<EditOfferingLetter />} />
+            <Route path="/view/upload-dokumen" element={<ViewUploadFile />} />
 
-        {/* <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
+            {/* <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
         <Route path="/status/confirmation-letter" element={<Layout><ConfirmationLetter /></Layout>} /> */}
-        <Route path="/access" element={<Layout><Access /></Layout>} />
-      </Routes>
+            <Route path="/access" element={<Access />} />
+          </Routes>
+        </Layout>
+
+      )}
+
     </Router >
   )
 }

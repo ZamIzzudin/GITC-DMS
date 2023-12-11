@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 
-import { AsyncRegister } from '../../../state/auth/middleware';
+import { AsyncAddUser } from '../../../state/users/middleware';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -12,7 +12,7 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
     const [username, setUsername] = useState(null);
     const [displayName, setDisplayName] = useState(null);
     const [password, setPassword] = useState(null);
-    const [role, setRole] = useState(null);
+    const [role, setRole] = useState('Admin');
     const dispatch = useDispatch();
 
     const handleClose = () => {
@@ -23,7 +23,8 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
         e.preventDefault();
         console.log("klik")
         try {
-            dispatch(AsyncRegister({ username, displayName, password, role }));
+            dispatch(AsyncAddUser({ username, displayName, password, role }));
+            handleClose()
         } catch (err) {
             console.error(err);
         } finally {
@@ -80,8 +81,10 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
                                 onChange={e => setRole(e.target.value)}
                                 required
                             >
-                                <option>admin</option>
-                                <option>guest</option>
+                                <option>Admin</option>
+                                <option>Guest</option>
+                                <option>Sysadmin</option>
+                                <option>PIC</option>
                             </Form.Select>
                         </Form.Group>
                     </Form>

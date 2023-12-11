@@ -28,7 +28,6 @@ function AsyncLogin({ username, password }) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`
             sessionStorage.setItem('dms_login_info', JSON.stringify(data))
             dispatch(LoginAction(data));
-            window.location.replace("/home");
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -48,39 +47,26 @@ function AsyncCheckLogin() {
         try {
             let auth_data = JSON.parse(sessionStorage.getItem("dms_login_info"));
 
-            //Setup Cookies
-            cookies.remove("refreshToken");
-            cookies.add("refreshToken", auth_data.token, 7);
+            if (!auth_data) {
+                throw new Error("Token Not Found")
+            } else {
+                //Setup Cookies
+                cookies.remove("refreshToken");
+                cookies.add("refreshToken", auth_data.token, 7);
 
-            axios.defaults.headers.common[
-                "Authorization"
-            ] = `Bearer ${auth_data.token}`;
-            sessionStorage.setItem("dms_login_info", JSON.stringify(auth_data));
+                axios.defaults.headers.common[
+                    "Authorization"
+                ] = `Bearer ${auth_data.token}`;
+                sessionStorage.setItem("dms_login_info", JSON.stringify(auth_data));
 
-            // Pass to Action
-            dispatch(LoginAction(auth_data));
-        } catch (err) {
-            console.error(err)
-        }
-    }
-}
-
-function AsyncRegister(payload) {
-    return async dispatch => {
-        dispatch(showLoading())
-        try {
-            const response = await api.CreateUser(payload);
-
-            if (response.info !== undefined) {
-                throw new Error()
+                // Pass to Action
+                dispatch(LoginAction(auth_data));
             }
-            console.info(response)
+
 
         } catch (err) {
-            console.error(err);
-            console.log('erorr')
+            // console.error(err)
         }
-        dispatch(hideLoading())
     }
 }
 
@@ -125,4 +111,4 @@ function AsyncLogout() {
     }
 }
 
-export { AsyncLogin, AsyncCheckLogin, AsyncRegister, AsyncRefreshToken, AsyncLogout }
+export { AsyncLogin, AsyncCheckLogin, AsyncRefreshToken, AsyncLogout }

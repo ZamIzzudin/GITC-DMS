@@ -1,22 +1,32 @@
 import React from 'react'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux';
+
+import { AsyncEditUser } from '../../../state/users/middleware';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from "react-router-dom";
-
 
 const ModalEditAccess = ({ showEditForm, setShowEditForm, rowData }) => {
-
-    const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const [username, setUsername] = useState(rowData.username);
     const [password, setPassword] = useState(rowData.password);
     const [displayName, setDisplayName] = useState(rowData.display_name);
     const [role, setRole] = useState(rowData.role);
 
     const handleClose = () => {
+        setShowEditForm(false);
+    }
+
+    function handleEdit(id) {
+        const payload = {
+            username,
+            password,
+            displayName,
+            role
+        }
+        dispatch(AsyncEditUser(id, payload))
         setShowEditForm(false);
     }
 
@@ -64,8 +74,10 @@ const ModalEditAccess = ({ showEditForm, setShowEditForm, rowData }) => {
                             <Form.Select value={role}
                                 onChange={e => setRole(e.target.value)}
                             >
-                                <option>admin</option>
-                                <option>guest</option>
+                                <option>Admin</option>
+                                <option>Guest</option>
+                                <option>Sysadmin</option>
+                                <option>PIC</option>
                             </Form.Select>
                         </Form.Group>
                     </Form>
@@ -74,7 +86,7 @@ const ModalEditAccess = ({ showEditForm, setShowEditForm, rowData }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button className='text-bg-success' style={{ border: "none" }} onClick={handleClose}>
+                    <Button className='text-bg-success' style={{ border: "none" }} onClick={() => handleEdit(rowData?._id)}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

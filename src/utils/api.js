@@ -38,9 +38,11 @@ const api = (() => {
         return response;
     }
 
-    // async function GetUsers(type) {
-
-    // }
+    async function GetUsers() {
+        const url = baseUrl + `/auth/list`;
+        const response = await axios.get(url);
+        return response;
+    }
 
     async function CreateUser(payload) {
         const url = baseUrl + "/auth/register";
@@ -54,8 +56,20 @@ const api = (() => {
         return response;
     }
 
+    async function EditUser(id, payload) {
+        const url = baseUrl + `/auth/adjust/${id}`;
+        const data_user = {
+            username: payload.username,
+            display_name: payload.displayName,
+            password: payload.password,
+            role: payload.role
+        }
+        const response = await axios.put(url, data_user);
+        return response;
+    }
+
     async function DeleteUser(id) {
-        const url = baseUrl + `auth/takedown/${id}`;
+        const url = baseUrl + `/auth/takedown/${id}`;
         const response = await axios.delete(url);
         return response;
     }
@@ -64,7 +78,9 @@ const api = (() => {
         Login,
         Refresh,
         Logout,
+        GetUsers,
         CreateUser,
+        EditUser,
         DeleteUser
     };
 

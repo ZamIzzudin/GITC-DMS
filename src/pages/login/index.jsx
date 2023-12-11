@@ -12,18 +12,11 @@ import style from "./login.module.css"
 import Logo from "../../assets/picture/Logo Garuda.svg"
 
 const Login = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { auth, loading } = useSelector(states => states);
+    const { loading } = useSelector(states => states);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
-    useEffect(() => {
-        if (auth.token) {
-            navigate('/home')
-        }
-    }, [auth])
 
     const handleLogin = async (e) => {
         e.preventDefault();
