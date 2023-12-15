@@ -74,6 +74,35 @@ const api = (() => {
         return response;
     }
 
+    // Confirm
+    async function GetConfirmLetter(page) {
+        const url = baseUrl + `/confirm/${page}`;
+        const response = await axios.get(url);
+        return response;
+    }
+
+    async function CreateConfirm(payload) {
+        const url = baseUrl + "/confirm";
+
+        const response = await axios.post(url, payload);
+        return response;
+    }
+
+
+    // Offering
+    async function GetOfferingLetter(page) {
+        const url = baseUrl + `/offer/${page}`;
+        const response = await axios.get(url);
+        return response;
+    }
+
+    async function CreateOffer(payload) {
+        const url = baseUrl + "/offer";
+
+        const response = await axios.post(url, payload);
+        return response;
+    }
+
     return {
         Login,
         Refresh,
@@ -81,7 +110,12 @@ const api = (() => {
         GetUsers,
         CreateUser,
         EditUser,
-        DeleteUser
+        DeleteUser,
+        GetConfirmLetter,
+        CreateConfirm,
+
+        GetOfferingLetter,
+        CreateOffer
     };
 
 

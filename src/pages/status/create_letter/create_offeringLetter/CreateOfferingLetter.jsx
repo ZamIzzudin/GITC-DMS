@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { AsyncCreateLetter } from '../../../../state/offering/middleware'
 
 import OfferingLetter from '../../../../components/letter/offering-letter/letter_template/OfferingLetter'
 import OfferingInputLetter from '../../../../components/letter/offering-letter/input_letter/InputLetter'
@@ -7,6 +10,7 @@ import OfferingInputLetter from '../../../../components/letter/offering-letter/i
 import Style from './createOfferingLetter.module.css'
 
 const CreateConfirmationLetter = () => {
+    const dispatch = useDispatch()
 
     const [letterData, setLetterData] = useState({
         nomor_surat: "",
@@ -39,6 +43,10 @@ const CreateConfirmationLetter = () => {
         ]
     });
 
+    function getData() {
+        dispatch(AsyncCreateLetter(letterData))
+    }
+
     return (
         <div className='container'>
             <div className={Style.CreateLetter}>
@@ -53,6 +61,7 @@ const CreateConfirmationLetter = () => {
                     </div>
                     <div className={Style.inputLetter}>
                         <OfferingInputLetter
+                            getData={getData}
                             letterData={letterData}
                             setLetterData={setLetterData}
                         />

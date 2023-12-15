@@ -9,7 +9,7 @@ import Style from "./inputLetter.module.css"
 import Products from "../../../../utils/Product.json"
 
 
-const InputOfferingLetter = ({ letterData, setLetterData, isUpload }) => {
+const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) => {
 
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
@@ -152,9 +152,15 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload }) => {
         ));
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        getData()
+    }
+
+
     return (
         <div className={Style.inputLetter}>
-            <Form className={Style.formInputLetter}>
+            <Form className={Style.formInputLetter} onSubmit={handleSubmit}>
                 <Form.Group controlId="infromasiSurat" className="mb-2">
                     <p style={{ fontWeight: "bold" }}>Informasi Surat</p>
                     {
