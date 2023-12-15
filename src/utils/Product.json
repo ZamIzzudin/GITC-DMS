@@ -10,19 +10,19 @@
                 },
                 {
                     "code": "FAT02",
-                    "name": "Crew Emergency Training & Door Drill A320 - Dry-Lease"
+                    "name": "Crew Emergency Training & Door Drill Airbus A320 - Dry-Lease"
                 },
                 {
                     "code": "FAT03",
-                    "name": "Crew Emergency Training & Door Drill A320 - Wet-Lease"
+                    "name": "Crew Emergency Training & Door Drill Airbus A320 - Wet-Lease"
                 },
                 {
                     "code": "FAT04",
-                    "name": "Crew Emergency Training & Door Drill A330 - Dry-Lease"
+                    "name": "Crew Emergency Training & Door Drill Airbus A330 - Dry-Lease"
                 },
                 {
                     "code": "FAT05",
-                    "name": "Crew Emergency Training & Door Drill A330 - Wet-Lease"
+                    "name": "Crew Emergency Training & Door Drill Airbus A330 - Wet-Lease"
                 },
                 {
                     "code": "FAT06",
@@ -58,19 +58,19 @@
                 },
                 {
                     "code": "FAT14",
-                    "name": "Crew Emergency Training A320 - Dry-Lease"
+                    "name": "Crew Emergency Training Airbus A320 - Dry-Lease"
                 },
                 {
                     "code": "FAT15",
-                    "name": "Crew Emergency Training A320 - Wet-Lease"
+                    "name": "Crew Emergency Training Airbus A320 - Wet-Lease"
                 },
                 {
                     "code": "FAT16",
-                    "name": "Crew Emergency Training A330 - Dry-Lease"
+                    "name": "Crew Emergency Training Airbus A330 - Dry-Lease"
                 },
                 {
                     "code": "FAT17",
-                    "name": "Crew Emergency Training A330 - Wet-Lease"
+                    "name": "Crew Emergency Training Airbus A330 - Wet-Lease"
                 },
                 {
                     "code": "FAT18",
@@ -122,11 +122,11 @@
                 },
                 {
                     "code": "FAT30",
-                    "name": "Dry-Lease Drill, Mockup & Classroom A320"
+                    "name": "Dry-Lease Drill, Mockup & Classroom Airbus A320"
                 },
                 {
                     "code": "FAT31",
-                    "name": "Dry-Lease Drill, Mockup & Classroom A330"
+                    "name": "Dry-Lease Drill, Mockup & Classroom Airbus A330"
                 },
                 {
                     "code": "FAT32",
@@ -170,7 +170,7 @@
                 },
                 {
                     "code": "FAT42",
-                    "name": "Initial Equipment / Transition Training Aircraft Type Rating A330"
+                    "name": "Initial Equipment / Transition Training Aircraft Type Rating Airbus A330"
                 },
                 {
                     "code": "FAT43",
@@ -202,19 +202,19 @@
                 },
                 {
                     "code": "FAT50",
-                    "name": "Mandatory Training A320 - Dry-Lease"
+                    "name": "Mandatory Training Airbus A320 - Dry-Lease"
                 },
                 {
                     "code": "FAT51",
-                    "name": "Mandatory Training A320 - Wet-Lease"
+                    "name": "Mandatory Training Airbus A320 - Wet-Lease"
                 },
                 {
                     "code": "FAT52",
-                    "name": "Mandatory Training A330 - Dry-Lease"
+                    "name": "Mandatory Training Airbus A330 - Dry-Lease"
                 },
                 {
                     "code": "FAT53",
-                    "name": "Mandatory Training A330 - Wet-Lease"
+                    "name": "Mandatory Training Airbus A330 - Wet-Lease"
                 },
                 {
                     "code": "FAT54",
@@ -258,15 +258,15 @@
                 },
                 {
                     "code": "FAT64",
-                    "name": "Observer Crew Emergency Training A320 Wet-Lease"
+                    "name": "Observer Crew Emergency Training Airbus A320 Wet-Lease"
                 },
                 {
                     "code": "FAT65",
-                    "name": "Observer Crew Emergency Training A330 Dry-Lease"
+                    "name": "Observer Crew Emergency Training Airbus A330 Dry-Lease"
                 },
                 {
                     "code": "FAT66",
-                    "name": "Observer Crew Emergency Training A330 Wet-Lease"
+                    "name": "Observer Crew Emergency Training Airbus A330 Wet-Lease"
                 },
                 {
                     "code": "FAT67",
@@ -314,19 +314,19 @@
                 },
                 {
                     "code": "FAT78",
-                    "name": "Recurrent Training A320 - Dry-Lease"
+                    "name": "Recurrent Training  AirbusA320 - Dry-Lease"
                 },
                 {
                     "code": "FAT79",
-                    "name": "Recurrent Training A320 - Wet-Lease"
+                    "name": "Recurrent Training Airbus A320 - Wet-Lease"
                 },
                 {
                     "code": "FAT80",
-                    "name": "Recurrent Training A330 - Dry-Lease"
+                    "name": "Recurrent Training Airbus A330 - Dry-Lease"
                 },
                 {
                     "code": "FAT81",
-                    "name": "Recurrent Training A330 - Wet-Lease"
+                    "name": "Recurrent Training Airbus A330 - Wet-Lease"
                 },
                 {
                     "code": "FAT82",
@@ -460,7 +460,7 @@
             "subcategories": [
                 {
                     "code": "FOO01",
-                    "name": "Aircraft Transition A 330-900"
+                    "name": "Aircraft Transition A330-900"
                 },
                 {
                     "code": "FOO02",
@@ -472,11 +472,11 @@
                 },
                 {
                     "code": "FOO04",
-                    "name": "Initial Equipment / Transition Training Aircraft Type Rating A 320"
+                    "name": "Initial Equipment / Transition Training Aircraft Type Rating  Airbus A320"
                 },
                 {
                     "code": "FOO05",
-                    "name": "Initial Equipment / Transition Training Aircraft Type Rating A 330"
+                    "name": "Initial Equipment / Transition Training Aircraft Type Rating Airbus A330"
                 },
                 {
                     "code": "FOO06",
@@ -492,7 +492,7 @@
                 },
                 {
                     "code": "FOO09",
-                    "name": "Initial Training Aircraft Type Rating A 320"
+                    "name": "Initial Training Aircraft Type Rating Airbus A320"
                 },
                 {
                     "code": "FOO10",
@@ -504,11 +504,11 @@
                 },
                 {
                     "code": "FOO12",
-                    "name": "Recurrent Training Aircraft Type Rating A 320"
+                    "name": "Recurrent Training Aircraft Type Rating Airbus A320"
                 },
                 {
                     "code": "FOO13",
-                    "name": "Recurrent Training Aircraft Type Rating A 330"
+                    "name": "Recurrent Training Aircraft Type Rating Airbus A330"
                 },
                 {
                     "code": "FOO14",
@@ -534,7 +534,7 @@
                 },
                 {
                     "code": "FCT02",
-                    "name": "CCQ Training A 330"
+                    "name": "CCQ Training Airbus A330"
                 },
                 {
                     "code": "FCT03",
@@ -546,11 +546,11 @@
                 },
                 {
                     "code": "FCT05",
-                    "name": "Dry Lease Sim A320"
+                    "name": "Dry Lease Sim Airbus A320"
                 },
                 {
                     "code": "FCT06",
-                    "name": "Dry Lease Sim A330"
+                    "name": "Dry Lease Sim Airbus A330"
                 },
                 {
                     "code": "FCT07",
@@ -606,11 +606,11 @@
                 },
                 {
                     "code": "FCT20",
-                    "name": "Initial Training Initial Rating A320"
+                    "name": "Initial Training Initial Rating Airbus A320"
                 },
                 {
                     "code": "FCT21",
-                    "name": "Initial Training Initial Rating A330"
+                    "name": "Initial Training Initial Rating Airbus A330"
                 },
                 {
                     "code": "FCT22",
@@ -634,11 +634,11 @@
                 },
                 {
                     "code": "FCT27",
-                    "name": "Performance Based NavigationTraining A320"
+                    "name": "Performance Based NavigationTraining Airbus A320"
                 },
                 {
                     "code": "FCT28",
-                    "name": "Performance Based NavigationTraining A330"
+                    "name": "Performance Based NavigationTraining Airbus A330"
                 },
                 {
                     "code": "FCT29",
@@ -666,11 +666,11 @@
                 },
                 {
                     "code": "FCT35",
-                    "name": "Type Recurrent & Profficiency Check A320"
+                    "name": "Type Recurrent & Profficiency Check Airbus A320"
                 },
                 {
                     "code": "FCT36",
-                    "name": "Type Recurrent & Profficiency Check A330"
+                    "name": "Type Recurrent & Profficiency Check Airbus A330"
                 },
                 {
                     "code": "FCT37",
@@ -690,11 +690,11 @@
                 },
                 {
                     "code": "FCT41",
-                    "name": "Wet Lease Sim A320"
+                    "name": "Wet Lease Sim Airbus A320"
                 },
                 {
                     "code": "FCT42",
-                    "name": "Wet Lease Sim A330"
+                    "name": "Wet Lease Sim Airbus A330"
                 },
                 {
                     "code": "FCT43",

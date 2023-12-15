@@ -10,7 +10,7 @@ const CreateConfirmationLetter = () => {
 
     const [letterData, setLetterData] = useState({
         template_option: "Produk saja",
-        nomor_surat: "",
+        nomor_surat: '',
         nama_penerbit: "",
         tanggal_surat: "",
         perihal: "",
@@ -25,13 +25,14 @@ const CreateConfirmationLetter = () => {
         category: "",
         sub_category: "",
         jumlah_produk: 1,
+        kurs_USD: null,
         produk_forms: [
             {
                 jenis_kegiatan: '',
                 tanggal_kegiatan: '',
                 jumlah_peserta: '',
                 biaya_meal: '',
-                kurs_USD: '',
+                // kurs_USD: '',
                 biaya: '',
                 total_biaya_meals: '',
                 total_biaya_kegiatan: '',
@@ -44,7 +45,8 @@ const CreateConfirmationLetter = () => {
             {
                 detail: ''
             }
-        ]
+        ],
+        konversi_kursUSD: 'Tidak',
     });
 
     // console.log("test")

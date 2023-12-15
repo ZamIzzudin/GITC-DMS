@@ -174,7 +174,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload }) => {
                         )
                     }
                     <Form.Group controlId="namaPenerbit" className="mb-2">
-                        <Form.Label>Nama Penerbit</Form.Label>
+                        <Form.Label>Nama Penanda Tangan</Form.Label>
                         <Form.Control
                             placeholder='ex: Vonny Franciska Pinontoan'
                             type="text" size='sm'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState, useMemo } from 'react'
-import { Form, InputGroup, Button } from 'react-bootstrap'
+import { Form, InputGroup, Button, Col, Row } from 'react-bootstrap'
 
 import { formatDate, formatDateToLetterNumber } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
@@ -16,6 +16,8 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
 
+    console.log(inputLetter.kurs_USD)
+
     const productCode = Products.categories.find((cat) => cat.name === inputLetter.category)
         ?.subcategories.find((subCat) => subCat.name === inputLetter.sub_category)?.code
 
@@ -27,27 +29,70 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
         }
     }, [inputLetter.nomor_surat, productCode, dateLetter, isUpload])
 
+    console.log(inputLetter)
+
+    useEffect(() => {
+        updateTotalBiaya();
+    }, [inputLetter.kurs_USD, inputLetter.konversi_kursUSD]);
+
+
+    // const handleChange = (props, value) => {
+    //     setInputLetter(prevInputLetter => ({
+    //         ...prevInputLetter,
+    //         [props]: value
+    //     }));
+    //     console.log(inputLetter)
+    //     updateTotalBiaya()
+    // };
+
+    const handleProdukFormsChange = (index, prop, value) => {
+        setInputLetter((prevInputLetter) => {
+            const newForms = [...prevInputLetter.produk_forms];
+            newForms[index][prop] = value;
+
+            // updateTotalBiaya()
+            return {
+                ...prevInputLetter,
+                produk_forms: newForms,
+            };
+        });
+        updateTotalBiaya()
+    };
+
     const updateTotalBiaya = () => {
+        console.log(inputLetter.kurs_USD)
+        const kursUSD = inputLetter.konversi_kursUSD === "Ya" ? inputLetter.kurs_USD : 1;
+        console.log(kursUSD)
+
         const updatedProdukForms = inputLetter.produk_forms.map((produkForm, index) => {
             let totalBiayaKegiatan = 0;
 
             if (inputLetter.template_option === "Produk saja") {
                 totalBiayaKegiatan =
-                    produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10);
+                    produkForm.biaya *
+                    kursUSD *
+                    produkForm.jumlah_peserta *
+                    parseInt(produkForm.durasi.split(' ')[0], 10);
                 console.log(index, totalBiayaKegiatan)
             } else if (inputLetter.template_option === "Produk + Meals") {
                 totalBiayaKegiatan =
-                    produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) +
+                    produkForm.biaya *
+                    kursUSD *
+                    produkForm.jumlah_peserta *
+                    parseInt(produkForm.durasi.split(' ')[0], 10) +
                     produkForm.total_biaya_meals;
             } else if (inputLetter.template_option === "Produk - Meals") {
                 totalBiayaKegiatan =
-                    produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) -
+                    produkForm.biaya *
+                    kursUSD *
+                    produkForm.jumlah_peserta *
+                    parseInt(produkForm.durasi.split(' ')[0], 10) -
                     produkForm.total_biaya_meals;
             }
 
             const totalBiayaMeals =
                 inputLetter.template_option === "Produk + Meals" || inputLetter.template_option === "Produk - Meals"
-                    ? produkForm.biaya_meal * produkForm.kurs_USD * produkForm.jumlah_peserta
+                    ? produkForm.biaya_meal * kursUSD * produkForm.jumlah_peserta
                     : 0;
 
             return {
@@ -68,21 +113,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
             produk_forms: updatedProdukForms,
             total_biaya: totalBiayaKeseluruhan,
         }));
-    };
-
-    console.log(inputLetter.produk_forms)
-
-    const handleProdukFormsChange = (index, prop, value) => {
-        setInputLetter((prevInputLetter) => {
-            const newForms = [...prevInputLetter.produk_forms];
-            newForms[index][prop] = value;
-
-            return {
-                ...prevInputLetter,
-                produk_forms: newForms,
-            };
-        });
-        updateTotalBiaya()
+        console.log('update perhitungan biaya')
     };
 
     const handleDurasiChange = (index, value) => {
@@ -104,7 +135,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                 tanggal_kegiatan: '',
                 jumlah_peserta: '',
                 biaya_meal: '',
-                kurs_USD: '',
+                // kurs_USD: '',
                 biaya: '',
                 total_biaya_meals: "",
                 total_biaya_kegiatan: "",
@@ -207,7 +238,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                     </InputGroup>
                 </Form.Group>
 
-                <Form.Group controlId={`kursUSD-${index}`} className="mb-2" >
+                {/* <Form.Group controlId={`kurs_USD-${index}`} className="mb-2" >
                     <Form.Label>Kurs USD</Form.Label>
                     <InputGroup className="mb-3">
                         <InputGroup.Text id="basic-addon1">Rp</InputGroup.Text>
@@ -216,7 +247,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                             onChange={(e) => handleProdukFormsChange(index, 'kurs_USD', e.target.value)}
                         />
                     </InputGroup>
-                </Form.Group >
+                </Form.Group > */}
 
                 {
                     inputLetter.template_option !== "Produk saja" && (
@@ -253,7 +284,12 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
             <Form className={Style.formInputLetter}>
                 <Form.Group controlId="template" className="mb-2" >
                     <Form.Label style={{ fontWeight: "bold" }}>Pilih Template Surat</Form.Label>
-                    <Form.Select value={inputLetter.template_option} onChange={(e) => { setInputLetter({ ...inputLetter, template_option: e.target.value }) }}>
+                    <Form.Select
+                        value={inputLetter.template_option}
+                        onChange={(e) => { setInputLetter({ ...inputLetter, template_option: e.target.value }) }}
+                    // onChange={(e) => handleChange("template_option", e.target.value)}
+
+                    >
                         <option>Produk saja</option>
                         <option>Produk + Meals</option>
                         <option>Produk - Meals</option>
@@ -269,6 +305,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                             <Form.Control type="text" size='sm'
                                 value={inputLetter.nomor_surat}
                                 onChange={(e) => { setInputLetter({ ...inputLetter, nomor_surat: e.target.value }) }}
+                            // onChange={(e) => handleChange("nomor_surat", e.target.value)}
                             />
                         </Form.Group>) : (
                             <Form.Group controlId="nomor_surat" className="mb-2">
@@ -281,17 +318,19 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                     }
 
                     <Form.Group controlId="namaPenerbit" className="mb-2">
-                        <Form.Label>Nama Penerbit</Form.Label>
+                        <Form.Label>Nama Penanda Tangan</Form.Label>
                         <Form.Control
                             placeholder='ex: Vonny Franciska Pinontoan'
                             type="text" size='sm'
                             value={inputLetter.nama_penerbit}
                             onChange={(e) => { setInputLetter({ ...inputLetter, nama_penerbit: e.target.value }) }} />
+                        {/* onChange={(e) => handleChange("nama_penerbit", e.target.value)}/> */}
                     </Form.Group>
                     <Form.Group controlId="tanggal_surat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
                             onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: formatDate(e.target.value) }) }}
+                        // onChange={(e) => handleChange("tanggal_surat", e.target.value)}
                         />
                     </Form.Group>
                     <Form.Group controlId="subject" className="mb-2">
@@ -299,6 +338,8 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                         <Form.Control type="text" size='sm'
                             value={inputLetter.perihal}
                             onChange={(e) => { setInputLetter({ ...inputLetter, perihal: e.target.value }) }}
+                        // onChange={(e) => handleChange("perihal", e.target.value)}
+
                         />
                     </Form.Group>
                     <Form.Group controlId="mediaReferensi" className="mb-2">
@@ -306,12 +347,15 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                         <Form.Control type="text" size='sm'
                             value={inputLetter.media_ref}
                             onChange={(e) => { setInputLetter({ ...inputLetter, media_ref: e.target.value }) }}
+                        // onChange={(e) => handleChange("media_ref", e.target.value)}
+
                         />
                     </Form.Group>
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
                             onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: formatDate(e.target.value) }) }}
+                        // onChange={(e) => handleChange("date", e.target.value)}
                         />
                     </Form.Group>
                     <Form.Group controlId="jenisPermohonan" className="mb-2">
@@ -319,6 +363,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                         <Form.Control type="text" size='sm'
                             value={inputLetter.jenis_permohonan}
                             onChange={(e) => { setInputLetter({ ...inputLetter, jenis_permohonan: e.target.value }) }}
+                        // onChange={(e) => handleChange("jenis_permohonan", e.target.value)}
                         />
                     </Form.Group>
                     <Form.Group controlId="catatan" className="mb-2">
@@ -326,6 +371,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                         <Form.Control as="textarea" size='sm' rows={3}
                             value={inputLetter.catatan}
                             onChange={(e) => { setInputLetter({ ...inputLetter, catatan: e.target.value }) }}
+                        // onChange={(e) => handleChange("catatan", e.target.value)}
                         />
                     </Form.Group>
                 </Form.Group>
@@ -394,7 +440,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                         </Form.Select>
                     </Form.Group>
                     {/* Jumlah Produk */}
-                    <Form.Group controlId="jumlahProduk" className="mb-2">
+                    <Form.Group controlId="jumlahProduk" className="mb-3">
                         <Form.Label>Jumlah Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
                             value={inputLetter.jumlah_produk}
@@ -405,7 +451,49 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                             ))}
                         </Form.Select>
                     </Form.Group>
+
+                    <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+                        <Form.Label column sm="6">
+                            Konversi Kurs USD
+                        </Form.Label>
+                        <Col sm="6">
+                            <Form.Select
+                                value={inputLetter.konversi_kursUSD}
+                                onChange={(e) => { setInputLetter({ ...inputLetter, konversi_kursUSD: e.target.value }) }}
+                            // onChange={(e) => handleChange("konversi_kursUSD", e.target.value)}
+
+                            >
+                                <option>Tidak</option>
+                                <option>Ya</option>
+                            </Form.Select>
+                        </Col>
+                    </Form.Group>
+                    {/* Kurs USD */}
+
+                    {
+                        inputLetter.konversi_kursUSD === "Ya" && (
+                            <Form.Group controlId={`kurs_USD`} className="mb-2" >
+                                <Form.Label>Kurs USD</Form.Label>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text id="basic-addon1">Rp</InputGroup.Text>
+                                    <Form.Control type="number" size='sm'
+                                        // value={form.kurs_USD}
+                                        value={inputLetter.kurs_USD}
+                                        onChange={(e) => {
+                                            // handleKursUSD(e.target.value)
+                                            setInputLetter({ ...inputLetter, kurs_USD: e.target.value })
+                                            // updateTotalBiaya()
+                                        }}
+                                    // onChange={(e) => handleChange("kurs_USD", e.target.value)}
+
+                                    // onChange={(e) => handleProdukFormsChange(index, 'kurs_USD', e.target.value)}
+                                    />
+                                </InputGroup>
+                            </Form.Group >
+                        )
+                    }
                 </Form.Group>
+
                 <Form.Group controlId="informasiKegiatan" className="mb-2">
                     <p style={{ fontWeight: "bold" }}>Informasi Kegiatan</p>
                     {renderProdukForms()}
@@ -452,20 +540,20 @@ export default InputOfferingLetter
 
 //         if (inputLetter.template_option === "Produk saja") {
 //             totalBiayaKegiatan =
-//                 produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10);
+//                 produkForm.biaya * inputLetter.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10);
 //         } else if (inputLetter.template_option === "Produk + Meals") {
 //             totalBiayaKegiatan =
-//                 produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) +
+//                 produkForm.biaya * inputLetter.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) +
 //                 produkForm.total_biaya_meals;
 //         } else if (inputLetter.template_option === "Produk - Meals") {
 //             totalBiayaKegiatan =
-//                 produkForm.biaya * produkForm.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) -
+//                 produkForm.biaya * inputLetter.kurs_USD * produkForm.jumlah_peserta * parseInt(produkForm.durasi.split(' ')[0], 10) -
 //                 produkForm.total_biaya_meals;
 //         }
 
 //         const totalBiayaMeals =
 //             inputLetter.template_option === "Produk + Meals" || inputLetter.template_option === "Produk - Meals"
-//                 ? produkForm.biaya_meal * produkForm.kurs_USD * produkForm.jumlah_peserta
+//                 ? produkForm.biaya_meal * inputLetter.kurs_USD * produkForm.jumlah_peserta
 //                 : 0;
 
 //         return {

@@ -34,10 +34,12 @@ const ConfirmationLetter = ({ data }) => {
         category: data.category,
         sub_category: data.sub_category,
         jumlah_produk: data.jumlah_produk,
+        kurs_USD: data.kurs_USD,
         produk_forms: data.produk_forms,
         total_biaya: data.total_biaya,
         jumlah_TNC: data.jumlah_TNC,
-        TNC: data.TNC
+        TNC: data.TNC,
+        konversi_kursUSD: data.konversi_kursUSD,
     });
 
     // console.log(letterData)
@@ -234,7 +236,6 @@ const ConfirmationLetter = ({ data }) => {
         </React.Fragment>
     );
 
-    //else
     const renderTotalBiayaUntilPembayaran = () => (
         <React.Fragment>
             <table className={Style.tableKegiatan} style={{ width: "100%" }}>
@@ -246,33 +247,33 @@ const ConfirmationLetter = ({ data }) => {
         </React.Fragment>
     )
 
-    const renderTemplateKegiatan = (data, index) => {
+    const renderTemplateKegiatan = (dataKegiatan, index) => {
         return (
             <React.Fragment key={index}>
                 <tr>
                     <td style={{ padding: "10px 0 0 0" }} >{index}.</td>
                     <td style={{ padding: "10px 0 0 0" }} >Jenis Pelatihan</td>
                     <td style={{ padding: "10px 5px 0px 5px" }}>:</td>
-                    <td style={{ fontWeight: "bold", padding: "10px 0 0 0 ", verticalAlign: "bottom" }}>{data.jenis_kegiatan}</td>
+                    <td style={{ fontWeight: "bold", padding: "10px 0 0 0 ", verticalAlign: "bottom" }}>{dataKegiatan.jenis_kegiatan}</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>Periode</td>
                     <td>:</td>
-                    <td>{data.tanggal_kegiatan}</td>
+                    <td>{dataKegiatan.tanggal_kegiatan}</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>Jumlah Peserta</td>
                     <td>:</td>
-                    <td>{data.jumlah_peserta} Peserta</td>
+                    <td>{dataKegiatan.jumlah_peserta} Peserta</td>
                 </tr>
                 {letterData.template_option === "Produk saja" ? (
                     <tr>
                         <td></td>
                         <td>Biaya Kegiatan</td>
                         <td>:</td>
-                        <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kurs_USD)} x {data.jumlah_peserta} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(data.total_biaya_kegiatan)} ({Terbilang(data.total_biaya_kegiatan)} rupiah)</span></td>
+                        <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} {letterData.konversi_kursUSD === "Ya" ? `x ${formatCurrency(letterData.kurs_USD)}` : ""} x {dataKegiatan.jumlah_peserta} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({Terbilang(dataKegiatan.total_biaya_kegiatan)} rupiah)</span></td>
                     </tr>
                 ) : (
                     <React.Fragment>
@@ -280,14 +281,14 @@ const ConfirmationLetter = ({ data }) => {
                             <td></td>
                             <td>Biaya Meals</td>
                             <td>:</td>
-                            <td>USD {data.biaya_meal} x {formatCurrency(data.kurs_USD)} x {data.jumlah_peserta} Peserta = {formatCurrency(data.total_biaya_meals)}</td>
+                            <td>USD {dataKegiatan.biaya_meal} {letterData.konversi_kursUSD === "Ya" ? `x ${formatCurrency(letterData.kurs_USD)}` : ""} x {dataKegiatan.jumlah_peserta} Peserta = {formatCurrency(dataKegiatan.total_biaya_meals)}</td>
                         </tr>
                         {letterData.template_option === "Produk - Meals" && (
                             <tr>
                                 <td></td>
                                 <td>Total Biaya Kegiatan - Biaya Meals</td>
                                 <td>:</td>
-                                <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kurs_USD)} x {data.jumlah_peserta} Peserta - {formatCurrency(data.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(data.total_biaya_kegiatan)} ({Terbilang(data.total_biaya_kegiatan)} rupiah)</span></td>
+                                <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} x {formatCurrency(letterData.kurs_USD)} x {dataKegiatan.jumlah_peserta} Peserta - {formatCurrency(dataKegiatan.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({Terbilang(dataKegiatan.total_biaya_kegiatan)} rupiah)</span></td>
                             </tr>
                         )}
                         {letterData.template_option === "Produk + Meals" && (
@@ -295,7 +296,7 @@ const ConfirmationLetter = ({ data }) => {
                                 <td></td>
                                 <td>Total Biaya Kegiatan</td>
                                 <td>:</td>
-                                <td>USD {data.biaya} x {data.durasi} x {formatCurrency(data.kurs_USD)} x {data.jumlah_peserta} Peserta + {formatCurrency(data.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(data.total_biaya_kegiatan)} ({Terbilang(data.total_biaya_kegiatan)} rupiah) </span></td>
+                                <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} x {formatCurrency(letterData.kurs_USD)} x {dataKegiatan.jumlah_peserta} Peserta + {formatCurrency(dataKegiatan.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({Terbilang(dataKegiatan.total_biaya_kegiatan)} rupiah) </span></td>
                             </tr>
                         )}
                     </React.Fragment>
@@ -356,12 +357,12 @@ const ConfirmationLetter = ({ data }) => {
                         </div>
                     </div>
                     <div className={Style.colDua}>
-                        <div style={{ marginBottom: "4rem", maxWidth: "200px" }}>
+                        <div style={{ marginBottom: "4rem" }}>
                             <p>Kepada</p>
                             <p>Yth. {letterData.nama_tertuju}</p>
                             <p>{letterData.jabatan}</p>
                             <p>{letterData.nama_perusahaan}</p>
-                            <p>{letterData.alamat_perusahaan}</p>
+                            <p style={{ maxWidth: "300px" }}>{letterData.alamat_perusahaan}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
                             <p>Jakarta, {letterData.tanggal_surat}</p>
@@ -370,7 +371,7 @@ const ConfirmationLetter = ({ data }) => {
                         </div>
                         <div style={{ marginBottom: "1rem" }}>
                             <p style={{ marginBottom: "16px" }}>Dengan hormat,</p>
-                            <p style={{ marginBottom: "16px" }}>Merujak {letterData.media_ref} yang disampaikan per tanggal {letterData.tanggal_ref} perihal {letterData.perihal}, dengan ini kami menyampaikan bahwa kami dapat melaksanakan permohonan dimaksud.</p>
+                            <p style={{ marginBottom: "16px" }}>Merujuk {letterData.media_ref} yang disampaikan per tanggal {letterData.tanggal_ref} perihal {letterData.perihal}, dengan ini kami menyampaikan bahwa kami dapat melaksanakan permohonan dimaksud.</p>
 
                             <p >Adapun ketentuan dan syarat-syarat produk {letterData.sub_category}, akan disampaikan dalam Surat Konfirmasi sebagaimana terlampir.</p>
                         </div>
