@@ -1,6 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import { AsyncGetConfirms } from '../../../state/confirm/middleware'
+import { AsyncGetOfferings } from '../../../state/offering/middleware'
+
+
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -9,13 +14,17 @@ import { FilterMatchMode } from "primereact/api";
 
 import ModalUploadFile from '../../modal/upload_file/ModalUploadFile';
 
-import { dataConfirmationLetter, offeringLetterData } from '../../../utils/DummyData';
+// import { dataConfirmationLetter, offeringLetterData } from '../../../utils/DummyData';
 
 import style from './tableLetter.module.css'
 
 const TableLetter = () => {
+    const { confirms = [], offers = [] } = useSelector(states => states)
+    const dispatch = useDispatch()
+
+
     const navigate = useNavigate();
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
     const [letterOption, setLetterOption] = useState("Confirmation Letter")
     const [filters, setFilters] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -40,12 +49,14 @@ const TableLetter = () => {
     //getData
     useEffect(() => {
         if (letterOption === "Confirmation Letter") {
-            setData(dataConfirmationLetter);
+            dispatch(AsyncGetConfirms(1))
+            // setData(dataConfirmationLetter);
         } else if (letterOption === "Offering Letter") {
-            setData(offeringLetterData)
+            dispatch(AsyncGetOfferings(1))
+            // setData(offeringLetterData)
         }
         initFilters();
-    }, [letterOption])
+    }, [dispatch, letterOption])
 
     const handleUploadClick = () => {
         letterOption === "Confirmation Letter"
@@ -154,11 +165,11 @@ const TableLetter = () => {
         switch (rowData.status) {
             case "done":
                 return <span className='status text-bg-light'>DONE!</span>;
-            case "disetujui":
+            case "approved":
                 return <span className='status text-bg-success'>Disetujui</span>;
-            case "belum disetujui":
+            case "submitted":
                 return <span className='status text-bg-warning'>Belum disetujui</span>;
-            case "revisi":
+            case "need revision":
                 return <span className='status text-bg-danger'>Revisi</span>;
             default:
                 return null;
@@ -207,7 +218,7 @@ const TableLetter = () => {
         <div>
             <div className={style.tableLetter}>
                 <DataTable
-                    value={data}
+                    value={letterOption === 'Confirmation Letter' ? confirms : offers}
                     showGridlines
                     removableSort
                     scrollable scrollHeight="650px" sortField="tanggal" sortOrder={-1}
@@ -219,7 +230,7 @@ const TableLetter = () => {
                     filters={filters} globalFilterFields={['id', 'nama_dokumen', 'tanggal', 'customer', 'dokumen', 'status']}
                 >
                     <Column field="id" header="No" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={(data, e) => e.rowIndex + 1} style={{ textAlign: "center" }} />
-                    <Column field="nomor_surat" header="Nama" sortable headerStyle={{ borderBottom: "1px solid #000", }} />
+                    <Column field="nama_tertuju" header="Nama" sortable headerStyle={{ borderBottom: "1px solid #000", }} />
                     <Column field="tanggal_surat" header="Tanggal" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
                     <Column field="nama_perusahaan" header="Customer" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
                     <Column field="status" header="Status" sortable headerStyle={{ borderBottom: "1px solid #000" }} body={statusBodyTemplate} />

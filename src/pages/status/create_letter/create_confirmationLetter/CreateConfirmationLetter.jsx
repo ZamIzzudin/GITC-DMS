@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { AsyncCreateLetter } from '../../../../state/confirm/middleware'
 
 import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
 import ConfirmationInputLetter from "../../../../components/letter/confirmation-letter/input_letter/InputLetter"
@@ -7,6 +10,7 @@ import ConfirmationInputLetter from "../../../../components/letter/confirmation-
 import Style from './createConfirmationLetter.module.css'
 
 const CreateConfirmationLetter = () => {
+    const dispatch = useDispatch()
 
     const [letterData, setLetterData] = useState({
         template_option: "Produk saja",
@@ -49,8 +53,9 @@ const CreateConfirmationLetter = () => {
         konversi_kursUSD: 'Tidak',
     });
 
-    // console.log("test")
-    // console.log(letterData.produk_forms[0].biaya)
+    function getData() {
+        dispatch(AsyncCreateLetter(letterData))
+    }
 
     return (
 
@@ -68,6 +73,7 @@ const CreateConfirmationLetter = () => {
                     <div className={Style.inputLetter}>
 
                         <ConfirmationInputLetter
+                            getData={getData}
                             inputLetter={letterData}
                             setInputLetter={setLetterData}
                         />

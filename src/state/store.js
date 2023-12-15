@@ -5,6 +5,8 @@ import AuthReducer from "./auth/reducer";
 import UsersReducer from "./users/reducer";
 import ErrorReducer from "./error/reducer";
 import LoadingReducer from "./loading/reducer";
+import ConfirmReducer from "./confirm/reducer";
+import OfferingReducer from "./offering/reducer";
 
 const store = configureStore({
     reducer: {
@@ -12,7 +14,9 @@ const store = configureStore({
         loadingBar: loadingBarReducer,
         error: ErrorReducer,
         loading: LoadingReducer,
-        users: UsersReducer
+        users: UsersReducer,
+        confirms: ConfirmReducer,
+        offers: OfferingReducer
     }
 });
 

@@ -11,7 +11,7 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat, file
 
-const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
+const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
@@ -278,10 +278,15 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
         ));
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        getData()
+    }
+
     return (
         <div className={Style.inputLetter}>
             {/* <p>Nilai yang dipilih: {template_option}</p> */}
-            <Form className={Style.formInputLetter}>
+            <Form className={Style.formInputLetter} onSubmit={handleSubmit}>
                 <Form.Group controlId="template" className="mb-2" >
                     <Form.Label style={{ fontWeight: "bold" }}>Pilih Template Surat</Form.Label>
                     <Form.Select
@@ -523,7 +528,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload }) => {
                     )
                 }
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button type="submit" className={Style.btnSubmit}>
+                    <Button type="submit" className={Style.btnSubmit} >
                         Submit
                     </Button>
                 </div>
