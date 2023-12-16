@@ -10,9 +10,24 @@ const Trend = () => {
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
     const [dataGraph, SetDataGraph] = useState([300, 50, 100, 200]);
-    const [startDate, setStartDate] = useState(null);
+    const [date, setDate] = useState('')
 
-    const dateStartRef = useRef();
+    console.log(date)
+
+    useEffect(() => {
+        const updateFormattedDate = () => {
+            const now = new Date();
+            const monthNames = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+
+            const formattedDate = `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+            setDate(formattedDate);
+        };
+
+        updateFormattedDate();
+    }, []);
 
     useEffect(() => {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -47,9 +62,9 @@ const Trend = () => {
     return (
         <div className={style.trendWrapper}>
             <div className={style.title}>
-                <h3>Trend Bulan {formatBulanTahun(startDate)}</h3>
+                <h3>Trend Bulan {date}</h3>
                 <input type="date" name="date" id="date" className={style.btn_date}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    onChange={(e) => setDate(formatBulanTahun(e.target.value))}
                 />
             </div>
             <div className={style.infoTrend}>
