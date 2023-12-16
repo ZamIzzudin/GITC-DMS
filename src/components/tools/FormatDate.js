@@ -36,3 +36,21 @@ export const getYear = (inputDate) => {
     return dateObj.getFullYear();
 };
 
+export const formatBulanTahun = (inputDate) => {
+    // Membuat objek Date dari tanggal input
+    const dateObject = new Date(inputDate);
+
+    // Mendapatkan nama bulan dari objek Date
+    const monthNames = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    const month = monthNames[dateObject.getMonth()];
+
+    // Mendapatkan tahun dari objek Date
+    const year = dateObject.getFullYear();
+
+    // Mengembalikan hasil yang diformat
+    return `${month} ${year}`;
+};
+

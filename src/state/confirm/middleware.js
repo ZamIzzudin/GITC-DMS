@@ -3,7 +3,6 @@ import api from "../../utils/api";
 
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 
-
 function AsyncGetConfirms(page = 1) {
     return async dispatch => {
         dispatch(showLoading());

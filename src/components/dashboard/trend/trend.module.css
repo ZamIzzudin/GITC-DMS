@@ -14,8 +14,35 @@
 }
 
 .title {
-    text-align: center;
-    padding: 0 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.title h3 {
+    margin: 0;
+}
+
+.title i {
+    cursor: pointer;
+}
+
+/* .btn_date:focus {
+    visibility: visible
+} */
+
+.btn_date {
+    border: none;
+    cursor: pointer;
+    width: 20px;
+    overflow: hidden;
+}
+
+
+.title i:hover {
+    scale: 1.2;
 }
 
 .infoTrend {

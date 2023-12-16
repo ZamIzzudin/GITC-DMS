@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AsyncGetConfirms } from '../../../state/confirm/middleware'
 import { AsyncGetOfferings } from '../../../state/offering/middleware'
 
-
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";

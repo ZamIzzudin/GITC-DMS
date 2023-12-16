@@ -1,13 +1,18 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Chart } from 'primereact/chart';
 
-
+import { formatBulanTahun } from '../../tools/FormatDate';
 import style from './trend.module.css';
 
 const Trend = () => {
+
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
+    const [dataGraph, SetDataGraph] = useState([300, 50, 100, 200]);
+    const [startDate, setStartDate] = useState(null);
+
+    const dateStartRef = useRef();
 
     useEffect(() => {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -15,7 +20,7 @@ const Trend = () => {
             // labels: ['A', 'B', 'C', 'Lain-lainnya'],
             datasets: [
                 {
-                    data: [300, 50, 100, 200],
+                    data: dataGraph,
                     backgroundColor: [
                         documentStyle.getPropertyValue('--blue-500'),
                         documentStyle.getPropertyValue('--yellow-500'),
@@ -37,11 +42,15 @@ const Trend = () => {
 
         setChartData(data);
         setChartOptions(options);
-    }, []);
+    }, [dataGraph]);
+
     return (
         <div className={style.trendWrapper}>
             <div className={style.title}>
-                <h3>Trend Bulan Oktober 2023</h3>
+                <h3>Trend Bulan {formatBulanTahun(startDate)}</h3>
+                <input type="date" name="date" id="date" className={style.btn_date}
+                    onChange={(e) => setStartDate(e.target.value)}
+                />
             </div>
             <div className={style.infoTrend}>
                 <div className={style.chartWrapper}>
