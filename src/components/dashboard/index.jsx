@@ -1,10 +1,8 @@
-import React from 'react'
-
 import TableDashboad from '../table/tableDashboard/TableDashboad'
 import Trend from './trend/Trend'
 import style from "./dashboard.module.css"
 
-const index = () => {
+const Index = () => {
     return (
         <div >
             <div className={style.trend}>
@@ -17,4 +15,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index
