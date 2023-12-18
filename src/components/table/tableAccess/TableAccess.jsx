@@ -35,7 +35,7 @@ const TableAccess = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div style={{ display: "flex", gap: "20px" }}>
-                {rowData.role !== "super admin" && (
+                {rowData.role !== "Sysadmin" && (
                     <React.Fragment>
                         <button className='btn-cta text-bg-success'
                             onClick={() => {

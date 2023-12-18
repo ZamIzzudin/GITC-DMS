@@ -16,6 +16,19 @@ function AsyncGetConfirms(page = 1) {
         dispatch(hideLoading());
     }
 }
+function AsyncGetConfirmById(id) {
+    return async dispatch => {
+        dispatch(showLoading());
+        try {
+            const response = await api.GetConfirmLetterById(id);
+            dispatch(GetConfirmsAction(response.data.data));
+        } catch (err) {
+            console.error(err);
+            dispatch(GetConfirmsAction([]));
+        }
+        dispatch(hideLoading());
+    }
+}
 
 function AsyncCreateLetter(payload) {
     return async dispatch => {
@@ -74,4 +87,4 @@ function AsyncCreateLetter(payload) {
 //     }
 // }
 
-export { AsyncGetConfirms, AsyncCreateLetter }
+export { AsyncGetConfirms, AsyncCreateLetter, AsyncGetConfirmById }

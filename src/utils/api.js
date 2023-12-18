@@ -81,13 +81,18 @@ const api = (() => {
         return response;
     }
 
+    async function GetConfirmLetterById(id) {
+        const url = baseUrl + `/confirm/detail/${id}`;
+        const response = await axios.get(url);
+        return response;
+    }
+
     async function CreateConfirm(payload) {
         const url = baseUrl + "/confirm";
 
         const response = await axios.post(url, payload);
         return response;
     }
-
 
     // Offering
     async function GetOfferingLetter(page) {
@@ -112,6 +117,7 @@ const api = (() => {
         EditUser,
         DeleteUser,
         GetConfirmLetter,
+        GetConfirmLetterById,
         CreateConfirm,
 
         GetOfferingLetter,

@@ -6,6 +6,7 @@ import { formatDate, formatDateToLetterNumber } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import Products from "../../../../utils/Product.json"
 import InputFile from '../../../tools/inputFile'
+import Terbilang from '../../../tools/Terbilang'
 
 import Style from "./inputLetter.module.css"
 
@@ -16,12 +17,17 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
 
-    console.log(inputLetter.kurs_USD)
-
     const productCode = Products.categories.find((cat) => cat.name === inputLetter.category)
         ?.subcategories.find((subCat) => subCat.name === inputLetter.sub_category)?.code
 
     const dateLetter = formatDateToLetterNumber(inputLetter.tanggal_surat)
+    const dateLetter1 = formatDateToLetterNumber("14 Desember 2023")
+
+
+    console.log(inputLetter.tanggal_surat)
+    console.log(dateLetter)
+    console.log(inputLetter.nomor_surat)
+    console.log(dateLetter1)
 
     useEffect(() => {
         if (!isUpload && inputLetter.tanggal_surat && productCode) {
@@ -29,8 +35,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
         }
     }, [inputLetter.nomor_surat, productCode, dateLetter, isUpload])
 
-    console.log(inputLetter)
-
+    // console.log(inputLetter)
     useEffect(() => {
         updateTotalBiaya();
     }, [inputLetter.kurs_USD, inputLetter.konversi_kursUSD]);
@@ -50,7 +55,6 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
             const newForms = [...prevInputLetter.produk_forms];
             newForms[index][prop] = value;
 
-            // updateTotalBiaya()
             return {
                 ...prevInputLetter,
                 produk_forms: newForms,
@@ -60,9 +64,9 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
     };
 
     const updateTotalBiaya = () => {
-        console.log(inputLetter.kurs_USD)
+        // console.log(inputLetter.kurs_USD)
         const kursUSD = inputLetter.konversi_kursUSD === "Ya" ? inputLetter.kurs_USD : 1;
-        console.log(kursUSD)
+        // console.log(kursUSD)
 
         const updatedProdukForms = inputLetter.produk_forms.map((produkForm, index) => {
             let totalBiayaKegiatan = 0;
@@ -73,7 +77,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     kursUSD *
                     produkForm.jumlah_peserta *
                     parseInt(produkForm.durasi.split(' ')[0], 10);
-                console.log(index, totalBiayaKegiatan)
+                // console.log(index, totalBiayaKegiatan)
             } else if (inputLetter.template_option === "Produk + Meals") {
                 totalBiayaKegiatan =
                     produkForm.biaya *
@@ -99,6 +103,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                 ...produkForm,
                 total_biaya_meals: totalBiayaMeals,
                 total_biaya_kegiatan: totalBiayaKegiatan,
+                nominal_terbilang: Terbilang(totalBiayaKegiatan)
             };
         });
 
@@ -106,18 +111,17 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
             (total, produkForm) => total + produkForm.total_biaya_kegiatan,
             0
         );
-        console.log(totalBiayaKeseluruhan)
 
         setInputLetter((prevData) => ({
             ...prevData,
             produk_forms: updatedProdukForms,
             total_biaya: totalBiayaKeseluruhan,
+            nominal_terbilang: Terbilang(totalBiayaKeseluruhan)
         }));
-        console.log('update perhitungan biaya')
     };
 
     const handleDurasiChange = (index, value) => {
-        console.log(`Updating typeDurasi[${index}] to ${value}`);
+        // console.log(`Updating typeDurasi[${index}] to ${value}`);
         setTypeDurasi((prevTypeDurasi) => {
             const newTypeDurasi = [...prevTypeDurasi];
             newTypeDurasi[index] = value;
@@ -195,7 +199,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Label>Tanggal Kegiatan</Form.Label>
                     <Form.Control type="date" size='md'
                         value={form.tanggal_kegiatan}
-                        onChange={(e) => handleProdukFormsChange(index, 'tanggal_kegiatan', formatDate(e.target.value))}
+                        onChange={(e) => handleProdukFormsChange(index, 'tanggal_kegiatan', e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group controlId={`jumlahPeserta-${index}`} className="mb-2">
@@ -334,7 +338,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="tanggal_surat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
-                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: e.target.value }) }}
                         // onChange={(e) => handleChange("tanggal_surat", e.target.value)}
                         />
                     </Form.Group>
@@ -359,7 +363,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
-                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: e.target.value }) }}
                         // onChange={(e) => handleChange("date", e.target.value)}
                         />
                     </Form.Group>

@@ -44,6 +44,7 @@ const TableLetter = () => {
         // setLoading()
     };
 
+
     //getData
     useEffect(() => {
         if (letterOption === "Confirmation Letter") {
@@ -81,6 +82,7 @@ const TableLetter = () => {
     };
 
     const handleEditClick = (id) => {
+        console.log(id)
         letterOption === "Confirmation Letter"
             ? navigate(`/edit/confirmation-letter/${id}`)
             : letterOption === "Offering Letter"
@@ -194,18 +196,19 @@ const TableLetter = () => {
 
     //document column template in library primeReact
     const documentBodyTemplate = (rowData) => {
+        // console.log(rowData._id)
         return (
             <React.Fragment>
                 {
                     rowData.status === "belum disetujui" || rowData.status === "revisi" ? (
                         <i className="pi pi-file-edit" style={{ cursor: "pointer" }}
-                            onClick={() => handleEditClick(rowData.id)}
+                            onClick={() => handleEditClick(rowData._id)}
                         />)
                         : rowData.dokumen === null ?
                             (<span>-</span>)
                             :
                             (<i className="pi pi-file" style={{ cursor: "pointer" }}
-                                onClick={() => handleViewClick(rowData.id)}
+                                onClick={() => handleViewClick(rowData._id)}
                             />)
                 }
             </React.Fragment>

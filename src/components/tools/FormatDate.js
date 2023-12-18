@@ -19,6 +19,7 @@ export const formatDateToLetterNumber = (inputDate) => {
     return day + month;
 };
 
+
 export const getYear = (inputDate) => {
     // Membagi tanggal menjadi tiga bagian: day, month, dan year
     const [day, month, yearString] = inputDate.split(' ');
