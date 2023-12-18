@@ -7,6 +7,7 @@ import ErrorReducer from "./error/reducer";
 import LoadingReducer from "./loading/reducer";
 import ConfirmReducer from "./confirm/reducer";
 import OfferingReducer from "./offering/reducer";
+import ReportReducer from "./report/reducer";
 
 const store = configureStore({
     reducer: {
@@ -16,7 +17,8 @@ const store = configureStore({
         loading: LoadingReducer,
         users: UsersReducer,
         confirms: ConfirmReducer,
-        offers: OfferingReducer
+        offers: OfferingReducer,
+        report: ReportReducer
     }
 });
 

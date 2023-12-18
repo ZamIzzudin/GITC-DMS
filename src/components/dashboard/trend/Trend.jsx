@@ -2,17 +2,27 @@ import React from 'react'
 import { useEffect, useState, useRef } from 'react'
 import { Chart } from 'primereact/chart';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { AsyncGetReport } from '../../../state/report/middleware'
+
 import { formatBulanTahun } from '../../tools/FormatDate';
 import style from './trend.module.css';
 
 const Trend = () => {
+    const { report = {} } = useSelector(states => states)
+    const dispatch = useDispatch()
 
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
     const [dataGraph, SetDataGraph] = useState([300, 50, 100, 200]);
-    const [date, setDate] = useState('')
+    const [date, setDate] = useState(null)
 
-    console.log(date)
+    function getReport(date) {
+        const month = date.split(' ')[0]
+        const year = date.split(' ')[1]
+
+        dispatch(AsyncGetReport(year, month))
+    }
 
     useEffect(() => {
         const updateFormattedDate = () => {
@@ -23,11 +33,24 @@ const Trend = () => {
             ];
 
             const formattedDate = `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+            getReport(formattedDate)
             setDate(formattedDate);
         };
 
         updateFormattedDate();
     }, []);
+
+    useEffect(() => {
+        if (date) {
+            getReport(date)
+        }
+    }, [date])
+
+    useEffect(() => {
+        const setupGraphValue = report.top_revanue_rank.map(item => item.percentage)
+        SetDataGraph(setupGraphValue)
+    }, [report])
+
 
     useEffect(() => {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -70,7 +93,7 @@ const Trend = () => {
             <div className={style.infoTrend}>
                 <div className={style.chartWrapper}>
                     <Chart type="doughnut" data={chartData} options={chartOptions} className={`w-full md:w-30rem ${style.chart}`} />
-                    <p style={{ fontWeight: "bold" }}>Total Revenue : Rp 200.000.000,00,-</p>
+                    <p style={{ fontWeight: "bold" }}>Total Revenue : Rp {report.total_revanue.toLocaleString('id-ID')},-</p>
                 </div>
                 <div className={style.dataChart}>
                     <table>
@@ -83,30 +106,14 @@ const Trend = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Flight Attendent Training</td>
-                                <td>45%</td>
-                                <td>225</td>
-                                <td>Rp 3.000.000,00,-</td>
-                            </tr>
-                            <tr>
-                                <td>Flight Attendent Training</td>
-                                <td>45%</td>
-                                <td>225</td>
-                                <td>Rp 3.000.000,00,-</td>
-                            </tr>
-                            <tr>
-                                <td>Flight Attendent Training</td>
-                                <td>45%</td>
-                                <td>225</td>
-                                <td>Rp 3.000.000,00,-</td>
-                            </tr>
-                            <tr>
-                                <td>Flight Attendent Training</td>
-                                <td>45%</td>
-                                <td>225</td>
-                                <td>Rp 3.000.000,00,-</td>
-                            </tr>
+                            {report.top_revanue_rank?.map((data, index) => (
+                                <tr key={`rank ${index}`}>
+                                    <td>{data.category}</td>
+                                    <td>{data.percentage}%</td>
+                                    <td>{data.unit}</td>
+                                    <td>Rp.{data.revanue.toLocaleString('id-ID')},-</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

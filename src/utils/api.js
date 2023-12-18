@@ -108,6 +108,13 @@ const api = (() => {
         return response;
     }
 
+    async function ReportPerMonth(year, month) {
+        const url = baseUrl + `/report/pm/${year}/${month}`;
+
+        const response = await axios.get(url);
+        return response
+    }
+
     return {
         Login,
         Refresh,
@@ -121,7 +128,8 @@ const api = (() => {
         CreateConfirm,
 
         GetOfferingLetter,
-        CreateOffer
+        CreateOffer,
+        ReportPerMonth
     };
 
 

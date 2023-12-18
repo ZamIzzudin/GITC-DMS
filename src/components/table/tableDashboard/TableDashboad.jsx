@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 
 import { DataTable } from 'primereact/datatable';
@@ -6,12 +5,15 @@ import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
-import { dataDashboard } from '../../../utils/DummyData';
-import { formatCurrency } from '../../tools/FormatCurrency'
+// import { dataDashboard } from '../../../utils/DummyData';
+// import { formatCurrency } from '../../tools/FormatCurrency'
+
+import { useSelector } from 'react-redux'
 
 import style from "./tableDashboard.module.css"
 
 const TableDashboad = () => {
+    const { report = {} } = useSelector(states => states)
     const [globalFilterValue, setGlobalFilterValue] = useState("");
     const [filters, setFilters] = useState(null);
 
@@ -56,7 +58,7 @@ const TableDashboad = () => {
         <div>
             <div>
                 <DataTable
-                    value={dataDashboard}
+                    value={report.details}
                     showGridlines
                     className={style.tableDashboard}
                     removableSort
@@ -67,13 +69,13 @@ const TableDashboad = () => {
                     id='id'
                     header={renderHeader()}
                     filters={filters}
-                    globalFilterFields={['id', 'sub_category', 'category', 'jumlah_produk', 'total_biaya']}
+                    globalFilterFields={['id', 'sub_category', 'category', 'unit', 'revanue']}
                 >
                     <Column field="id" header="No" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={(data, e) => e.rowIndex + 1} style={{ textAlign: "center" }} />
                     <Column field="sub_category" header="Nama Produk" sortable headerStyle={{ borderBottom: "1px solid #000", }} />
                     <Column field="category" header="Kategori Produk" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
-                    <Column field="jumlah_produk" header="Unit Terproduksi" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
-                    <Column field="total_biaya" header="Revenue" sortable headerStyle={{ borderBottom: "1px solid #000" }} body={(rowData) => formatCurrency(rowData.total_biaya)} />
+                    <Column field="unit" header="Unit Terproduksi" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
+                    <Column field="revanue" header="Revenue" sortable headerStyle={{ borderBottom: "1px solid #000" }} body={(rowData) => `Rp.${rowData.revanue.toLocaleString('id-ID')},-`} />
                 </DataTable>
             </div>
         </div>
