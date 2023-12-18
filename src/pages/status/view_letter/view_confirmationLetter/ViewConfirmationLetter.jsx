@@ -8,27 +8,26 @@ import { dataConfirmationLetter } from '../../../../utils/DummyData';
 
 const ViewConfirmationLetter = () => {
     const { id } = useParams();
-    // const [dataCL, setDataCL] = useState(dataConfirmationLetter.find(item => item.id === id))
     const [dataCL, setDataCL] = useState({})
-
-    console.log(api.GetConfirmLetterById(id))
+    const idd = 17
+    const [data, setData] = useState(dataConfirmationLetter.find(item => item.id == idd))
 
     async function getData(id) {
         const response = await api.GetConfirmLetterById(id)
-
         setDataCL(response.data.data)
     }
 
     useEffect(() => {
         getData(id)
-        console.log(dataCL)
     }, [id])
+    console.log(dataCL)
 
 
     return (
         <div style={{ paddingBottom: "50px" }}>
             <div className='label-wrapper'>
                 <div className={`container label`}>
+                    {/* <span>{data.nomor_surat ? data.nomor_surat : "unset"}</span> */}
                     <span>{dataCL.nomor_surat ? dataCL.nomor_surat : "unset"}</span>
                     <i className={`pi pi-download download`} style={{ fontSize: '1rem' }} />
                 </div>

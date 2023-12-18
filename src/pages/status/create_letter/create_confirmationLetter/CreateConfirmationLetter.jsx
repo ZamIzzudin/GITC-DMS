@@ -33,7 +33,7 @@ const CreateConfirmationLetter = () => {
         produk_forms: [
             {
                 jenis_kegiatan: '',
-                tanggal_kegiatan: '',
+                tanggal_kegiatan: "",
                 jumlah_peserta: '',
                 biaya_meal: '',
                 biaya: '',

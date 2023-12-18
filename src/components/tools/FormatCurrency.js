@@ -1,4 +1,9 @@
 export const formatCurrency = (amount) => {
+
+    if (!amount) {
+        return "";
+    }
+
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
