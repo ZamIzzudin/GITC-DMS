@@ -1,26 +1,37 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 import OfferingLetter from "../../../../components/letter/offering-letter/letter_template/OfferingLetter"
 import { useParams } from 'react-router-dom';
+import api from '../../../../utils/api'
 
-import { isiOL, offeringLetterData } from "../../../../utils/DummyData";
+// import { isiOL, offeringLetterData } from "../../../../utils/DummyData";
 
 const ViewOfferingLetter = () => {
     const { id } = useParams();
-    const [dataOL, setDataOL] = useState(offeringLetterData.find(item => item.id === id))
+    const [dataOL, setDataOL] = useState({})
+
+    async function getData(id) {
+        const response = await api.GetDetailOfferingLetter(id)
+
+        setDataOL(response.data.data)
+    }
+    useEffect(() => {
+        getData(id)
+    }, [id])
 
     return (
         <div className='' style={{ paddingBottom: "50px" }}>
             <div className='label-wrapper'>
                 <div className={`container label`}>
-                    <span>{dataOL.nomor_surat}</span>
+                    <span>{dataOL.nomor_surat ? dataOL.nomor_surat : 'unset'}</span>
                     <i className={`pi pi-download download`} style={{ fontSize: '1rem' }} />
                 </div>
             </div>
             <div className='container'>
-                <OfferingLetter
-                    data={dataOL}
-                />
+                {Object.keys(dataOL).length !== 0 ? (
+                    <OfferingLetter
+                        data={dataOL}
+                    />
+                ) : null}
             </div>
         </div>
     )

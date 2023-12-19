@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { AsyncUploadLetter } from '../../../../state/confirm/middleware'
 
 import ConfirmationLetter from '../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter';
 import ConfirmationInputLetter from '../../../../components/letter/confirmation-letter/input_letter/InputLetter'
@@ -7,7 +10,10 @@ import ConfirmationInputLetter from '../../../../components/letter/confirmation-
 import Style from '../../create_letter/create_confirmationLetter/createConfirmationLetter.module.css'
 
 const UploadConfirmationLetter = () => {
+    const dispatch = useDispatch()
+
     const [letterData, setLetterData] = useState({
+        type: 'confirm',
         template_option: "Produk saja",
         nomor_surat: "",
         nama_penerbit: "",
@@ -43,8 +49,13 @@ const UploadConfirmationLetter = () => {
             {
                 detail: ''
             }
-        ]
+        ],
+        file: null
     });
+
+    function getData() {
+        dispatch(AsyncUploadLetter(letterData))
+    }
     return (
         <div className='container'>
             <div className={Style.CreateLetter}>
@@ -59,6 +70,7 @@ const UploadConfirmationLetter = () => {
                     </div>
                     <div className={Style.inputLetter}>
                         <ConfirmationInputLetter
+                            getData={getData}
                             inputLetter={letterData}
                             setInputLetter={setLetterData}
                             isUpload

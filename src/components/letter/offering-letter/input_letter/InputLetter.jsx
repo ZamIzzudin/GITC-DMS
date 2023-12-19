@@ -154,9 +154,16 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        getData()
+        if (file) {
+            getData()
+        }
     }
 
+    useEffect(() => {
+        if (file) {
+            setLetterData({ ...letterData, file: file.file })
+        }
+    }, [file])
 
     return (
         <div className={Style.inputLetter}>

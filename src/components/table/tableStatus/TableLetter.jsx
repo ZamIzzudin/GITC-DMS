@@ -199,13 +199,13 @@ const TableLetter = () => {
                 {
                     rowData.status === "belum disetujui" || rowData.status === "revisi" ? (
                         <i className="pi pi-file-edit" style={{ cursor: "pointer" }}
-                            onClick={() => handleEditClick(rowData.id)}
+                            onClick={() => handleEditClick(rowData._id)}
                         />)
                         : rowData.dokumen === null ?
                             (<span>-</span>)
                             :
                             (<i className="pi pi-file" style={{ cursor: "pointer" }}
-                                onClick={() => handleViewClick(rowData.id)}
+                                onClick={() => handleViewClick(rowData._id)}
                             />)
                 }
             </React.Fragment>

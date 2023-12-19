@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { AsyncUploadLetter } from '../../../../state/offering/middleware'
 
 import OfferingLetter from '../../../../components/letter/offering-letter/letter_template/OfferingLetter';
 import OfferingInputLetter from '../../../../components/letter/offering-letter/input_letter/InputLetter'
@@ -7,7 +10,10 @@ import OfferingInputLetter from '../../../../components/letter/offering-letter/i
 import Style from '../../create_letter/create_offeringLetter/createOfferingLetter.module.css'
 
 const UploadOfferingLetter = () => {
+    const dispatch = useDispatch()
+
     const [letterData, setLetterData] = useState({
+        type: 'offer',
         nomor_surat: "",
         nama_penerbit: "",
         tanggal_surat: "",
@@ -35,8 +41,13 @@ const UploadOfferingLetter = () => {
             {
                 detail: ''
             }
-        ]
+        ],
+        file: null
     });
+
+    function getData() {
+        dispatch(AsyncUploadLetter(letterData))
+    }
     return (
         <div className='container'>
             <div className={Style.CreateLetter}>
@@ -51,6 +62,7 @@ const UploadOfferingLetter = () => {
                     </div>
                     <div className={Style.inputLetter}>
                         <OfferingInputLetter
+                            getData={getData}
                             letterData={letterData}
                             setLetterData={setLetterData}
                             isUpload
