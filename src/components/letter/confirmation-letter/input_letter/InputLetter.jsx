@@ -35,10 +35,6 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
         }
     }, [inputLetter.nomor_surat, productCode, dateLetter, isUpload])
 
-<<<<<<< HEAD
-=======
-    // console.log(inputLetter)
->>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
     useEffect(() => {
         updateTotalBiaya();
     }, [inputLetter.kurs_USD, inputLetter.konversi_kursUSD]);
@@ -67,13 +63,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
     };
 
     const updateTotalBiaya = () => {
-<<<<<<< HEAD
         const kursUSD = inputLetter.konversi_kursUSD === "Ya" ? inputLetter.kurs_USD : 1;
-=======
-        // console.log(inputLetter.kurs_USD)
-        const kursUSD = inputLetter.konversi_kursUSD === "Ya" ? inputLetter.kurs_USD : 1;
-        // console.log(kursUSD)
->>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
 
         const updatedProdukForms = inputLetter.produk_forms.map((produkForm, index) => {
             let totalBiayaKegiatan = 0;
@@ -84,10 +74,6 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     kursUSD *
                     produkForm.jumlah_peserta *
                     parseInt(produkForm.durasi.split(' ')[0], 10);
-<<<<<<< HEAD
-=======
-                // console.log(index, totalBiayaKegiatan)
->>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
             } else if (inputLetter.template_option === "Produk + Meals") {
                 totalBiayaKegiatan =
                     produkForm.biaya *
@@ -131,10 +117,6 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
     };
 
     const handleDurasiChange = (index, value) => {
-<<<<<<< HEAD
-=======
-        // console.log(`Updating typeDurasi[${index}] to ${value}`);
->>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
         setTypeDurasi((prevTypeDurasi) => {
             const newTypeDurasi = [...prevTypeDurasi];
             newTypeDurasi[index] = value;

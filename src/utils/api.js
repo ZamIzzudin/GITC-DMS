@@ -2,8 +2,8 @@ import axios from "axios";
 
 const api = (() => {
 
-    // const baseUrl = "https://vze-garuda-api.vercel.app";
-    const baseUrl = "http://localhost:8000";
+    const baseUrl = "https://vze-garuda-api.vercel.app";
+    // const baseUrl = "http://localhost:8000";
 
     //AUTH
     async function Login(username, password) {
