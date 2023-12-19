@@ -1,6 +1,8 @@
-import { GetUsersActions } from "./action";
 import api from "../../utils/api";
+import Swal from "sweetalert2";
+import 'sweetalert2/dist/sweetalert2.min.css';
 
+import { GetUsersActions } from "./action";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 
 
@@ -29,9 +31,21 @@ function AsyncAddUser(payload) {
             }
             dispatch(AsyncGetUsers())
 
+            Swal.fire({
+                icon: "success",
+                title: 'Add User Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
+
         } catch (err) {
             console.error(err);
-            console.log('erorr')
+            Swal.fire({
+                icon: 'error',
+                title: 'Add User Failed',
+                showConfirmButton: false,
+                timer: 3000
+            })
         }
         dispatch(hideLoading())
     }
@@ -47,6 +61,13 @@ function AsyncEditUser(id, payload) {
                 throw new Error()
             }
             dispatch(AsyncGetUsers())
+
+            Swal.fire({
+                icon: "success",
+                title: 'Edit Profile Success!',
+                showConfirmButton: false,
+                timer: 3000
+            })
 
         } catch (err) {
             console.error(err);
@@ -65,6 +86,14 @@ function AsyncDeleteUser(id) {
                 throw new Error()
             }
             dispatch(AsyncGetUsers())
+
+            Swal.fire({
+                icon: "success",
+                title: 'Remove User Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
+
         } catch (err) {
             console.error(err);
             dispatch(GetUsersActions([]));

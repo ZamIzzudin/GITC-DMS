@@ -29,18 +29,18 @@ const CreateConfirmationLetter = () => {
         category: "",
         sub_category: "",
         jumlah_produk: 1,
-        kurs_USD: null,
+        kurs_USD: "",
         produk_forms: [
             {
                 jenis_kegiatan: '',
-                tanggal_kegiatan: '',
+                tanggal_kegiatan: "",
                 jumlah_peserta: '',
                 biaya_meal: '',
-                // kurs_USD: '',
                 biaya: '',
                 total_biaya_meals: '',
                 total_biaya_kegiatan: '',
                 durasi: '',
+                nominal_terbilang: ""
             }
         ],
         total_biaya: "",
@@ -51,6 +51,7 @@ const CreateConfirmationLetter = () => {
             }
         ],
         konversi_kursUSD: 'Tidak',
+        nominal_terbilang: ""
     });
 
     function getData() {

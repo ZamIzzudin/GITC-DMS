@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../../../utils/api'
 
-
 import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
 // import { dataConfirmationLetter } from '../../../../utils/DummyData';
 
@@ -20,7 +19,16 @@ const ViewConfirmationLetter = () => {
         getData(id)
     }, [id])
 
+    async function getData(id) {
+        const response = await api.GetConfirmLetterById(id)
+        setDataCL(response.data.data)
+    }
+
+    useEffect(() => {
+        getData(id)
+    }, [id])
     console.log(dataCL)
+
 
     return (
         <div style={{ paddingBottom: "50px" }}>

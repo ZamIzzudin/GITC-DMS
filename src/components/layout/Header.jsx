@@ -48,10 +48,14 @@ const Header = () => {
                         onClick={() => { navigate(`/status`) }}>
                         Status
                     </nav>
-                    <nav className={`${style.nav} ${location.pathname === "/access" ? style.active : ""}`}
-                        onClick={() => { navigate('/access') }}>
-                        Access
-                    </nav>
+                    {
+                        auth.role === 'Sysadmin' && (
+                            <nav className={`${style.nav} ${location.pathname === "/access" ? style.active : ""}`}
+                                onClick={() => { navigate('/access') }}>
+                                Access
+                            </nav>
+                        )
+                    }
                 </div>
 
                 <button className={style.logout}

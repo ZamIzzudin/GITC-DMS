@@ -6,6 +6,7 @@ import { formatDate, formatDateToLetterNumber } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import Products from "../../../../utils/Product.json"
 import InputFile from '../../../tools/inputFile'
+import Terbilang from '../../../tools/Terbilang'
 
 import Style from "./inputLetter.module.css"
 
@@ -20,6 +21,13 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
         ?.subcategories.find((subCat) => subCat.name === inputLetter.sub_category)?.code
 
     const dateLetter = formatDateToLetterNumber(inputLetter.tanggal_surat)
+    const dateLetter1 = formatDateToLetterNumber("14 Desember 2023")
+
+
+    console.log(inputLetter.tanggal_surat)
+    console.log(dateLetter)
+    console.log(inputLetter.nomor_surat)
+    console.log(dateLetter1)
 
     useEffect(() => {
         if (!isUpload && inputLetter.tanggal_surat && productCode) {
@@ -27,6 +35,10 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
         }
     }, [inputLetter.nomor_surat, productCode, dateLetter, isUpload])
 
+<<<<<<< HEAD
+=======
+    // console.log(inputLetter)
+>>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
     useEffect(() => {
         updateTotalBiaya();
     }, [inputLetter.kurs_USD, inputLetter.konversi_kursUSD]);
@@ -46,7 +58,6 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
             const newForms = [...prevInputLetter.produk_forms];
             newForms[index][prop] = value;
 
-            // updateTotalBiaya()
             return {
                 ...prevInputLetter,
                 produk_forms: newForms,
@@ -56,7 +67,13 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
     };
 
     const updateTotalBiaya = () => {
+<<<<<<< HEAD
         const kursUSD = inputLetter.konversi_kursUSD === "Ya" ? inputLetter.kurs_USD : 1;
+=======
+        // console.log(inputLetter.kurs_USD)
+        const kursUSD = inputLetter.konversi_kursUSD === "Ya" ? inputLetter.kurs_USD : 1;
+        // console.log(kursUSD)
+>>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
 
         const updatedProdukForms = inputLetter.produk_forms.map((produkForm, index) => {
             let totalBiayaKegiatan = 0;
@@ -67,6 +84,10 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     kursUSD *
                     produkForm.jumlah_peserta *
                     parseInt(produkForm.durasi.split(' ')[0], 10);
+<<<<<<< HEAD
+=======
+                // console.log(index, totalBiayaKegiatan)
+>>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
             } else if (inputLetter.template_option === "Produk + Meals") {
                 totalBiayaKegiatan =
                     produkForm.biaya *
@@ -92,6 +113,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                 ...produkForm,
                 total_biaya_meals: totalBiayaMeals,
                 total_biaya_kegiatan: totalBiayaKegiatan,
+                nominal_terbilang: Terbilang(totalBiayaKegiatan)
             };
         });
 
@@ -104,10 +126,15 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
             ...prevData,
             produk_forms: updatedProdukForms,
             total_biaya: totalBiayaKeseluruhan,
+            nominal_terbilang: Terbilang(totalBiayaKeseluruhan)
         }));
     };
 
     const handleDurasiChange = (index, value) => {
+<<<<<<< HEAD
+=======
+        // console.log(`Updating typeDurasi[${index}] to ${value}`);
+>>>>>>> 574130aac16aeffec7b952f18aaf23023ccdd211
         setTypeDurasi((prevTypeDurasi) => {
             const newTypeDurasi = [...prevTypeDurasi];
             newTypeDurasi[index] = value;
@@ -185,7 +212,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Label>Tanggal Kegiatan</Form.Label>
                     <Form.Control type="date" size='md'
                         value={form.tanggal_kegiatan}
-                        onChange={(e) => handleProdukFormsChange(index, 'tanggal_kegiatan', formatDate(e.target.value))}
+                        onChange={(e) => handleProdukFormsChange(index, 'tanggal_kegiatan', e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group controlId={`jumlahPeserta-${index}`} className="mb-2">
@@ -332,7 +359,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="tanggal_surat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
-                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: e.target.value }) }}
                         // onChange={(e) => handleChange("tanggal_surat", e.target.value)}
                         />
                     </Form.Group>
@@ -357,7 +384,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
-                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: formatDate(e.target.value) }) }}
+                            onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: e.target.value }) }}
                         // onChange={(e) => handleChange("date", e.target.value)}
                         />
                     </Form.Group>

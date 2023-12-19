@@ -48,7 +48,8 @@ function terbilang(angka) {
         hasil.push(angkaTerbilang);
     }
 
-    return hasil.join(' ').trim();
+    const hasilTerbilang = hasil.join(' ').trim();
+    return `${hasilTerbilang} rupiah`;
 }
 
 export default terbilang;

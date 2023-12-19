@@ -2,23 +2,24 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { getYear } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
+import { formatDate } from '../../../tools/FormatDate'
 
 import Logo from "../../../../assets/picture/Logo Garuda.svg"
-import Terbilang from "../../../tools/Terbilang"
-
 import Style from "./confirmationLetter.module.css"
 
 // Catatan : belum <p>GARUDA/JKTVZE/20359/2023</p>
 
 const ConfirmationLetter = ({ data }) => {
 
-    useEffect(() => {
-        // Update state saat prop data berubah
-        setLetterData(data);
-    }, [data]);
+    // useEffect(() => {
+    //     // Update state saat prop data berubah
+    //     setLetterData(data);
+    // }, [data]);
+
+    // console.log(data)
 
     const [letterData, setLetterData] = useState({
-        template_option: data.template_option,
+        template_option: data.option || data.template_option,
         nomor_surat: data.nomor_surat,
         nama_penerbit: data.nama_penerbit,
         tanggal_surat: data.tanggal_surat,
@@ -40,11 +41,11 @@ const ConfirmationLetter = ({ data }) => {
         jumlah_TNC: data.jumlah_TNC,
         TNC: data.TNC,
         konversi_kursUSD: data.konversi_kursUSD,
+        nominal_terbilang: data.nominal_terbilang
     });
 
-    // console.log(letterData)
     const banyakKegiatan = letterData.produk_forms.length;
-    // console.log(letterInfo)
+
     const renderTotalBiaya = () => (
         <React.Fragment>
             <tr>
@@ -52,7 +53,7 @@ const ConfirmationLetter = ({ data }) => {
                 <td >Total Biaya</td>
                 <td >:</td>
                 <td >
-                    <span style={{ fontWeight: "bold" }}> {formatCurrency(letterData.total_biaya)} ({Terbilang(letterData.total_biaya)} rupiah) </span>
+                    <span style={{ fontWeight: "bold" }}> {formatCurrency(letterData.total_biaya) || <span className={Style.infoInput}>jumlah total biaya semua kegiatan</span>} ({letterData.nominal_terbilang}) </span>
                 </td>
             </tr>
         </React.Fragment>
@@ -121,7 +122,7 @@ const ConfirmationLetter = ({ data }) => {
                         <p>LEARNING & DEVELOPMENT</p>
                         <p>SM Excess Capacity Management</p>
                         <div className={Style.tandaTangan} style={{ height: "80px" }}></div>
-                        <p>{letterData.nama_penerbit.toUpperCase()}</p>
+                        <p>{letterData.nama_penerbit.toUpperCase() || <span className={Style.infoInput}>NAMA PENANDA TANGAN</span>}</p>
                     </div>
                 </div>
                 <div style={{ marginBottom: "3rem", maxWidth: "40%" }}>
@@ -130,7 +131,7 @@ const ConfirmationLetter = ({ data }) => {
                         <p>PT CITILINK INDONESIA</p>
                         <p style={{ height: "32px" }}>LEARNING & DEVELOPMENT </p>
                         <div className={Style.tandaTangan} style={{ height: "80px" }}></div>
-                        <p>{letterData.nama_tertuju.split(' ').slice(1).join(' ').toUpperCase()}</p>
+                        <p>{letterData.nama_tertuju.split(' ').slice(1).join(' ').toUpperCase() || <span className={Style.infoInput}>NAMA TERTUJU</span>}</p>
                     </div>
                 </div>
             </div>
@@ -254,26 +255,27 @@ const ConfirmationLetter = ({ data }) => {
                     <td style={{ padding: "10px 0 0 0" }} >{index}.</td>
                     <td style={{ padding: "10px 0 0 0" }} >Jenis Pelatihan</td>
                     <td style={{ padding: "10px 5px 0px 5px" }}>:</td>
-                    <td style={{ fontWeight: "bold", padding: "10px 0 0 0 ", verticalAlign: "bottom" }}>{dataKegiatan.jenis_kegiatan}</td>
+                    <td style={{ fontWeight: "bold", padding: "10px 0 0 0 ", verticalAlign: "bottom" }}>{dataKegiatan.jenis_kegiatan || <span className={Style.infoInput}>jenis kegiatan</span>}</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>Periode</td>
                     <td>:</td>
-                    <td>{dataKegiatan.tanggal_kegiatan}</td>
+                    <td>{formatDate(dataKegiatan.tanggal_kegiatan) || <span className={Style.infoInput}>tanggal kegiatan</span>}</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>Jumlah Peserta</td>
                     <td>:</td>
-                    <td>{dataKegiatan.jumlah_peserta} Peserta</td>
+                    <td>{dataKegiatan.jumlah_peserta || <span className={Style.infoInput}>jumlah</span>} Peserta</td>
                 </tr>
                 {letterData.template_option === "Produk saja" ? (
                     <tr>
                         <td></td>
                         <td>Biaya Kegiatan</td>
                         <td>:</td>
-                        <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} {letterData.konversi_kursUSD === "Ya" ? `x ${formatCurrency(letterData.kurs_USD)}` : ""} x {dataKegiatan.jumlah_peserta} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({Terbilang(dataKegiatan.total_biaya_kegiatan)} rupiah)</span></td>
+                        <td>USD {dataKegiatan.biaya || <span className={Style.infoInput}>biaya kegiatan</span>} x {dataKegiatan.durasi || <span className={Style.infoInput}>durasi</span>} {letterData.konversi_kursUSD === "Ya" ? `x ${formatCurrency(letterData.kurs_USD)}` : ""} x
+                            {dataKegiatan.jumlah_peserta || <span className={Style.infoInput}>jumlah</span>} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan) || <span className={Style.infoInput}>total biaya kegiatan</span>} ({dataKegiatan.nominal_terbilang})</span></td>
                     </tr>
                 ) : (
                     <React.Fragment>
@@ -288,7 +290,7 @@ const ConfirmationLetter = ({ data }) => {
                                 <td></td>
                                 <td>Total Biaya Kegiatan - Biaya Meals</td>
                                 <td>:</td>
-                                <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} x {formatCurrency(letterData.kurs_USD)} x {dataKegiatan.jumlah_peserta} Peserta - {formatCurrency(dataKegiatan.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({Terbilang(dataKegiatan.total_biaya_kegiatan)} rupiah)</span></td>
+                                <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} x {formatCurrency(letterData.kurs_USD)} x {dataKegiatan.jumlah_peserta} Peserta - {formatCurrency(dataKegiatan.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({dataKegiatan.nominal_terbilang})</span></td>
                             </tr>
                         )}
                         {letterData.template_option === "Produk + Meals" && (
@@ -296,7 +298,7 @@ const ConfirmationLetter = ({ data }) => {
                                 <td></td>
                                 <td>Total Biaya Kegiatan</td>
                                 <td>:</td>
-                                <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} x {formatCurrency(letterData.kurs_USD)} x {dataKegiatan.jumlah_peserta} Peserta + {formatCurrency(dataKegiatan.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({Terbilang(dataKegiatan.total_biaya_kegiatan)} rupiah) </span></td>
+                                <td>USD {dataKegiatan.biaya} x {dataKegiatan.durasi} x {formatCurrency(letterData.kurs_USD)} x {dataKegiatan.jumlah_peserta} Peserta + {formatCurrency(dataKegiatan.total_biaya_meals)} = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan)} ({dataKegiatan.nominal_terbilang}) </span></td>
                             </tr>
                         )}
                     </React.Fragment>
@@ -359,21 +361,21 @@ const ConfirmationLetter = ({ data }) => {
                     <div className={Style.colDua}>
                         <div style={{ marginBottom: "4rem" }}>
                             <p>Kepada</p>
-                            <p>Yth. {letterData.nama_tertuju}</p>
-                            <p>{letterData.jabatan}</p>
-                            <p>{letterData.nama_perusahaan}</p>
-                            <p style={{ maxWidth: "300px" }}>{letterData.alamat_perusahaan}</p>
+                            <p>Yth. {letterData.nama_tertuju || <span className={Style.infoInput}>Nama Tertuju</span>}</p>
+                            <p>{letterData.jabatan || <span className={Style.infoInput}>Jabatan</span>}</p>
+                            <p>{letterData.nama_perusahaan || <span className={Style.infoInput}>Nama Perusahaan</span>}</p>
+                            <p style={{ maxWidth: "300px" }}>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
-                            <p>Jakarta, {letterData.tanggal_surat}</p>
-                            <p>GARUDA/JKTVZE/20359/{getYear(letterData.tanggal_surat)}</p>
-                            <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Surat Konfirmasi {letterData.sub_category}</p>
+                            <p>Jakarta, {formatDate(letterData.tanggal_surat) || <span className={Style.infoInput}>tanggal surat</span>}</p>
+                            <p>GARUDA/JKTVZE/20359/{getYear(letterData.tanggal_surat) || <span className={Style.infoInput}>tahun surat</span>}</p>
+                            <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Surat Konfirmasi {letterData.sub_category || <span className={Style.infoInput}>subkategori</span>}</p>
                         </div>
                         <div style={{ marginBottom: "1rem" }}>
                             <p style={{ marginBottom: "16px" }}>Dengan hormat,</p>
-                            <p style={{ marginBottom: "16px" }}>Merujuk {letterData.media_ref} yang disampaikan per tanggal {letterData.tanggal_ref} perihal {letterData.perihal}, dengan ini kami menyampaikan bahwa kami dapat melaksanakan permohonan dimaksud.</p>
+                            <p style={{ marginBottom: "16px" }}>Merujuk {letterData.media_ref || <span className={Style.infoInput}>media</span>} yang disampaikan per tanggal {formatDate(letterData.tanggal_ref) || <span className={Style.infoInput}>tanggal referensi</span>} perihal {letterData.perihal || <span className={Style.infoInput}>isi perihal</span>}, dengan ini kami menyampaikan bahwa kami dapat melaksanakan permohonan dimaksud.</p>
 
-                            <p >Adapun ketentuan dan syarat-syarat produk {letterData.sub_category}, akan disampaikan dalam Surat Konfirmasi sebagaimana terlampir.</p>
+                            <p>Adapun ketentuan dan syarat-syarat produk {letterData.sub_category || <span className={Style.infoInput}>subkategori</span>}, akan disampaikan dalam Surat Konfirmasi sebagaimana terlampir.</p>
                         </div>
                         {/* Catatan */}
                         <div style={{ marginBottom: "2rem" }}>
@@ -393,7 +395,7 @@ const ConfirmationLetter = ({ data }) => {
                                 <p>LEARNING & DEVELOPMENT</p>
                                 <p>SM Excess Capacity Management</p>
                                 <div className={Style.tandaTangan} style={{ height: "100px" }}></div>
-                                <p>{letterData.nama_penerbit.toUpperCase()}</p>
+                                <p>{letterData.nama_penerbit.toUpperCase() || <span className={Style.infoInput}>nama penanda tangan</span>}</p>
                             </div>
                         </div>
                     </div>
@@ -419,7 +421,7 @@ const ConfirmationLetter = ({ data }) => {
                                     <tr>
                                         <td>Tanggal</td>
                                         <td style={{ padding: "0 10px" }}>:</td>
-                                        <td>{letterData.tanggal_surat}</td>
+                                        <td>{formatDate(letterData.tanggal_surat) || <span className={Style.infoInput}>tanggal surat</span>}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -433,7 +435,7 @@ const ConfirmationLetter = ({ data }) => {
                                     {/* Kegiatan */}
                                     {
                                         letterData.produk_forms.slice(0,
-                                            (letterData.template_option === "Produk saja" ? 8 : 5)).map((data, index) => (
+                                            (letterData.template_option === "Produk saja" ? 5 : 5)).map((data, index) => (
                                                 renderTemplateKegiatan(data, index + 1)
                                             ))
                                     }
@@ -441,14 +443,21 @@ const ConfirmationLetter = ({ data }) => {
                             </table>
                             {letterData.template_option === "Produk saja" && (
                                 <React.Fragment>
-                                    {(letterData.produk_forms.length === 1 || letterData.produk_forms.length === 2) && (
+                                    {letterData.produk_forms.length === 1 && (
                                         renderTotalBiayaUntilSign()
                                     )}
-                                    {letterData.produk_forms.length === 3 && (
+                                    {letterData.produk_forms.length === 2 && (
                                         renderTotalBiayaUntilPenutup()
                                     )}
-                                    {(letterData.produk_forms.length === 4 || letterData.produk_forms.length === 5) && (
+                                    {letterData.produk_forms.length === 3 && (
                                         renderTotalBiayaUntilCancelled()
+                                    )}
+                                    {letterData.produk_forms.length === 4 && (
+                                        renderTotalBiayaUntilPembayaran()
+                                    )}
+                                    {/* {letterData.produk_forms.length === 5 && (
+                                        // renderTotalBiaya()
+                                        ""
                                     )}
                                     {letterData.produk_forms.length === 6 && (
                                         renderTotalBiayaUntilLokasi()
@@ -462,7 +471,7 @@ const ConfirmationLetter = ({ data }) => {
                                                 {renderTotalBiaya()}
                                             </tbody>
                                         </table>
-                                    )}
+                                    )} */}
                                 </React.Fragment>
                             )}
 
@@ -490,7 +499,7 @@ const ConfirmationLetter = ({ data }) => {
             {/* Page 3 */}
             {
                 (
-                    (letterData.template_option === "Produk saja" && letterData.produk_forms.length > 2) ||
+                    (letterData.template_option === "Produk saja" && letterData.produk_forms.length > 1) ||
                     (letterData.produk_forms.length > 1 && letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals"))
                 && (
                     <div className={Style.letter}>
@@ -505,7 +514,7 @@ const ConfirmationLetter = ({ data }) => {
                                         <tbody>
                                             {/* Kegiatan */}
                                             {
-                                                letterData.produk_forms.slice((letterData.template_option === "Produk saja" ? 8 : 5), 10).map((data, index) => (
+                                                letterData.produk_forms.slice((letterData.template_option === "Produk saja" ? 5 : 5), 10).map((data, index) => (
                                                     renderTemplateKegiatan(data, index + 6)
                                                 ))
                                             }
@@ -514,23 +523,32 @@ const ConfirmationLetter = ({ data }) => {
 
                                     {letterData.template_option === "Produk saja" && (
                                         <React.Fragment>
-                                            {letterData.produk_forms.length === 3 && (
+                                            {letterData.produk_forms.length === 2 && (
                                                 renderTandaTangan()
                                             )}
-                                            {(letterData.produk_forms.length === 4 || letterData.produk_forms.length === 5) && (
+                                            {letterData.produk_forms.length === 3 && (
                                                 renderPenutupUntilSign()
                                             )}
-                                            {letterData.produk_forms.length === 6 && (
-                                                renderCancellationUntilSign()
-                                            )}
-                                            {letterData.produk_forms.length === 7 && (
+                                            {letterData.produk_forms.length === 4 && (
                                                 renderLokasiUntilSign()
                                             )}
-                                            {letterData.produk_forms.length === 8 && (
-                                                renderPembayaranUntilSign()
-                                            )}
-                                            {(letterData.produk_forms.length === 9 || letterData.produk_forms.length === 10) && (
+                                            {letterData.produk_forms.length === 5 && (
                                                 renderTotalBiayaUntilSign()
+                                            )}
+                                            {letterData.produk_forms.length === 6 && (
+                                                renderTotalBiayaUntilSign()
+                                            )}
+                                            {letterData.produk_forms.length === 7 && (
+                                                renderTotalBiayaUntilSign()
+                                            )}
+                                            {letterData.produk_forms.length === 8 && (
+                                                renderTotalBiayaUntilPenutup()
+                                            )}
+                                            {letterData.produk_forms.length === 9 && (
+                                                renderTotalBiayaUntilCancelled()
+                                            )}
+                                            {letterData.produk_forms.length === 10 && (
+                                                renderTotalBiayaUntilPembayaran()
                                             )}
                                         </React.Fragment>
                                     )}
@@ -572,7 +590,10 @@ const ConfirmationLetter = ({ data }) => {
 
             {/* Page 4 */}
             {
-                (letterData.produk_forms.length >= 8 && letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals") && (
+                // (letterData.produk_forms.length >= 7 && letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals" || letterData.template_option === "Produk saja")
+                ((letterData.template_option === "Produk saja" && letterData.produk_forms.length >= 8) ||
+                    (letterData.produk_forms.length >= 7 && letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals"))
+                && (
                     <div className={Style.letter}>
                         <div className={Style.logo}>
                             <img src={Logo} alt="Logo" />
@@ -581,6 +602,21 @@ const ConfirmationLetter = ({ data }) => {
                             <div className={Style.colSatu}></div>
                             <div className={Style.colDua}>
                                 <div style={{ marginBottom: "2rem" }}>
+
+                                    {letterData.template_option === "Produk saja" && (
+                                        <React.Fragment>
+                                            {letterData.produk_forms.length === 8 && (
+                                                renderTandaTangan()
+                                            )}
+                                            {letterData.produk_forms.length === 9 && (
+                                                renderPenutupUntilSign()
+                                            )}
+                                            {letterData.produk_forms.length === 10 && (
+                                                renderLokasiUntilSign()
+                                            )}
+                                        </React.Fragment>
+                                    )}
+
                                     {(letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals") && (
                                         <React.Fragment>
                                             {letterData.produk_forms.length === 8 && (

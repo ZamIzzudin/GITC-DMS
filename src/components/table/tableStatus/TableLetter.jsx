@@ -10,6 +10,8 @@ import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
+import { formatDate } from '../../tools/FormatDate';
+
 import ModalUploadFile from '../../modal/upload_file/ModalUploadFile';
 
 // import { dataConfirmationLetter, offeringLetterData } from '../../../utils/DummyData';
@@ -43,6 +45,7 @@ const TableLetter = () => {
         setDropdown(false);
         // setLoading()
     };
+
 
     //getData
     useEffect(() => {
@@ -81,6 +84,7 @@ const TableLetter = () => {
     };
 
     const handleEditClick = (id) => {
+        console.log(id)
         letterOption === "Confirmation Letter"
             ? navigate(`/edit/confirmation-letter/${id}`)
             : letterOption === "Offering Letter"
@@ -174,6 +178,20 @@ const TableLetter = () => {
         }
     }
 
+    const nameBodyTemplate = (rowData) => {
+        const nama = rowData.nama_tertuju.split(' ').slice(1).join(' ')
+
+        return (
+            <p>{nama}</p>
+        )
+    }
+    const dateBodyTemplate = (rowData) => {
+        const date = formatDate(rowData.tanggal_surat)
+        return (
+            <p>{date}</p>
+        )
+    }
+
     //upload column template in library primeReact
     const uploadScanBodyTemplate = (rowData) => {
         return (
@@ -194,6 +212,7 @@ const TableLetter = () => {
 
     //document column template in library primeReact
     const documentBodyTemplate = (rowData) => {
+        // console.log(rowData._id)
         return (
             <React.Fragment>
                 {
@@ -227,13 +246,45 @@ const TableLetter = () => {
                     header={renderHeader()}
                     filters={filters} globalFilterFields={['id', 'nama_dokumen', 'tanggal', 'customer', 'dokumen', 'status']}
                 >
-                    <Column field="id" header="No" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={(data, e) => e.rowIndex + 1} style={{ textAlign: "center" }} />
-                    <Column field="nama_tertuju" header="Nama" sortable headerStyle={{ borderBottom: "1px solid #000", }} />
-                    <Column field="tanggal_surat" header="Tanggal" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
-                    <Column field="nama_perusahaan" header="Customer" sortable headerStyle={{ borderBottom: "1px solid #000" }} />
-                    <Column field="status" header="Status" sortable headerStyle={{ borderBottom: "1px solid #000" }} body={statusBodyTemplate} />
-                    <Column header="" headerStyle={{ borderBottom: "1px solid #000" }} body={uploadScanBodyTemplate} style={{ textAlign: "center" }} />
-                    <Column field="" header="Doc" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={documentBodyTemplate} style={{ textAlign: "center" }} />
+                    <Column
+                        field="id"
+                        header="No"
+                        headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
+                        body={(data, e) => e.rowIndex + 1}
+                        style={{ textAlign: "center" }} />
+                    <Column
+                        field="nama_tertuju"
+                        header="Nama"
+                        sortable
+                        headerStyle={{ borderBottom: "1px solid #000", }}
+                        body={nameBodyTemplate} />
+                    <Column
+                        field="tanggal_surat"
+                        header="Tanggal"
+                        sortable
+                        headerStyle={{ borderBottom: "1px solid #000" }}
+                        body={dateBodyTemplate} />
+                    <Column
+                        field="nama_perusahaan"
+                        header="Customer"
+                        sortable headerStyle={{ borderBottom: "1px solid #000" }} />
+                    <Column
+                        field="status"
+                        header="Status"
+                        sortable
+                        headerStyle={{ borderBottom: "1px solid #000" }}
+                        body={statusBodyTemplate} />
+                    <Column
+                        header=""
+                        headerStyle={{ borderBottom: "1px solid #000" }}
+                        body={uploadScanBodyTemplate}
+                        style={{ textAlign: "center" }} />
+                    <Column
+                        field=""
+                        header="Doc"
+                        headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
+                        body={documentBodyTemplate}
+                        style={{ textAlign: "center" }} />
                 </DataTable>
 
 

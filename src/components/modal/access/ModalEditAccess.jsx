@@ -76,8 +76,6 @@ const ModalEditAccess = ({ showEditForm, setShowEditForm, rowData }) => {
                             >
                                 <option>Admin</option>
                                 <option>Guest</option>
-                                <option>Sysadmin</option>
-                                <option>PIC</option>
                             </Form.Select>
                         </Form.Group>
                     </Form>
