@@ -39,6 +39,28 @@ function AsyncCreateLetter(payload) {
     }
 }
 
+function AsyncUploadLetter(payload) {
+    return async dispatch => {
+        dispatch(showLoading())
+        try {
+            const response = await api.UploadLetter(payload);
+
+            if (response.info !== undefined) {
+                throw new Error()
+            } else {
+                const data = await api.GetConfirmLetter(1);
+                dispatch(GetOffersAction(data.data.data))
+                window.location.assign("/status")
+            }
+        } catch (err) {
+            console.error(err);
+            console.log('erorr')
+        }
+        dispatch(hideLoading())
+    }
+}
+
+
 // function AsyncEditUser(id, payload) {
 //     return async dispatch => {
 //         dispatch(showLoading())
@@ -75,4 +97,4 @@ function AsyncCreateLetter(payload) {
 //     }
 // }
 
-export { AsyncGetOfferings, AsyncCreateLetter }
+export { AsyncGetOfferings, AsyncCreateLetter, AsyncUploadLetter }

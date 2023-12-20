@@ -3,6 +3,7 @@ import axios from "axios";
 const api = (() => {
 
     const baseUrl = "https://vze-garuda-api.vercel.app";
+    // const baseUrl = "http://localhost:8000";
 
     //AUTH
     async function Login(username, password) {
@@ -94,9 +95,16 @@ const api = (() => {
         return response;
     }
 
+    async function GetDetailConfirmLetter(id) {
+        console.log(id)
+        const url = baseUrl + `/confirm/detail/${id}`;
+        const response = await axios.get(url);
+        return response;
+    }
+
     // Offering
-    async function GetOfferingLetter(page) {
-        const url = baseUrl + `/offer/${page}`;
+    async function GetOfferingLetter() {
+        const url = baseUrl + `/offer/1`;
         const response = await axios.get(url);
         return response;
     }
@@ -108,11 +116,30 @@ const api = (() => {
         return response;
     }
 
+    async function GetDetailOfferingLetter(id) {
+        const url = baseUrl + `/offer/detail/${id}`;
+        const response = await axios.get(url);
+        return response;
+    }
+
     async function ReportPerMonth(year, month) {
         const url = baseUrl + `/report/pm/${year}/${month}`;
 
         const response = await axios.get(url);
         return response
+    }
+
+    async function UploadLetter(payload) {
+        const form = new FormData()
+
+        const url = baseUrl + "/utils/upload";
+
+        form.append('type', 'other')
+        form.append('metadata', JSON.stringify(payload))
+        form.append('file', payload.file || undefined)
+
+        const response = await axios.post(url, form);
+        return response;
     }
 
     return {
@@ -126,9 +153,12 @@ const api = (() => {
         GetConfirmLetter,
         GetConfirmLetterById,
         CreateConfirm,
+        GetDetailConfirmLetter,
+        UploadLetter,
 
         GetOfferingLetter,
         CreateOffer,
+        GetDetailOfferingLetter,
         ReportPerMonth
     };
 

@@ -26,7 +26,7 @@ const OfferingLetter = ({ data }) => {
         alamat_perusahaan: data.alamat_perusahaan,
         category: data.category,
         sub_category: data.sub_category,
-        jumlah_penawaran: data.jumlah_penawaran,
+        jumlah_penawaran: data.jumlah_penawaran || [],
         penawaran_forms: data.penawaran_forms,
         jumlah_TNC: data.jumlah_TNC,
         TNC: data.TNC

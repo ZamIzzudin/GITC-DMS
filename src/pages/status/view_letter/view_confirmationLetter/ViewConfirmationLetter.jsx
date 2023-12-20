@@ -1,16 +1,23 @@
-import React from 'react'
+// import React from 'react'
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../../../utils/api'
 
 import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
-import { dataConfirmationLetter } from '../../../../utils/DummyData';
+// import { dataConfirmationLetter } from '../../../../utils/DummyData';
 
 const ViewConfirmationLetter = () => {
     const { id } = useParams();
     const [dataCL, setDataCL] = useState({})
-    const idd = 17
-    const [data, setData] = useState(dataConfirmationLetter.find(item => item.id == idd))
+
+    async function getData(id) {
+        const response = await api.GetDetailConfirmLetter(id)
+
+        setDataCL(response.data.data)
+    }
+    useEffect(() => {
+        getData(id)
+    }, [id])
 
     async function getData(id) {
         const response = await api.GetConfirmLetterById(id)
@@ -27,18 +34,16 @@ const ViewConfirmationLetter = () => {
         <div style={{ paddingBottom: "50px" }}>
             <div className='label-wrapper'>
                 <div className={`container label`}>
-                    {/* <span>{data.nomor_surat ? data.nomor_surat : "unset"}</span> */}
-                    <span>{dataCL.nomor_surat ? dataCL.nomor_surat : "unset"}</span>
+                    <span>{dataCL.nomor_surat ? dataCL.nomor_surat : 'unset'}</span>
                     <i className={`pi pi-download download`} style={{ fontSize: '1rem' }} />
                 </div>
             </div>
             <div className='container'>
-                {
-                    Object.keys(dataCL).length !== 0 ? (
-                        <ConfirmationLetter data={dataCL}
-                        />
-                    ) : null
-                }
+                {Object.keys(dataCL).length !== 0 ? (
+                    <ConfirmationLetter
+                        data={dataCL}
+                    />
+                ) : null}
             </div>
         </div>
     )
