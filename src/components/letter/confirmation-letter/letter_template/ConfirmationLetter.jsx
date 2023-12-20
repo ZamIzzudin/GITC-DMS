@@ -19,7 +19,7 @@ const ConfirmationLetter = ({ data }) => {
     // console.log(data)
 
     const [letterData, setLetterData] = useState({
-        template_option: data.option || data.template_option,
+        template_option: data.option || data.template_option || data["template_option "],
         nomor_surat: data.nomor_surat,
         nama_penerbit: data.nama_penerbit,
         tanggal_surat: data.tanggal_surat,
