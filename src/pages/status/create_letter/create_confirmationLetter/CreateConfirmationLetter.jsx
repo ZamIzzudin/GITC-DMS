@@ -14,7 +14,7 @@ const CreateConfirmationLetter = () => {
 
     const [letterData, setLetterData] = useState({
         template_option: "Produk saja",
-        nomor_surat: '',
+        nomor_surat: "",
         nama_penerbit: "",
         tanggal_surat: "",
         perihal: "",
@@ -58,6 +58,8 @@ const CreateConfirmationLetter = () => {
         dispatch(AsyncCreateLetter(letterData))
     }
 
+    console.log(letterData)
+
     return (
 
         <div className='container'>
@@ -72,7 +74,6 @@ const CreateConfirmationLetter = () => {
                         <h4>Create Confirmation Letter</h4>
                     </div>
                     <div className={Style.inputLetter}>
-
                         <ConfirmationInputLetter
                             getData={getData}
                             inputLetter={letterData}

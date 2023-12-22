@@ -69,6 +69,7 @@ export default function InputImage({ getData, currentData }) {
                     onChange={handleChange}
                     style={{ display: 'none' }}
                     accept="application/pdf"
+                    required
                 />
                 {showFile ? (
                     <>

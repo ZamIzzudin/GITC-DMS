@@ -3,6 +3,8 @@
     display: flex;
     gap: 50px;
     justify-content: center;
+    /* height: 100vh; */
+    position: relative;
 }
 
 .title {
@@ -19,25 +21,26 @@
 
 .letterPreview {
     transform: scale(0.8);
-    -webkit-transform: scale(0.8);
-    -moz-transform: scale(0.8);
-    -ms-transform: scale(0.8);
-    -o-transform: scale(0.8);
     min-height: 297mm;
     min-width: 210mm;
 
     margin: -100px;
-    margin-top: -140px;
+    margin-top: -250px;
 
-    /* margin-top: -30px; */
     max-height: 1200px;
-    overflow: auto;
+    overflow: auto !important;
+
+    position: relative;
+    top: 100px;
 }
 
 .inputLetter,
 .inputRevisi {
     width: 100%;
-    max-height: 1075px;
+    max-height: 900px;
+    /* height: 100vh; */
+    /* max-height: 100% !important; */
+
     overflow-y: auto;
 }
 

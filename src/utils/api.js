@@ -96,11 +96,18 @@ const api = (() => {
     }
 
     async function GetDetailConfirmLetter(id) {
-        console.log(id)
         const url = baseUrl + `/confirm/detail/${id}`;
         const response = await axios.get(url);
         return response;
     }
+
+    async function EditConfirmLetter(id, payload) {
+        const url = baseUrl + `/confirm/resubmit/${id}`;
+        const response = await axios.put(url, payload);
+        return response;
+    }
+
+
 
     // Offering
     async function GetOfferingLetter() {
@@ -150,11 +157,13 @@ const api = (() => {
         CreateUser,
         EditUser,
         DeleteUser,
+
         GetConfirmLetter,
         GetConfirmLetterById,
         CreateConfirm,
         GetDetailConfirmLetter,
         UploadLetter,
+        EditConfirmLetter,
 
         GetOfferingLetter,
         CreateOffer,

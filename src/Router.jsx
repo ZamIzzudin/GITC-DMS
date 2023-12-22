@@ -20,7 +20,7 @@ import EditOfferingLetter from "./pages/status/revision_letter/revision_offering
 import EditConfirmationLetter from "./pages/status/revision_letter/revision_confirmationLetter/EditConfirmationLetter";
 
 // import OfferingLetter from "./components/letter/offering-letter/letter_template/OfferingLetter";
-// import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
+import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
 
 import Loading from "./pages/test"
 
@@ -79,6 +79,7 @@ function AppRouter() {
             <Route path="/edit/offering-letter/:id" element={<EditOfferingLetter />} />
             <Route path="/view/upload-dokumen" element={<ViewUploadFile />} />
 
+            <Route path="/view/CL" element={<ConfirmationLetter />} />
             {/* <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
         <Route path="/status/confirmation-letter" element={<Layout><ConfirmationLetter /></Layout>} /> */}
             <Route path="/access" element={<Access />} />

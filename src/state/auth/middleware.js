@@ -106,7 +106,6 @@ function AsyncLogout() {
         } catch (err) {
             console.log(err)
         }
-
         dispatch(hideLoading())
     }
 }

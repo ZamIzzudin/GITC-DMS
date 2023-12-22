@@ -8,6 +8,12 @@
     margin-bottom: 50px;
 }
 
+.infoInput {
+    color: red;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
 .logo {
     text-align: center;
     margin-bottom: 50px;

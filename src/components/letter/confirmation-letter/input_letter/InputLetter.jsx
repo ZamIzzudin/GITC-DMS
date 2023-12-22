@@ -12,7 +12,7 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat, file
 
-const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData }) => {
+const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getData }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
@@ -22,12 +22,6 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
 
     const dateLetter = formatDateToLetterNumber(inputLetter.tanggal_surat)
     const dateLetter1 = formatDateToLetterNumber("14 Desember 2023")
-
-
-    console.log(inputLetter.tanggal_surat)
-    console.log(dateLetter)
-    console.log(inputLetter.nomor_surat)
-    console.log(dateLetter1)
 
     useEffect(() => {
         if (!isUpload && inputLetter.tanggal_surat && productCode) {
@@ -209,6 +203,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Label>Durasi</Form.Label>
                     <InputGroup className="mb-3">
                         <Form.Control type="number" size='sm'
+                            value={form.durasi.match(/\d+/)}
                             onChange={(e) => {
                                 // console.log(e.target.value, index);
                                 setInputDurasi(e.target.value)
@@ -221,6 +216,8 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                             }
                         />
                         <Form.Select
+                            value={form.durasi.split(' ')[1]}
+
                             onChange={(e) => {
                                 handleDurasiChange(index, e.target.value)
                                 const input = e.target.value;
@@ -266,7 +263,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                 <Form.Group controlId={`biaya-${index}`} className="mb-2">
                     <Form.Label>Biaya</Form.Label>
                     <InputGroup className="mb-3">
-                        <InputGroup.Text id="basic-addon1">USD</InputGroup.Text>
+                        <InputGroup.Text id="basic-addon1">{inputLetter.konversi_kursUSD === "Ya" ? "USD" : "Rp"}</InputGroup.Text>
                         <Form.Control type="number" size='sm'
                             value={form.biaya}
                             onChange={(e) => handleProdukFormsChange(index, 'biaya', e.target.value)}
@@ -297,6 +294,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                 <Form.Group controlId="template" className="mb-2" >
                     <Form.Label style={{ fontWeight: "bold" }}>Pilih Template Surat</Form.Label>
                     <Form.Select
+                        required
                         value={inputLetter.template_option}
                         onChange={(e) => { setInputLetter({ ...inputLetter, template_option: e.target.value }) }}
                     // onChange={(e) => handleChange("template_option", e.target.value)}
@@ -332,6 +330,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="namaPenerbit" className="mb-2">
                         <Form.Label>Nama Penanda Tangan</Form.Label>
                         <Form.Control
+                            required
                             placeholder='ex: Vonny Franciska Pinontoan'
                             type="text" size='sm'
                             value={inputLetter.nama_penerbit}
@@ -340,14 +339,21 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     </Form.Group>
                     <Form.Group controlId="tanggal_surat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
-                        <Form.Control type="date" size='sm'
+                        <Form.Control
+                            required
+                            type="date"
+                            size='sm'
+                            value={inputLetter.tanggal_surat}
                             onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_surat: e.target.value }) }}
                         // onChange={(e) => handleChange("tanggal_surat", e.target.value)}
                         />
                     </Form.Group>
                     <Form.Group controlId="subject" className="mb-2">
                         <Form.Label>Subject/Perihal</Form.Label>
-                        <Form.Control type="text" size='sm'
+                        <Form.Control
+                            required
+                            type="text"
+                            size='sm'
                             value={inputLetter.perihal}
                             onChange={(e) => { setInputLetter({ ...inputLetter, perihal: e.target.value }) }}
                         // onChange={(e) => handleChange("perihal", e.target.value)}
@@ -356,7 +362,10 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     </Form.Group>
                     <Form.Group controlId="mediaReferensi" className="mb-2">
                         <Form.Label>Media Referensi</Form.Label>
-                        <Form.Control type="text" size='sm'
+                        <Form.Control
+                            required
+                            type="text"
+                            size='sm'
                             value={inputLetter.media_ref}
                             onChange={(e) => { setInputLetter({ ...inputLetter, media_ref: e.target.value }) }}
                         // onChange={(e) => handleChange("media_ref", e.target.value)}
@@ -366,6 +375,8 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
+                            required
+                            value={inputLetter.tanggal_ref}
                             onChange={(e) => { setInputLetter({ ...inputLetter, tanggal_ref: e.target.value }) }}
                         // onChange={(e) => handleChange("date", e.target.value)}
                         />
@@ -393,6 +404,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="namaTertuju" className="mb-2">
                         <Form.Label>Nama Tertuju</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
                             placeholder='ex: Ibu Vonny Franciska Pinontoan'
                             value={inputLetter.nama_tertuju}
                             onChange={(e) => { setInputLetter({ ...inputLetter, nama_tertuju: e.target.value }) }}
@@ -401,6 +413,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="jabatan" className="mb-2">
                         <Form.Label>Jabatan</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
                             value={inputLetter.jabatan}
                             onChange={(e) => { setInputLetter({ ...inputLetter, jabatan: e.target.value }) }}
                         />
@@ -408,6 +421,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="namaPerusahaan" className="mb-2">
                         <Form.Label>Nama Perusahaan</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
                             value={inputLetter.nama_perusahaan}
                             onChange={(e) => { setInputLetter({ ...inputLetter, nama_perusahaan: e.target.value }) }}
                         />
@@ -415,6 +429,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="alamatPerusahaan" className="mb-2">
                         <Form.Label>Alamat Perusahaan</Form.Label>
                         <Form.Control as="textarea" size='sm'
+                            required
                             value={inputLetter.alamat_perusahaan}
                             onChange={(e) => { setInputLetter({ ...inputLetter, alamat_perusahaan: e.target.value }) }}
                         />
@@ -426,6 +441,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="kategoriProduk" className="mb-2">
                         <Form.Label>Kategori Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
                             value={inputLetter.category}
                             onChange={(e) => { setInputLetter({ ...inputLetter, category: e.target.value }) }}
                         >
@@ -440,6 +456,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="subCategory" className="mb-2">
                         <Form.Label>Jenis Sub-Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
                             value={inputLetter.sub_category}
                             onChange={(e) => { setInputLetter({ ...inputLetter, sub_category: e.target.value }) }}
                         >
@@ -455,6 +472,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                     <Form.Group controlId="jumlahProduk" className="mb-3">
                         <Form.Label>Jumlah Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
                             value={inputLetter.jumlah_produk}
                             onChange={handleJumlahProdukChange}
                         >
@@ -470,6 +488,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                         </Form.Label>
                         <Col sm="6">
                             <Form.Select
+                                required
                                 value={inputLetter.konversi_kursUSD}
                                 onChange={(e) => { setInputLetter({ ...inputLetter, konversi_kursUSD: e.target.value }) }}
                             // onChange={(e) => handleChange("konversi_kursUSD", e.target.value)}
@@ -489,6 +508,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text id="basic-addon1">Rp</InputGroup.Text>
                                     <Form.Control type="number" size='sm'
+                                        required
                                         // value={form.kurs_USD}
                                         value={inputLetter.kurs_USD}
                                         onChange={(e) => {
@@ -544,7 +564,7 @@ const InputOfferingLetter = ({ inputLetter, setInputLetter, isUpload, getData })
     )
 }
 
-export default InputOfferingLetter
+export default InputConfirmationLetter
 
 // const updateTotalBiaya = () => {
 //     const updatedProdukForms = letterData.produk_forms.map((produkForm) => {

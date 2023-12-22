@@ -11,38 +11,64 @@ import Style from "./confirmationLetter.module.css"
 
 const ConfirmationLetter = ({ data }) => {
 
-    // useEffect(() => {
-    //     // Update state saat prop data berubah
-    //     setLetterData(data);
-    // }, [data]);
-
-    // console.log(data)
-
     const [letterData, setLetterData] = useState({
-        template_option: data.option || data.template_option || data["template_option "],
-        nomor_surat: data.nomor_surat,
-        nama_penerbit: data.nama_penerbit,
-        tanggal_surat: data.tanggal_surat,
-        perihal: data.perihal,
-        media_ref: data.media_ref,
-        tanggal_ref: data.tanggal_ref,
-        jenis_permohonan: data.jenis_permohonan,
-        catatan: data.catatan,
-        nama_tertuju: data.nama_tertuju,
-        jabatan: data.jabatan,
-        nama_perusahaan: data.nama_perusahaan,
-        alamat_perusahaan: data.alamat_perusahaan,
-        category: data.category,
-        sub_category: data.sub_category,
-        jumlah_produk: data.jumlah_produk,
-        kurs_USD: data.kurs_USD,
-        produk_forms: data.produk_forms,
-        total_biaya: data.total_biaya,
-        jumlah_TNC: data.jumlah_TNC,
-        TNC: data.TNC,
-        konversi_kursUSD: data.konversi_kursUSD,
-        nominal_terbilang: data.nominal_terbilang
+        template_option: data ? data.option || data.template_option || data["template_option "] || "Produk saja" : "",
+        nomor_surat: data ? data.nomor_surat : "",
+        nama_penerbit: data ? data.nama_penerbit : "",
+        tanggal_surat: data ? data.tanggal_surat : "",
+        perihal: data ? data.perihal : "",
+        media_ref: data ? data.media_ref : "",
+        tanggal_ref: data ? data.tanggal_ref : "",
+        jenis_permohonan: data ? data.jenis_permohonan : "",
+        catatan: data ? data.catatan : "",
+        nama_tertuju: data ? data.nama_tertuju : "",
+        jabatan: data ? data.jabatan : "",
+        nama_perusahaan: data ? data.nama_perusahaan : "",
+        alamat_perusahaan: data ? data.alamat_perusahaan : "",
+        category: data ? data.category : "",
+        sub_category: data ? data.sub_category : "",
+        jumlah_produk: data ? data.jumlah_produk : "",
+        kurs_USD: data ? data.kurs_USD : "",
+        produk_forms: data ? data.produk_forms : [],
+        total_biaya: data ? data.total_biaya : "",
+        jumlah_TNC: data ? data.jumlah_TNC : "",
+        TNC: data ? data.TNC : [],
+        konversi_kursUSD: data ? data.konversi_kursUSD : "",
+        nominal_terbilang: data ? data.nominal_terbilang : ""
     });
+
+    useEffect(() => {
+        setLetterData(prevLetterData => ({
+            ...prevLetterData,
+            template_option: data ? data.option || data.template_option || data["template_option "] || "Produk saja" : "",
+            nomor_surat: data ? data.nomor_surat : "",
+            nama_penerbit: data ? data.nama_penerbit : "",
+            tanggal_surat: data ? data.tanggal_surat : "",
+            perihal: data ? data.perihal : "",
+            media_ref: data ? data.media_ref : "",
+            tanggal_ref: data ? data.tanggal_ref : "",
+            jenis_permohonan: data ? data.jenis_permohonan : "",
+            catatan: data ? data.catatan : "",
+            nama_tertuju: data ? data.nama_tertuju : "",
+            jabatan: data ? data.jabatan : "",
+            nama_perusahaan: data ? data.nama_perusahaan : "",
+            alamat_perusahaan: data ? data.alamat_perusahaan : "",
+            category: data ? data.category : "",
+            sub_category: data ? data.sub_category : "",
+            jumlah_produk: data ? data.jumlah_produk : "",
+            kurs_USD: data ? data.kurs_USD : "",
+            produk_forms: data ? data.produk_forms : [],
+            total_biaya: data ? data.total_biaya : "",
+            jumlah_TNC: data ? data.jumlah_TNC : "",
+            TNC: data ? data.TNC : [],
+            konversi_kursUSD: data ? data.konversi_kursUSD : "",
+            nominal_terbilang: data ? data.nominal_terbilang : ""
+        }));
+    }, [data]);
+
+    const isDataEmpty = (isi) => {
+        return <span className={Style.infoInput}>{isi}</span>
+    }
 
     const banyakKegiatan = letterData.produk_forms.length;
 
@@ -53,7 +79,7 @@ const ConfirmationLetter = ({ data }) => {
                 <td >Total Biaya</td>
                 <td >:</td>
                 <td >
-                    <span style={{ fontWeight: "bold" }}> {formatCurrency(letterData.total_biaya) || <span className={Style.infoInput}>jumlah total biaya semua kegiatan</span>} ({letterData.nominal_terbilang}) </span>
+                    <span style={{ fontWeight: "bold" }}> {formatCurrency(letterData.total_biaya) || isDataEmpty("jumlah total biaya semua kegiatan")} ({letterData.nominal_terbilang}) </span>
                 </td>
             </tr>
         </React.Fragment>
@@ -274,8 +300,7 @@ const ConfirmationLetter = ({ data }) => {
                         <td></td>
                         <td>Biaya Kegiatan</td>
                         <td>:</td>
-                        <td>USD {dataKegiatan.biaya || <span className={Style.infoInput}>biaya kegiatan</span>} x {dataKegiatan.durasi || <span className={Style.infoInput}>durasi</span>} {letterData.konversi_kursUSD === "Ya" ? `x ${formatCurrency(letterData.kurs_USD)}` : ""} x
-                            {dataKegiatan.jumlah_peserta || <span className={Style.infoInput}>jumlah</span>} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan) || <span className={Style.infoInput}>total biaya kegiatan</span>} ({dataKegiatan.nominal_terbilang})</span></td>
+                        <td>{letterData.konversi_kursUSD === "Ya" ? "USD" : "Rp"} {dataKegiatan.biaya || <span className={Style.infoInput}>biaya kegiatan</span>} x {dataKegiatan.durasi || <span className={Style.infoInput}>durasi</span>} {letterData.konversi_kursUSD === "Ya" ? `x ${formatCurrency(letterData.kurs_USD)}` : ""} x {dataKegiatan.jumlah_peserta || <span className={Style.infoInput}>jumlah</span>} Peserta = <span style={{ fontWeight: "bold" }}> {formatCurrency(dataKegiatan.total_biaya_kegiatan) || <span className={Style.infoInput}>total biaya kegiatan</span>} ({dataKegiatan.nominal_terbilang})</span></td>
                     </tr>
                 ) : (
                     <React.Fragment>
@@ -395,7 +420,7 @@ const ConfirmationLetter = ({ data }) => {
                                 <p>LEARNING & DEVELOPMENT</p>
                                 <p>SM Excess Capacity Management</p>
                                 <div className={Style.tandaTangan} style={{ height: "100px" }}></div>
-                                <p>{letterData.nama_penerbit.toUpperCase() || <span className={Style.infoInput}>nama penanda tangan</span>}</p>
+                                <p>{letterData.nama_penerbit.toUpperCase() || isDataEmpty("nama penanda tangan")}</p>
                             </div>
                         </div>
                     </div>

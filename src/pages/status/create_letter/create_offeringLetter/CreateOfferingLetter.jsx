@@ -42,6 +42,7 @@ const CreateConfirmationLetter = () => {
             }
         ]
     });
+    console.log(letterData)
 
     function getData() {
         dispatch(AsyncCreateLetter(letterData))

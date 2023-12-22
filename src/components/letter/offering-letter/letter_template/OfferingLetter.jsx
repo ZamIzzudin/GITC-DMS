@@ -8,7 +8,7 @@ import Style from "./offeringLetter.module.css"
 const OfferingLetter = ({ data }) => {
 
     useEffect(() => {
-        setLetterData(data);
+        setLetterData(data)
     }, [data]);
 
     const [letterData, setLetterData] = useState({
@@ -32,6 +32,8 @@ const OfferingLetter = ({ data }) => {
         TNC: data.TNC
     });
 
+    console.log(letterData)
+
 
     const renderPenutup = () => {
         return (<p style={{ marginBottom: "2rem" }}>Demikian disampaikan, perkenan konfirmasi lebih lanjut apabila setuju dengan surat penawaran ini. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>)
@@ -46,7 +48,7 @@ const OfferingLetter = ({ data }) => {
                     <p>LEARNING & DEVELOPMENT</p>
                     <p>SM Excess Capacity Management</p>
                     <div className={Style.tandaTangan} style={{ height: "80px" }}></div>
-                    <p>{letterData.nama_penerbit.toUpperCase()}</p>
+                    <p>{letterData.nama_penerbit.toUpperCase() || <span className={Style.infoInput}>Penanda Tangan</span>}</p>
                 </div>
             </div>
         )
@@ -119,22 +121,22 @@ const OfferingLetter = ({ data }) => {
                         {/* informasi Customer */}
                         <div style={{ marginBottom: "4rem", maxWidth: "200px" }}>
                             <p>Kepada</p>
-                            <p>Yth. {letterData.nama_tertuju}</p>
-                            <p>{letterData.jabatan}</p>
-                            <p>{letterData.nama_perusahaan}</p>
-                            <p>{letterData.alamat_perusahaan}</p>
+                            <p>Yth. {letterData.nama_tertuju || <span className={Style.infoInput}>nama tertuju</span>}</p>
+                            <p>{letterData.jabatan || <span className={Style.infoInput}>Jabatan</span>}</p>
+                            <p>{letterData.nama_perusahaan || <span className={Style.infoInput}>nama perusahaan</span>}</p>
+                            <p>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
-                            <p>Jakarta, {letterData.tanggal_surat}</p>
-                            <p>GARUDA/JKTVZE/20359/{getYear(letterData.tanggal_surat)}</p>
+                            <p>Jakarta, {letterData.tanggal_surat || <span className={Style.infoInput}>tanggal surat</span>}</p>
+                            <p>GARUDA/JKTVZE/20359/{getYear(letterData.tanggal_surat) || <span className={Style.infoInput}>tahun</span>}</p>
                             <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Surat Penawaran</p>
                         </div>
                         {/* Penawaran produk */}
                         <div>
                             <p style={{ marginBottom: "16px" }}>Dengan hormat,</p>
-                            <p>Menindaklanjuti {letterData.media_ref} tanggal {letterData.tanggal_ref} perihal {letterData.perihal}, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
+                            <p>Menindaklanjuti {letterData.media_ref || <span className={Style.infoInput}>media referensi</span>} tanggal {letterData.tanggal_ref || <span className={Style.infoInput}>tanggal referensi</span>} perihal {letterData.perihal || <span className={Style.infoInput}>perihal</span>}, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
 
-                            <table key="tablePenawaran" className={Style.tablePenawaran} style={{ width: "100%", marginTop: "1rem" }}>
+                            <table key='1' className={Style.tablePenawaran} style={{ width: "100%", marginTop: "1rem" }}>
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -149,9 +151,9 @@ const OfferingLetter = ({ data }) => {
                                             <tbody>
                                                 <tr>
                                                     <td>{index + 1}.</td>
-                                                    <td style={{ textAlign: "left" }}>{data.jenis_penawaran}</td>
-                                                    <td>{data.durasi}*</td>
-                                                    <td>{formatCurrency(data.biaya)}</td>
+                                                    <td style={{ textAlign: "left" }}>{data.jenis_penawaran || <span className={Style.infoInput}>jenis penawaran</span>}</td>
+                                                    <td>{data.durasi || <span className={Style.infoInput}>durasi</span>}*</td>
+                                                    <td>{formatCurrency(data.biaya) || <span className={Style.infoInput}>biaya</span>}</td>
                                                 </tr>
                                             </tbody>
                                         </React.Fragment>
@@ -163,7 +165,7 @@ const OfferingLetter = ({ data }) => {
                             <div style={{ marginBottom: "2rem", marginTop: "1rem" }}>
                                 {
                                     letterData.TNC.map(data => (
-                                        <p style={{ fontSize: "12px" }}>*{data.detail}</p>
+                                        <p style={{ fontSize: "12px" }}>*{data.detail || <span className={Style.infoInput}>term n condition</span>}</p>
                                     ))
                                 }
                             </div>

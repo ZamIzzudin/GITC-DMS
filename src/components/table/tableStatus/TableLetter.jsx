@@ -199,7 +199,7 @@ const TableLetter = () => {
                 {
                     rowData.status === "done" ? (
                         <i className="pi pi-eye" style={{ cursor: "pointer" }} />)
-                        : rowData.status === "disetujui" ?
+                        : rowData.status === "approved" ?
                             (<i className="pi pi-upload" style={{ cursor: "pointer" }} onClick={() => {
                                 setShowUploadModal(true)
                                 setSelectedData(rowData)
@@ -216,7 +216,7 @@ const TableLetter = () => {
         return (
             <React.Fragment>
                 {
-                    rowData.status === "belum disetujui" || rowData.status === "revisi" ? (
+                    rowData.status === "submitted" || rowData.status === "need revision" ? (
                         <i className="pi pi-file-edit" style={{ cursor: "pointer" }}
                             onClick={() => handleEditClick(rowData._id)}
                         />)
