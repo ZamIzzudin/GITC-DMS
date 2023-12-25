@@ -1,4 +1,7 @@
 .title {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     padding: 10px 20px;
     background-color: var(--color-primary);
     border-radius: 10px 10px 0 0;
@@ -8,6 +11,18 @@
 .title h4 {
     margin: 0 !important;
     text-align: center;
+}
+
+.btnAdd {
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 0 8px;
+    height: fit-content;
+    background-color: white;
+    border-radius: 5px;
+    /* color: white; */
+    /* height: 20px; */
 }
 
 .formInputRevisi {
@@ -20,8 +35,14 @@
     -o-border-radius: 0 0 10px 10px;
 }
 
+.btn_Wrapper {
+    display: flex;
+    justify-content: end;
+}
+
 .btnSubmit {
     border: none !important;
+    width: 100px;
 }
 
 .btnSubmit:hover {
@@ -30,4 +51,12 @@
 
 .btnSubmit:active {
     background-color: rgb(221, 57, 74) !important;
+}
+
+.term_revisi {
+    font-size: 12px;
+    color: #9D9D9D;
+    padding: 10px 20px;
+    background-color: white;
+    margin: 0;
 }

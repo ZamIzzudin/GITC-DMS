@@ -2,24 +2,31 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
 import ConfirmationInputLetter from "../../../../components/letter/confirmation-letter/input_letter/InputLetter"
 import ConfirmationInputRevisi from "../../../../components/letter/confirmation-letter/input_revisi/InputRevisi"
 import api from '../../../../utils/api';
-import { AsyncEditLetter } from '../../../../state/confirm/middleware';
+import { AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter } from '../../../../state/confirm/middleware';
 
 import { dataConfirmationLetter } from '../../../../utils/DummyData';
 
 import Style from "./editLetter.module.css"
 
 const EditConfirmationLetter = () => {
+    const { auth = {} } = useSelector(states => states)
     const dispach = useDispatch();
 
     const { id } = useParams();
     const [dataCL, setDataCL] = useState({})
     const [editDataCL, setEditDataCL] = useState({})
+    const [showRevisiForm, setShowRevisiForm] = useState(false);
+    const testRevisi = ['revisi1', 'revisi2', 'revisi 3']
+    const [revisi, setRevisi] = useState(testRevisi || [''])
+
+
+    const cleanedRevisi = revisi.filter((value) => value !== undefined && value !== null && value.trim() !== null && value.trim() !== '');
 
     // const [dataCL, setDataCL] = useState(dataConfirmationLetter.find(item => item.id === id))
     async function getData(id) {
@@ -50,15 +57,12 @@ const EditConfirmationLetter = () => {
                 TNC: response.data.data.TNC || [],
                 konversi_kursUSD: response.data.data.konversi_kursUSD || "",
                 nominal_terbilang: response.data.data.nominal_terbilang || "",
-                revisi: response.data.data.revisi || "",
-                approver: response.data.data.approver || "",
             };
             setEditDataCL(updatedLetterData);
         } catch (error) {
             console.error('Kesalahan mengambil data:', error);
         }
     }
-    console.log(editDataCL)
 
     useEffect(() => {
         getData(id)
@@ -66,6 +70,14 @@ const EditConfirmationLetter = () => {
 
     function editLetter() {
         dispach(AsyncEditLetter(id, editDataCL))
+    }
+
+    function revisiLetter() {
+        dispach(AsyncRevisiLetter(id, cleanedRevisi))
+    }
+
+    const handleApprove = () => {
+        dispach(AsyncApproveLetter(id))
     }
 
     return (
@@ -90,21 +102,63 @@ const EditConfirmationLetter = () => {
                         ) : <p>loading...</p>}
                     </div>
                 </div>
-                <div style={{ width: "26%", }}>
-                    <div className={Style.title}>
-                        <h4>INPUT REVISI</h4>
-                    </div>
-                    <div className={Style.inputRevisi}>
-                        <ConfirmationInputRevisi
-                            inputRevisi={editDataCL}
-                            setInputRevisi={setEditDataCL}
-                            editLetter={editLetter}
-                        />
-                    </div>
+                <div style={{ width: "26%" }}>
+                    {
+                        true && (
+                            <React.Fragment>
+                                <div className={Style.title}>
+                                    <h4>LIST REVISI</h4>
+                                </div>
+                                <div className={Style.card_list_revisi}>
+                                    {
+                                        revisi.map((data, index) => (
+                                            <ul>
+                                                <li key={index}>{data}</li>
+                                            </ul>
+                                        ))
+                                    }
+                                </div>
+                            </React.Fragment>
+                        )
+                    }
+                    {
+                        (dataCL.status === "submitted" && showRevisiForm === false) && (
+                            <Button type="button" className={`text-bg-danger ${Style.btnApprove}`}
+                                onClick={() => setShowRevisiForm(!showRevisiForm)}
+                            >
+                                Need Revision
+                            </Button>
+                        )
+                    }
+                    {
+                        showRevisiForm && (
+                            <React.Fragment>
+                                <div className={Style.inputRevisi}>
+                                    <ConfirmationInputRevisi
+                                        inputRevisi={revisi}
+                                        setInputRevisi={setRevisi}
+                                        revisiLetter={revisiLetter}
+                                    />
+                                </div>
+                            </React.Fragment>
+                        )
+                    }
+                    {
+                        dataCL.status === "approved" && (
+                            <Button type="button" className={`text-bg-danger ${Style.btnApprove}`}>
+                                Print
+                            </Button>
+                        )
+                    }
+
+
+
                 </div>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button type="button" className={`text-bg-success ${Style.btnApprove}`}>
+                <Button type="button" className={`text-bg-success ${Style.btnApprove}`}
+                    onClick={handleApprove}
+                >
                     Approve
                 </Button>
             </div>

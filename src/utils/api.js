@@ -107,6 +107,24 @@ const api = (() => {
         return response;
     }
 
+    async function RevisiConfirmLetter(id, payload) {
+        console.log("api call")
+        const url = baseUrl + `/confirm/revision/${id}`;
+
+        const data = {
+            revisi: payload
+        }
+
+        const response = await axios.put(url, data);
+        return response;
+    }
+    async function ApproveCofirmLetter(id) {
+        const url = baseUrl + `/confirm/approve/${id}`;
+
+        const response = await axios.put(url);
+        return response;
+    }
+
 
 
     // Offering
@@ -164,6 +182,8 @@ const api = (() => {
         GetDetailConfirmLetter,
         UploadLetter,
         EditConfirmLetter,
+        RevisiConfirmLetter,
+        ApproveCofirmLetter,
 
         GetOfferingLetter,
         CreateOffer,

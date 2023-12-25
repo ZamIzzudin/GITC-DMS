@@ -110,24 +110,73 @@ function AsyncEditLetter(id = null, payload) {
     }
 }
 
-// function AsyncEditUser(id, payload) {
-//     return async dispatch => {
-//         dispatch(showLoading())
-//         try {
-//             const response = await api.EditUser(id, payload);
+function AsyncRevisiLetter(id = null, paylaod) {
+    return async dispatch => {
+        dispatch(showLoading())
+        try {
+            console.log(paylaod)
+            const response = await api.RevisiConfirmLetter(id, paylaod);
 
-//             if (response.info !== undefined) {
-//                 throw new Error()
-//             }
-//             dispatch(AsyncGetUsers())
+            if (response.info !== undefined) {
+                throw new Error()
+            } else {
+                const data = await api.GetConfirmLetter(1);
+                dispatch(GetConfirmsAction(data.data.data))
+                window.location.assign("/status")
+            }
+            Swal.fire({
+                icon: "success",
+                title: 'Success add revisi',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        } catch (err) {
+            console.error(err);
+            console.log('error need revision')
+            Swal.fire({
+                icon: 'error',
+                title: 'Input Revisi Gagal',
+                // text: 'Check your email and password.',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+        dispatch(hideLoading())
+    }
+}
 
-//         } catch (err) {
-//             console.error(err);
-//             console.log('erorr')
-//         }
-//         dispatch(hideLoading())
-//     }
-// }
+function AsyncApproveLetter(id) {
+    return async dispatch => {
+        dispatch(showLoading())
+        try {
+            const response = await api.ApproveCofirmLetter(id);
+
+            if (response.info !== undefined) {
+                throw new Error()
+            } else {
+                const data = await api.GetConfirmLetter(1);
+                dispatch(GetConfirmsAction(data.data.data))
+                window.location.assign("/status")
+            }
+            Swal.fire({
+                icon: "success",
+                title: 'Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        } catch (err) {
+            console.error(err);
+            console.log('erorr')
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal Approve Letter',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+        dispatch(hideLoading())
+    }
+}
 
 // function AsyncDeleteUser(id) {
 //     return async dispatch => {
@@ -146,4 +195,4 @@ function AsyncEditLetter(id = null, payload) {
 //     }
 // }
 
-export { AsyncGetConfirms, AsyncCreateLetter, AsyncUploadLetter, AsyncGetConfirmById, AsyncEditLetter }
+export { AsyncGetConfirms, AsyncCreateLetter, AsyncUploadLetter, AsyncGetConfirmById, AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter }

@@ -12,7 +12,7 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat, file
 
-const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getData }) => {
+const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getData, editLetter }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
@@ -278,6 +278,9 @@ const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getDat
         e.preventDefault()
         if (file) {
             getData()
+        }
+        if (editLetter) {
+            editLetter()
         }
     }
 
