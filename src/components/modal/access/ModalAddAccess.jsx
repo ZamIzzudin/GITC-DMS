@@ -83,6 +83,7 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
                             >
                                 <option>Admin</option>
                                 <option>Guest</option>
+                                <option>PIC</option>
                             </Form.Select>
                         </Form.Group>
                     </Form>

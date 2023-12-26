@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AsyncGetUsers } from '../../../state/users/middleware'
 
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 

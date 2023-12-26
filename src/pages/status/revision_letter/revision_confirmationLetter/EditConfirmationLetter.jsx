@@ -22,17 +22,20 @@ const EditConfirmationLetter = () => {
     const [dataCL, setDataCL] = useState({})
     const [editDataCL, setEditDataCL] = useState({})
     const [showRevisiForm, setShowRevisiForm] = useState(false);
-    const testRevisi = ['revisi1', 'revisi2', 'revisi 3']
-    const [revisi, setRevisi] = useState(testRevisi || [''])
-
+    // const testRevisi = ['revisi1', 'revisi2', 'revisi 3']
+    const [revisi, setRevisi] = useState([])
 
     const cleanedRevisi = revisi.filter((value) => value !== undefined && value !== null && value.trim() !== null && value.trim() !== '');
 
+    console.log(dataCL)
+    console.log(revisi)
+    console.log(cleanedRevisi)
     // const [dataCL, setDataCL] = useState(dataConfirmationLetter.find(item => item.id === id))
     async function getData(id) {
         try {
             const response = await api.GetDetailConfirmLetter(id);
             setDataCL(response.data.data);
+            setRevisi(response.data.data.revisi)
             const updatedLetterData = {
                 template_option: response.data.data.option || response.data.data.template_option || "Produk saja",
                 nomor_surat: response.data.data.nomor_surat || "",
@@ -104,14 +107,14 @@ const EditConfirmationLetter = () => {
                 </div>
                 <div style={{ width: "26%" }}>
                     {
-                        true && (
+                        !showRevisiForm && revisi && revisi.length > 0 && (
                             <React.Fragment>
                                 <div className={Style.title}>
                                     <h4>LIST REVISI</h4>
                                 </div>
                                 <div className={Style.card_list_revisi}>
                                     {
-                                        revisi.map((data, index) => (
+                                        revisi?.map((data, index) => (
                                             <ul>
                                                 <li key={index}>{data}</li>
                                             </ul>
