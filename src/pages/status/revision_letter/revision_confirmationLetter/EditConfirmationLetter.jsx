@@ -7,8 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ConfirmationLetter from "../../../../components/letter/confirmation-letter/letter_template/ConfirmationLetter"
 import ConfirmationInputLetter from "../../../../components/letter/confirmation-letter/input_letter/InputLetter"
 import ConfirmationInputRevisi from "../../../../components/letter/confirmation-letter/input_revisi/InputRevisi"
-import api from '../../../../utils/api';
 import { AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter } from '../../../../state/confirm/middleware';
+import api from '../../../../utils/api';
 
 import { dataConfirmationLetter } from '../../../../utils/DummyData';
 
@@ -16,13 +16,12 @@ import Style from "./editLetter.module.css"
 
 const EditConfirmationLetter = () => {
     const { auth = {} } = useSelector(states => states)
-    const dispach = useDispatch();
+    const dispatch = useDispatch();
 
     const { id } = useParams();
     const [dataCL, setDataCL] = useState({})
     const [editDataCL, setEditDataCL] = useState({})
     const [showRevisiForm, setShowRevisiForm] = useState(false);
-    // const testRevisi = ['revisi1', 'revisi2', 'revisi 3']
     const [revisi, setRevisi] = useState([])
 
     const cleanedRevisi = revisi.filter((value) => value !== undefined && value !== null && value.trim() !== null && value.trim() !== '');
@@ -72,15 +71,15 @@ const EditConfirmationLetter = () => {
     }, [id])
 
     function editLetter() {
-        dispach(AsyncEditLetter(id, editDataCL))
+        dispatch(AsyncEditLetter(id, editDataCL))
     }
 
     function revisiLetter() {
-        dispach(AsyncRevisiLetter(id, cleanedRevisi))
+        dispatch(AsyncRevisiLetter(id, cleanedRevisi))
     }
 
     const handleApprove = () => {
-        dispach(AsyncApproveLetter(id))
+        dispatch(AsyncApproveLetter(id))
     }
 
     return (
@@ -153,9 +152,6 @@ const EditConfirmationLetter = () => {
                             </Button>
                         )
                     }
-
-
-
                 </div>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>

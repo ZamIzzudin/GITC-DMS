@@ -9,7 +9,7 @@ import Style from "./inputLetter.module.css"
 import Products from "../../../../utils/Product.json"
 
 
-const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) => {
+const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, editLetter }) => {
 
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
@@ -31,7 +31,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
         const newValue = parseInt(e.target.value, 10 || 1);
         setLetterData((prevLetterData) => ({
             ...prevLetterData,
-            jumlah_penawaran: newValue,
+            jumlah_produk: newValue,
             penawaran_forms: Array.from({ length: newValue }, (_, index) => prevLetterData.penawaran_forms[index] || {
                 jenisPenawaran: '',
                 durasi: '',
@@ -83,7 +83,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
         });
     };
 
-    console.log(letterData)
+    // console.log(letterData)
 
     const renderTNC = () => {
         return letterData.TNC.map((tnc, index) => (
@@ -112,6 +112,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
                     <Form.Label>Durasi</Form.Label>
                     <InputGroup className="mb-3">
                         <Form.Control type="number" size='sm'
+                            value={form.durasi.match(/\d+/)}
                             onChange={(e) => {
                                 // console.log(e.target.value, index);
                                 setInputDurasi(e.target.value)
@@ -123,14 +124,16 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
                             }
                             }
                         />
-                        <Form.Select onChange={(e) => {
-                            handleDurasiChange(index, e.target.value)
-                            const input = e.target.value;
-                            if (input) {
-                                handlePenawaranFormsChange(index, 'durasi', inputDurasi + ' ' + input);
-                            }
-                            // console.log(infoKegiatan.produkForms)
-                        }} >
+                        <Form.Select
+                            value={form.durasi.split(' ')[1]}
+                            onChange={(e) => {
+                                handleDurasiChange(index, e.target.value)
+                                const input = e.target.value;
+                                if (input) {
+                                    handlePenawaranFormsChange(index, 'durasi', inputDurasi + ' ' + input);
+                                }
+                                // console.log(infoKegiatan.produkForms)
+                            }} >
                             <option>choose</option>
                             <option>jam</option>
                             <option>hari</option>
@@ -154,8 +157,12 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (file) {
+        if (!file && !editLetter) {
+            console.log("create")
             getData()
+        }
+        if (editLetter) {
+            editLetter()
         }
     }
 
@@ -171,20 +178,21 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
                 <Form.Group controlId="infromasiSurat" className="mb-2">
                     <p style={{ fontWeight: "bold" }}>Informasi Surat</p>
                     {
-                        isUpload ? (<Form.Group controlId="nomor_surat" className="mb-2">
+                        isUpload && (<Form.Group controlId="nomor_surat" className="mb-2">
                             <Form.Label>Nomor Surat</Form.Label>
                             <Form.Control type="text" size='sm'
                                 value={letterData.nomor_surat}
                                 onChange={(e) => { setLetterData({ ...letterData, nomor_surat: e.target.value }) }}
                             />
-                        </Form.Group>) : (
-                            <Form.Group controlId="nomor_surat" className="mb-2">
-                                <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
-                                <Form.Control type="text" size='sm' readOnly
-                                    value={letterData.nomor_surat}
-                                />
-                            </Form.Group>
-                        )
+                        </Form.Group>)
+                        // : (
+                        //     <Form.Group controlId="nomor_surat" className="mb-2">
+                        //         <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
+                        //         <Form.Control type="text" size='sm' readOnly
+                        //             value={letterData.nomor_surat}
+                        //         />
+                        //     </Form.Group>
+                        // )
                     }
                     <Form.Group controlId="namaPenerbit" className="mb-2">
                         <Form.Label>Nama Penanda Tangan</Form.Label>
@@ -197,7 +205,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
                     <Form.Group controlId="tanggalSurat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
-                            onChange={(e) => { setLetterData({ ...letterData, tanggal_surat: formatDate(e.target.value) }) }}
+                            value={letterData.tanggal_surat}
+                            onChange={(e) => { setLetterData({ ...letterData, tanggal_surat: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="subject" className="mb-2">
@@ -217,7 +226,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
-                            onChange={(e) => { setLetterData({ ...letterData, tanggal_ref: formatDate(e.target.value) }) }}
+                            value={letterData.tanggal_ref}
+                            onChange={(e) => { setLetterData({ ...letterData, tanggal_ref: e.target.value }) }}
                         />
                     </Form.Group>
                     <Form.Group controlId="jenisPermohonan" className="mb-2">
@@ -302,7 +312,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData }) =
                     <Form.Group controlId="jumlahProduk" className="mb-2">
                         <Form.Label>Jumlah Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
-                            value={letterData.jumlah_penawaran}
+                            value={letterData.jumlah_produk}
                             onChange={handleJumlahPenawaranChange}
                         >
                             {Array.from({ length: 10 }).map((_, index) => (

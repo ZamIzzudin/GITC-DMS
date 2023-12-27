@@ -1,7 +1,6 @@
 import { GetConfirmsAction } from "./action";
 import api from "../../utils/api";
 
-
 import Swal from "sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -100,8 +99,7 @@ function AsyncEditLetter(id = null, payload) {
             console.log('error edit letter')
             Swal.fire({
                 icon: 'error',
-                title: 'Update Gagal',
-                // text: 'Check your email and password.',
+                title: 'Update failed',
                 showConfirmButton: false,
                 timer: 3000
             })
@@ -126,7 +124,7 @@ function AsyncRevisiLetter(id = null, paylaod) {
             }
             Swal.fire({
                 icon: "success",
-                title: 'Success add revisi',
+                title: 'Success added revision',
                 showConfirmButton: false,
                 timer: 3000
             })
@@ -135,7 +133,7 @@ function AsyncRevisiLetter(id = null, paylaod) {
             console.log('error need revision')
             Swal.fire({
                 icon: 'error',
-                title: 'Input Revisi Gagal',
+                title: 'Revision Input Failed',
                 // text: 'Check your email and password.',
                 showConfirmButton: false,
                 timer: 3000
@@ -160,7 +158,7 @@ function AsyncApproveLetter(id) {
             }
             Swal.fire({
                 icon: "success",
-                title: 'Success',
+                title: 'Success Approve Letter',
                 showConfirmButton: false,
                 timer: 3000
             })
@@ -169,7 +167,7 @@ function AsyncApproveLetter(id) {
             console.log('erorr')
             Swal.fire({
                 icon: 'error',
-                title: 'Gagal Approve Letter',
+                title: 'Approve Letter Failed',
                 showConfirmButton: false,
                 timer: 3000
             })

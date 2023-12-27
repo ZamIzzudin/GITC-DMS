@@ -121,11 +121,9 @@ const api = (() => {
     async function ApproveCofirmLetter(id) {
         const url = baseUrl + `/confirm/approve/${id}`;
 
-        const response = await axios.put(url);
+        const response = await axios.put(url, {});
         return response;
     }
-
-
 
     // Offering
     async function GetOfferingLetter() {
@@ -167,6 +165,31 @@ const api = (() => {
         return response;
     }
 
+    async function EditOfferLetter(id, payload) {
+        const url = baseUrl + `/offer/resubmit/${id}`;
+        const response = await axios.put(url, payload);
+        return response;
+    }
+
+    async function RevisiOfferLetter(id, payload) {
+        console.log("api call")
+        const url = baseUrl + `/offer/revision/${id}`;
+
+        const data = {
+            revisi: payload
+        }
+
+        const response = await axios.put(url, data);
+        return response;
+    }
+
+    async function ApproveOfferLetter(id) {
+        const url = baseUrl + `/offer/approve/${id}`;
+
+        const response = await axios.put(url, {});
+        return response;
+    }
+
     return {
         Login,
         Refresh,
@@ -188,6 +211,10 @@ const api = (() => {
         GetOfferingLetter,
         CreateOffer,
         GetDetailOfferingLetter,
+        EditOfferLetter,
+        RevisiOfferLetter,
+        ApproveOfferLetter,
+
         ReportPerMonth
     };
 

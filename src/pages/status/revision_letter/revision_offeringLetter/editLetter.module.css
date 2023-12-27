@@ -52,3 +52,18 @@
 .btnApprove:active {
     background-color: #0b6e40 !important;
 }
+
+/* list */
+.card_list_revisi {
+    /* margin-top: 20px; */
+    background-color: white !important;
+    border-radius: 0 0 15px 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.card_list_revisi .title {
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+}

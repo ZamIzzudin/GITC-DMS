@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { getYear } from '../../../tools/FormatDate'
+import { getYear, formatDate } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import Logo from "../../../../assets/picture/Logo Garuda.svg"
 import Style from "./offeringLetter.module.css"
@@ -8,32 +8,52 @@ import Style from "./offeringLetter.module.css"
 const OfferingLetter = ({ data }) => {
 
     useEffect(() => {
-        setLetterData(data)
+        setLetterData(
+            prevLetterData => ({
+                ...prevLetterData,
+                nomor_surat: data ? data.nomor_surat : "",
+                nama_penerbit: data ? data.nama_penerbit : "",
+                tanggal_surat: data ? data.tanggal_surat : "",
+                perihal: data ? data.perihal : "",
+                media_ref: data ? data.media_ref : "",
+                tanggal_ref: data ? data.tanggal_ref : "",
+                jenis_permohonan: data ? data.jenis_permohonan : "",
+                catatan: data ? data.catatan : "",
+                nama_tertuju: data ? data.nama_tertuju : "",
+                jabatan: data ? data.jabatan : "",
+                nama_perusahaan: data ? data.nama_perusahaan : "",
+                alamat_perusahaan: data ? data.alamat_perusahaan : "",
+                category: data ? data.category : "",
+                sub_category: data ? data.sub_category : "",
+                jumlah_produk: data ? data.jumlah_produk : "",
+                penawaran_forms: data ? data.penawaran_forms : [],
+                jumlah_TNC: data ? data.jumlah_TNC : "",
+                TNC: data ? data.TNC : [],
+            }));
     }, [data]);
 
     const [letterData, setLetterData] = useState({
-        nomor_surat: data.nomor_surat,
-        nama_penerbit: data.nama_penerbit,
-        tanggal_surat: data.tanggal_surat,
-        perihal: data.perihal,
-        media_ref: data.media_ref,
-        tanggal_ref: data.tanggal_ref,
-        jenis_permohonan: data.jenis_permohonan,
-        catatan: data.catatan,
-        nama_tertuju: data.nama_tertuju,
-        jabatan: data.jabatan,
-        nama_perusahaan: data.nama_perusahaan,
-        alamat_perusahaan: data.alamat_perusahaan,
-        category: data.category,
-        sub_category: data.sub_category,
-        jumlah_penawaran: data.jumlah_penawaran || [],
-        penawaran_forms: data.penawaran_forms,
-        jumlah_TNC: data.jumlah_TNC,
-        TNC: data.TNC
+        nomor_surat: data?.nomor_surat,
+        nama_penerbit: data?.nama_penerbit,
+        tanggal_surat: data?.tanggal_surat,
+        perihal: data?.perihal,
+        media_ref: data?.media_ref,
+        tanggal_ref: data?.tanggal_ref,
+        jenis_permohonan: data?.jenis_permohonan,
+        catatan: data?.catatan,
+        nama_tertuju: data?.nama_tertuju,
+        jabatan: data?.jabatan,
+        nama_perusahaan: data?.nama_perusahaan,
+        alamat_perusahaan: data?.alamat_perusahaan,
+        category: data?.category,
+        sub_category: data?.sub_category,
+        jumlah_produk: data?.jumlah_produk,
+        penawaran_forms: data?.penawaran_forms,
+        jumlah_TNC: data?.jumlah_TNC,
+        TNC: data?.TNC
     });
 
-    console.log(letterData)
-
+    // console.log(letterData)
 
     const renderPenutup = () => {
         return (<p style={{ marginBottom: "2rem" }}>Demikian disampaikan, perkenan konfirmasi lebih lanjut apabila setuju dengan surat penawaran ini. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>)
@@ -127,14 +147,14 @@ const OfferingLetter = ({ data }) => {
                             <p>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
-                            <p>Jakarta, {letterData.tanggal_surat || <span className={Style.infoInput}>tanggal surat</span>}</p>
+                            <p>Jakarta, {formatDate(letterData.tanggal_surat) || <span className={Style.infoInput}>tanggal surat</span>}</p>
                             <p>GARUDA/JKTVZE/20359/{getYear(letterData.tanggal_surat) || <span className={Style.infoInput}>tahun</span>}</p>
                             <p style={{ fontWeight: "bold", textDecoration: "underline" }}>Surat Penawaran</p>
                         </div>
                         {/* Penawaran produk */}
                         <div>
                             <p style={{ marginBottom: "16px" }}>Dengan hormat,</p>
-                            <p>Menindaklanjuti {letterData.media_ref || <span className={Style.infoInput}>media referensi</span>} tanggal {letterData.tanggal_ref || <span className={Style.infoInput}>tanggal referensi</span>} perihal {letterData.perihal || <span className={Style.infoInput}>perihal</span>}, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
+                            <p>Menindaklanjuti {letterData.media_ref || <span className={Style.infoInput}>media referensi</span>} tanggal {formatDate(letterData.tanggal_ref) || <span className={Style.infoInput}>tanggal referensi</span>} perihal {letterData.perihal || <span className={Style.infoInput}>perihal</span>}, bersama ini disampaikan penawaran harga edutrip sebagai berikut :</p>
 
                             <table key='1' className={Style.tablePenawaran} style={{ width: "100%", marginTop: "1rem" }}>
                                 <thead>
@@ -242,6 +262,7 @@ const OfferingLetter = ({ data }) => {
                     </div>
                 )}
         </div>
+        // <p>dwdw</p>
     )
 }
 

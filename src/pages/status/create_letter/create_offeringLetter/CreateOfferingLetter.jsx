@@ -27,7 +27,7 @@ const CreateConfirmationLetter = () => {
         alamat_perusahaan: "",
         category: "",
         sub_category: "",
-        jumlah_penawaran: 1,
+        jumlah_produk: 1,
         penawaran_forms: [
             {
                 jenis_penawaran: '',
@@ -42,7 +42,7 @@ const CreateConfirmationLetter = () => {
             }
         ]
     });
-    console.log(letterData)
+    // console.log(letterData)
 
     function getData() {
         dispatch(AsyncCreateLetter(letterData))

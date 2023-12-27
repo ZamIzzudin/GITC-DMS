@@ -12,7 +12,7 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat, file
 
-const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getData, editLetter }) => {
+const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, createConfirmLetter, editLetter }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
@@ -276,9 +276,11 @@ const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getDat
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (file) {
-            getData()
+        if (!file && !editLetter) {
+            console.log("create")
+            createConfirmLetter()
         }
+        console.log("click submit CL")
         if (editLetter) {
             editLetter()
         }
@@ -313,21 +315,22 @@ const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getDat
                     <p style={{ fontWeight: "bold" }}>Informasi Surat</p>
 
                     {
-                        isUpload ? (<Form.Group controlId="nomor_surat" className="mb-2">
+                        isUpload && (<Form.Group controlId="nomor_surat" className="mb-2">
                             <Form.Label>Nomor Surat</Form.Label>
                             <Form.Control type="text" size='sm'
                                 value={inputLetter.nomor_surat}
                                 onChange={(e) => { setInputLetter({ ...inputLetter, nomor_surat: e.target.value }) }}
                             // onChange={(e) => handleChange("nomor_surat", e.target.value)}
                             />
-                        </Form.Group>) : (
-                            <Form.Group controlId="nomor_surat" className="mb-2">
-                                <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
-                                <Form.Control type="text" size='sm' readOnly
-                                    value={inputLetter.nomor_surat}
-                                />
-                            </Form.Group>
-                        )
+                        </Form.Group>)
+                        // : (
+                        //     <Form.Group controlId="nomor_surat" className="mb-2">
+                        //         <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
+                        //         <Form.Control type="text" size='sm' readOnly
+                        //             value={inputLetter.nomor_surat}
+                        //         />
+                        //     </Form.Group>
+                        // )
                     }
 
                     <Form.Group controlId="namaPenerbit" className="mb-2">
