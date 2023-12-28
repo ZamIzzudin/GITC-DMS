@@ -12,10 +12,12 @@ import Style from "./inputLetter.module.css"
 
 //Catatan: Sisa nomor surat, file
 
-const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, createConfirmLetter, editLetter }) => {
+const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, getData, editLetter }) => {
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
+
+    console.log(file)
 
     const productCode = Products.categories.find((cat) => cat.name === inputLetter.category)
         ?.subcategories.find((subCat) => subCat.name === inputLetter.sub_category)?.code
@@ -278,11 +280,14 @@ const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, create
         e.preventDefault()
         if (!file && !editLetter) {
             console.log("create")
-            createConfirmLetter()
+            getData()
         }
-        console.log("click submit CL")
         if (editLetter) {
             editLetter()
+        }
+        if (file) {
+            console.log("upload")
+            getData()
         }
     }
 
@@ -306,8 +311,8 @@ const InputConfirmationLetter = ({ inputLetter, setInputLetter, isUpload, create
 
                     >
                         <option>Produk saja</option>
-                        <option>Produk + Meals</option>
-                        <option>Produk - Meals</option>
+                        {/* <option>Produk + Meals</option>
+                        <option>Produk - Meals</option> */}
                     </Form.Select>
                 </Form.Group>
 

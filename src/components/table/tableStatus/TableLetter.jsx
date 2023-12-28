@@ -11,6 +11,7 @@ import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
 import { formatDate } from '../../tools/FormatDate';
+import api from '../../../utils/api';
 
 import ModalUploadFile from '../../modal/upload_file/ModalUploadFile';
 
@@ -45,6 +46,16 @@ const TableLetter = () => {
         setDropdown(false);
         // setLoading()
     };
+
+    async function getData(id) {
+        try {
+            const response = await api.ViewUploadLetter(id);
+            const url = response.data.url
+            window.open(url, '_blank');
+        } catch (error) {
+            console.error('Kesalahan mengambil data:', error);
+        }
+    }
 
 
     //getData
@@ -198,7 +209,10 @@ const TableLetter = () => {
             <React.Fragment>
                 {
                     rowData.status === "done" ? (
-                        <i className="pi pi-eye" style={{ cursor: "pointer" }} />)
+                        <i className="pi pi-eye" style={{ cursor: "pointer" }}
+                            // onClick={() => navigate(`/view/upload-dokumen/${rowData._id}`)}
+                            onClick={() => getData(rowData.drive_id)}
+                        />)
                         : rowData.status === "approved" ?
                             (<i className="pi pi-upload" style={{ cursor: "pointer" }} onClick={() => {
                                 setShowUploadModal(true)
@@ -244,7 +258,7 @@ const TableLetter = () => {
                     dataKey="id"
                     id='id'
                     header={renderHeader()}
-                    filters={filters} globalFilterFields={['id', 'nama_dokumen', 'tanggal', 'customer', 'dokumen', 'status']}
+                    filters={filters} globalFilterFields={['id', 'nama_tertuju', 'tanggal_surat', 'nama_perusahaan', 'dokumen', 'status']}
                 >
                     <Column
                         field="id"
@@ -267,7 +281,8 @@ const TableLetter = () => {
                     <Column
                         field="nama_perusahaan"
                         header="Customer"
-                        sortable headerStyle={{ borderBottom: "1px solid #000" }} />
+                        sortable
+                        headerStyle={{ borderBottom: "1px solid #000" }} />
                     <Column
                         field="status"
                         header="Status"
@@ -286,34 +301,16 @@ const TableLetter = () => {
                         body={documentBodyTemplate}
                         style={{ textAlign: "center" }} />
                 </DataTable>
-
-
-
                 {
                     showUploadModal && (
-                        <ModalUploadFile show={showUploadModal} setShow={setShowUploadModal} data={selectedData} />
-                    )
-                }
-
-
-                {/* {
-                    showCreateForm && (
-                        <ModalCreateLetter
-                            letterOption={letterOption}
-                            showCreateForm={showCreateForm}
-                            setShowCreateForm={setShowCreateForm}
+                        <ModalUploadFile
+                            show={showUploadModal}
+                            setShow={setShowUploadModal}
+                            data={selectedData}
+                            letter={letterOption === 'Confirmation Letter' ? "confirm" : "offers"}
                         />
                     )
                 }
-                {
-                    showUploadForm && (
-                        <ModalUploadLetter
-                            letterOption={letterOption}
-                            showUploadForm={showUploadForm}
-                            setShowUploadForm={setShowUploadForm}
-                        />
-                    )
-                } */}
             </div>
         </div>
     )

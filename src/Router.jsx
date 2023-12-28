@@ -74,10 +74,10 @@ function AppRouter() {
             <Route path="/view/confirmation-letter/:id" element={<ViewConfirmationLetter />} />
             <Route path="/view/offering-letter/:id" element={<ViewOfferingLetter />} />
 
-
             <Route path="/edit/confirmation-letter/:id" element={<EditConfirmationLetter />} />
             <Route path="/edit/offering-letter/:id" element={<EditOfferingLetter />} />
-            <Route path="/view/upload-dokumen" element={<ViewUploadFile />} />
+
+            <Route path="/view/upload-dokumen/:id" element={<ViewUploadFile />} />
 
             <Route path="/view/CL" element={<ConfirmationLetter />} />
             {/* <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />

@@ -67,9 +67,21 @@ function AsyncUploadLetter(payload) {
                 dispatch(GetOffersAction(data.data.data))
                 window.location.assign("/status")
             }
+            Swal.fire({
+                icon: "success",
+                title: 'Upload Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
         } catch (err) {
             console.error(err);
             console.log('erorr')
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload Gagal',
+                showConfirmButton: false,
+                timer: 3000
+            })
         }
         dispatch(hideLoading())
     }
@@ -99,7 +111,6 @@ function AsyncEditLetter(id = null, payload) {
             Swal.fire({
                 icon: 'error',
                 title: 'Update Gagal',
-                // text: 'Check your email and password.',
                 showConfirmButton: false,
                 timer: 3000
             })
@@ -174,6 +185,38 @@ function AsyncApproveLetter(id) {
         dispatch(hideLoading())
     }
 }
+function AsyncUploadFileOfferLetter(id = null, payload) {
+    return async dispatch => {
+        dispatch(showLoading())
+        try {
+            const response = await api.UploadFileOfferLetter(id, payload);
+
+            if (response.info !== undefined) {
+                throw new Error()
+            } else {
+                const data = await api.GetConfirmLetter(1);
+                dispatch(GetOffersAction(data.data.data))
+                window.location.assign("/status")
+            }
+            Swal.fire({
+                icon: "success",
+                title: 'Upload File Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        } catch (err) {
+            console.error(err);
+            console.log('erorr')
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload File Failed',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+        dispatch(hideLoading())
+    }
+}
 
 
 // function AsyncEditUser(id, payload) {
@@ -212,4 +255,4 @@ function AsyncApproveLetter(id) {
 //     }
 // }
 
-export { AsyncGetOfferings, AsyncCreateLetter, AsyncUploadLetter, AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter }
+export { AsyncGetOfferings, AsyncCreateLetter, AsyncUploadLetter, AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter, AsyncUploadFileOfferLetter }

@@ -54,7 +54,7 @@ const CreateConfirmationLetter = () => {
         nominal_terbilang: ""
     });
 
-    function createConfirmLetter() {
+    function getData() {
         dispatch(AsyncCreateLetter(letterData))
     }
 
@@ -75,7 +75,7 @@ const CreateConfirmationLetter = () => {
                     </div>
                     <div className={Style.inputLetter}>
                         <ConfirmationInputLetter
-                            createConfirmLetter={createConfirmLetter}
+                            getData={getData}
                             inputLetter={letterData}
                             setInputLetter={setLetterData}
                         />

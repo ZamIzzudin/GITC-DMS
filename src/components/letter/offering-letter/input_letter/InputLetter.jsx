@@ -164,6 +164,10 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
         if (editLetter) {
             editLetter()
         }
+        if (file) {
+            console.log("upload")
+            getData()
+        }
     }
 
     useEffect(() => {

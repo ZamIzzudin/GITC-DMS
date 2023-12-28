@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getYear } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import { formatDate } from '../../../tools/FormatDate'
@@ -9,7 +9,17 @@ import Style from "./confirmationLetter.module.css"
 
 // Catatan : belum <p>GARUDA/JKTVZE/20359/2023</p>
 
-const ConfirmationLetter = ({ data }) => {
+const ConfirmationLetter = ({ data, pagesRef }) => {
+
+    const page1Ref = useRef(null);
+    const page2Ref = useRef(null);
+    const page3Ref = useRef(null);
+    const page4Ref = useRef(null);
+
+    // Set ref values to the array for passing them to the parent
+    if (pagesRef) {
+        pagesRef.current = [page1Ref, page2Ref, page3Ref, page4Ref];
+    }
 
     const [letterData, setLetterData] = useState({
         template_option: data ? data.option || data.template_option || data["template_option "] || "Produk saja" : "",
@@ -334,7 +344,7 @@ const ConfirmationLetter = ({ data }) => {
     return (
         <div className='container' style={{ display: "flex", alignItems: "center", flexDirection: "column", padding: "30px 0", gap: "50px" }}>
             {/* Page 1 */}
-            <div className={Style.letter}>
+            <div ref={page1Ref} className={Style.letter} id='page_1'>
                 <div className={Style.logo}>
                     <img src={Logo} alt="Logo" />
                 </div>
@@ -428,7 +438,7 @@ const ConfirmationLetter = ({ data }) => {
             </div>
 
             {/* Page 2 */}
-            <div className={Style.letter}>
+            <div ref={page2Ref} className={Style.letter} id='page_2'>
                 <div className={Style.logo}>
                     <img src={Logo} alt="Logo" />
                 </div>
@@ -527,7 +537,7 @@ const ConfirmationLetter = ({ data }) => {
                     (letterData.template_option === "Produk saja" && letterData.produk_forms.length > 1) ||
                     (letterData.produk_forms.length > 1 && letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals"))
                 && (
-                    <div className={Style.letter}>
+                    <div ref={page3Ref} className={Style.letter} id='page_3'>
                         <div className={Style.logo}>
                             <img src={Logo} alt="Logo" />
                         </div>
@@ -619,7 +629,7 @@ const ConfirmationLetter = ({ data }) => {
                 ((letterData.template_option === "Produk saja" && letterData.produk_forms.length >= 8) ||
                     (letterData.produk_forms.length >= 7 && letterData.template_option === "Produk + Meals" || letterData.template_option === "Produk - Meals"))
                 && (
-                    <div className={Style.letter}>
+                    <div ref={page4Ref} className={Style.letter} id='page_4'>
                         <div className={Style.logo}>
                             <img src={Logo} alt="Logo" />
                         </div>

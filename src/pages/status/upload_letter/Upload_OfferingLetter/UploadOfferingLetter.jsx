@@ -14,6 +14,7 @@ const UploadOfferingLetter = () => {
 
     const [letterData, setLetterData] = useState({
         type: 'offer',
+        status: 'done',
         nomor_surat: "",
         nama_penerbit: "",
         tanggal_surat: "",
@@ -44,6 +45,8 @@ const UploadOfferingLetter = () => {
         ],
         file: null
     });
+
+    console.log(letterData)
 
     function getData() {
         dispatch(AsyncUploadLetter(letterData))

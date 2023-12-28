@@ -14,6 +14,7 @@ const UploadConfirmationLetter = () => {
 
     const [letterData, setLetterData] = useState({
         type: 'confirm',
+        status: 'done',
         template_option: "Produk saja",
         nomor_surat: "",
         nama_penerbit: "",
@@ -52,6 +53,8 @@ const UploadConfirmationLetter = () => {
         ],
         file: null
     });
+
+    console.log(letterData.file)
 
     function getData() {
         dispatch(AsyncUploadLetter(letterData))

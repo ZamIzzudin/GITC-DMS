@@ -67,9 +67,21 @@ function AsyncUploadLetter(payload) {
                 dispatch(GetConfirmsAction(data.data.data))
                 window.location.assign("/status")
             }
+            Swal.fire({
+                icon: "success",
+                title: 'Upload Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
         } catch (err) {
             console.error(err);
             console.log('erorr')
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload Gagal',
+                showConfirmButton: false,
+                timer: 3000
+            })
         }
         dispatch(hideLoading())
     }
@@ -176,6 +188,39 @@ function AsyncApproveLetter(id) {
     }
 }
 
+function AsyncUploadFileConfirmLetter(id = null, payload) {
+    return async dispatch => {
+        dispatch(showLoading())
+        try {
+            const response = await api.UploadFileConfirmLetter(id, payload);
+
+            if (response.info !== undefined) {
+                throw new Error()
+            } else {
+                const data = await api.GetConfirmLetter(1);
+                dispatch(GetConfirmsAction(data.data.data))
+                window.location.assign("/status")
+            }
+            Swal.fire({
+                icon: "success",
+                title: 'Upload File Success',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        } catch (err) {
+            console.error(err);
+            console.log('erorr')
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload File Failed',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
+        dispatch(hideLoading())
+    }
+}
+
 // function AsyncDeleteUser(id) {
 //     return async dispatch => {
 //         dispatch(showLoading());
@@ -193,4 +238,4 @@ function AsyncApproveLetter(id) {
 //     }
 // }
 
-export { AsyncGetConfirms, AsyncCreateLetter, AsyncUploadLetter, AsyncGetConfirmById, AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter }
+export { AsyncGetConfirms, AsyncCreateLetter, AsyncUploadLetter, AsyncGetConfirmById, AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter, AsyncUploadFileConfirmLetter }

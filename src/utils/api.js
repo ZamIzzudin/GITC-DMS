@@ -125,6 +125,22 @@ const api = (() => {
         return response;
     }
 
+    async function UploadFileConfirmLetter(id, payload) {
+        const form = new FormData()
+
+        const url = baseUrl + "/utils/upload";
+
+        form.append('type', 'confirm')
+        form.append('year', payload.year)
+        form.append('id_letter', id)
+        form.append('file', payload.file || undefined)
+
+        const response = await axios.post(url, form);
+        return response;
+    }
+
+
+
     // Offering
     async function GetOfferingLetter() {
         const url = baseUrl + `/offer/1`;
@@ -152,19 +168,6 @@ const api = (() => {
         return response
     }
 
-    async function UploadLetter(payload) {
-        const form = new FormData()
-
-        const url = baseUrl + "/utils/upload";
-
-        form.append('type', 'other')
-        form.append('metadata', JSON.stringify(payload))
-        form.append('file', payload.file || undefined)
-
-        const response = await axios.post(url, form);
-        return response;
-    }
-
     async function EditOfferLetter(id, payload) {
         const url = baseUrl + `/offer/resubmit/${id}`;
         const response = await axios.put(url, payload);
@@ -190,6 +193,41 @@ const api = (() => {
         return response;
     }
 
+    async function UploadFileOfferLetter(id, payload) {
+        const form = new FormData()
+
+        const url = baseUrl + "/utils/upload";
+
+        form.append('type', 'offer')
+        form.append('year', payload.year)
+        form.append('id_letter', id)
+        form.append('file', payload.file || undefined)
+
+        const response = await axios.post(url, form);
+        return response;
+    }
+
+    //Upload Letter
+    async function UploadLetter(payload) {
+        const form = new FormData()
+
+        const url = baseUrl + "/utils/upload";
+
+        form.append('type', 'other')
+        form.append('metadata', JSON.stringify(payload))
+        form.append('file', payload.file || undefined)
+
+        const response = await axios.post(url, form);
+        return response;
+    }
+    //view upload letter
+    async function ViewUploadLetter(id) {
+        const url = baseUrl + `/google/open/${id}`;
+
+        const response = await axios.get(url);
+        return response;
+    }
+
     return {
         Login,
         Refresh,
@@ -207,6 +245,7 @@ const api = (() => {
         EditConfirmLetter,
         RevisiConfirmLetter,
         ApproveCofirmLetter,
+        UploadFileConfirmLetter,
 
         GetOfferingLetter,
         CreateOffer,
@@ -214,8 +253,10 @@ const api = (() => {
         EditOfferLetter,
         RevisiOfferLetter,
         ApproveOfferLetter,
+        UploadFileOfferLetter,
 
-        ReportPerMonth
+        ReportPerMonth,
+        ViewUploadLetter
     };
 
 

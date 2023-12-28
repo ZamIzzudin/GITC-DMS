@@ -1,11 +1,18 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getYear, formatDate } from '../../../tools/FormatDate'
 import { formatCurrency } from '../../../tools/FormatCurrency'
 import Logo from "../../../../assets/picture/Logo Garuda.svg"
 import Style from "./offeringLetter.module.css"
 
-const OfferingLetter = ({ data }) => {
+const OfferingLetter = ({ data, pagesRef }) => {
+    const page1Ref = useRef(null);
+    const page2Ref = useRef(null);
+
+    // Set ref values to the array for passing them to the parent
+    if (pagesRef) {
+        pagesRef.current = [page1Ref, page2Ref];
+    }
 
     useEffect(() => {
         setLetterData(
@@ -53,7 +60,6 @@ const OfferingLetter = ({ data }) => {
         TNC: data?.TNC
     });
 
-    // console.log(letterData)
 
     const renderPenutup = () => {
         return (<p style={{ marginBottom: "2rem" }}>Demikian disampaikan, perkenan konfirmasi lebih lanjut apabila setuju dengan surat penawaran ini. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.</p>)
@@ -86,7 +92,7 @@ const OfferingLetter = ({ data }) => {
     return (
         <div className='container' style={{ display: "flex", alignItems: "center", flexDirection: "column", padding: "30px 0" }}>
             {/* page 1 */}
-            <div className={Style.letter}>
+            <div ref={page1Ref} className={Style.letter}>
                 <div className={Style.logo}>
                     <img src={Logo} alt="Logo" />
                 </div>
@@ -201,7 +207,7 @@ const OfferingLetter = ({ data }) => {
             {/* page 2 */}
             {letterData.penawaran_forms.length >= 5 &&
                 (
-                    <div className={Style.letter}>
+                    <div ref={page2Ref} className={Style.letter}>
                         <div className={Style.logo}>
                             <img src={Logo} alt="Logo" />
                         </div>
@@ -262,7 +268,6 @@ const OfferingLetter = ({ data }) => {
                     </div>
                 )}
         </div>
-        // <p>dwdw</p>
     )
 }
 
