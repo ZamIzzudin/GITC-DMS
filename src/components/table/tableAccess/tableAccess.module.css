@@ -1,0 +1,17 @@
+.tableAccess thead tr {
+    border-bottom: 0.5px solid #000;
+    margin-bottom: 30px;
+}
+
+.tableAccess thead tr th:first-child span {
+    margin: auto;
+}
+
+.tableAccess td,
+.tableAccess th {
+    padding: 15px;
+}
+
+.tableAccess div:nth-child(3) {
+    padding: 30px;
+}

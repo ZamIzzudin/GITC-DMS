@@ -11,6 +11,7 @@ import ModalDeleteAccess from '../../modal/access/ModalDeleteAccess';
 import ModalAddAccess from '../../modal/access/ModalAddAccess';
 
 import { dataUser } from '../../../utils/DummyData'
+import Style from './tableAccess.module.css'
 
 const TableAccess = () => {
     const { users = [] } = useSelector(states => states)
@@ -96,8 +97,8 @@ const TableAccess = () => {
             }
 
             <DataTable
-                // value={data}
                 value={users}
+                className={Style.tableAccess}
                 showGridlines
                 removableSort
                 paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]}
@@ -105,16 +106,29 @@ const TableAccess = () => {
                 dataKey="id"
                 id='id'
                 header={headerBodyTemplate}
-
-            // style={{ paddingLeft: "100px", paddingRight: "100px" }}
-
             >
-                <Column field="id" header="No" headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }} body={(data, e) => e.rowIndex + 1} style={{ textAlign: "center" }} />
-                <Column field="username" header="Nama" headerStyle={{ borderBottom: "1px solid #000" }} />
-                <Column field="role" header="Authority" headerStyle={{ borderBottom: "1px solid #000" }} />
-                <Column body={actionBodyTemplate} headerStyle={{ borderBottom: "1px solid #000" }} />
+                <Column field="id" header="No"
+                    // headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
+                    body={(data, e) => e.rowIndex + 1}
+                    style={{ textAlign: "center" }}
+                />
+                <Column
+                    field="username"
+                    header="Nama"
+                // headerStyle={{ borderBottom: "1px solid #000" }}
+                />
+                <Column
+                    field="role"
+                    header="Authority"
+                // headerStyle={{ borderBottom: "1px solid #000" }}
+                />
+                <Column
+                    body={actionBodyTemplate}
+                // headerStyle={{ borderBottom: "1px solid #000" }}
+                />
             </DataTable>
         </div>
+
     )
 }
 

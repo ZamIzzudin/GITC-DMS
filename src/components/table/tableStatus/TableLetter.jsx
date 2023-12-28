@@ -169,7 +169,7 @@ const TableLetter = () => {
                         />
                     </span>
                 </div>
-            </div>
+            </div >
         );
     };
 
@@ -247,9 +247,10 @@ const TableLetter = () => {
 
     return (
         <div>
-            <div className={style.tableLetter}>
+            <div >
                 <DataTable
                     value={letterOption === 'Confirmation Letter' ? confirms : offers}
+                    className={style.tableLetter}
                     showGridlines
                     removableSort
                     scrollable scrollHeight="650px" sortField="tanggal" sortOrder={-1}
@@ -263,41 +264,42 @@ const TableLetter = () => {
                     <Column
                         field="id"
                         header="No"
-                        headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
+                        // headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
                         body={(data, e) => e.rowIndex + 1}
                         style={{ textAlign: "center" }} />
                     <Column
                         field="nama_tertuju"
                         header="Nama"
                         sortable
-                        headerStyle={{ borderBottom: "1px solid #000", }}
+                        // headerStyle={{ borderBottom: "1px solid #000", }}
                         body={nameBodyTemplate} />
                     <Column
                         field="tanggal_surat"
                         header="Tanggal"
                         sortable
-                        headerStyle={{ borderBottom: "1px solid #000" }}
+                        // headerStyle={{ borderBottom: "1px solid #000" }}
                         body={dateBodyTemplate} />
                     <Column
                         field="nama_perusahaan"
                         header="Customer"
                         sortable
-                        headerStyle={{ borderBottom: "1px solid #000" }} />
+                    // headerStyle={{ borderBottom: "1px solid #000" }} 
+                    />
                     <Column
                         field="status"
                         header="Status"
                         sortable
-                        headerStyle={{ borderBottom: "1px solid #000" }}
+                        // headerStyle={{ borderBottom: "1px solid #000" }}
                         body={statusBodyTemplate} />
                     <Column
                         header=""
-                        headerStyle={{ borderBottom: "1px solid #000" }}
+                        // headerStyle={{ borderBottom: "1px solid #000" }}
                         body={uploadScanBodyTemplate}
                         style={{ textAlign: "center" }} />
                     <Column
                         field=""
                         header="Doc"
-                        headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
+                        // headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
                         body={documentBodyTemplate}
                         style={{ textAlign: "center" }} />
                 </DataTable>

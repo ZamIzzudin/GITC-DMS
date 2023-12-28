@@ -99,7 +99,7 @@ const OfferingLetter = ({ data, pagesRef }) => {
                 <div className={Style.column}>
                     {/* informasi perusahan Garuda */}
                     <div className={Style.colSatu}>
-                        <div style={{ display: "flex", flexDirection: "column", marginTop: "175px", gap: "7px", marginBottom: "30px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", marginTop: "160px", gap: "7px", marginBottom: "30px" }}>
                             <p style={{ fontWeight: "bold" }}>Kota/City</p>
                             <p>Nomor Kami/Our Number</p>
                             <p>Perihal/Subject</p>
@@ -145,12 +145,12 @@ const OfferingLetter = ({ data, pagesRef }) => {
                     <div className={Style.colDua}>
 
                         {/* informasi Customer */}
-                        <div style={{ marginBottom: "4rem", maxWidth: "200px" }}>
+                        <div style={{ marginBottom: "3rem", maxWidth: "200px" }}>
                             <p>Kepada</p>
                             <p>Yth. {letterData.nama_tertuju || <span className={Style.infoInput}>nama tertuju</span>}</p>
                             <p>{letterData.jabatan || <span className={Style.infoInput}>Jabatan</span>}</p>
                             <p>{letterData.nama_perusahaan || <span className={Style.infoInput}>nama perusahaan</span>}</p>
-                            <p>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
+                            <p style={{ maxWidth: "300px", height: "35px" }}>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
                             <p>Jakarta, {formatDate(letterData.tanggal_surat) || <span className={Style.infoInput}>tanggal surat</span>}</p>

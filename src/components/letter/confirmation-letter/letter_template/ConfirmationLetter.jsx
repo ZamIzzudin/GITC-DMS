@@ -350,7 +350,7 @@ const ConfirmationLetter = ({ data, pagesRef }) => {
                 </div>
                 <div className={Style.column}>
                     <div className={Style.colSatu}>
-                        <div style={{ display: "flex", flexDirection: "column", marginTop: "175px", gap: "7px", marginBottom: "30px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", marginTop: "160px", gap: "7px", marginBottom: "30px" }}>
                             <p style={{ fontWeight: "bold" }}>Kota/City</p>
                             <p>Nomor Kami/Our Number</p>
                             <p>Perihal/Subject</p>
@@ -394,12 +394,12 @@ const ConfirmationLetter = ({ data, pagesRef }) => {
                         </div>
                     </div>
                     <div className={Style.colDua}>
-                        <div style={{ marginBottom: "4rem" }}>
+                        <div style={{ marginBottom: "3rem" }}>
                             <p>Kepada</p>
                             <p>Yth. {letterData.nama_tertuju || <span className={Style.infoInput}>Nama Tertuju</span>}</p>
                             <p>{letterData.jabatan || <span className={Style.infoInput}>Jabatan</span>}</p>
                             <p>{letterData.nama_perusahaan || <span className={Style.infoInput}>Nama Perusahaan</span>}</p>
-                            <p style={{ maxWidth: "300px" }}>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
+                            <p style={{ maxWidth: "300px", height: "35px" }}>{letterData.alamat_perusahaan || <span className={Style.infoInput}>alamat perusahaan</span>}</p>
                         </div>
                         <div style={{ marginBottom: "3rem" }}>
                             <p>Jakarta, {formatDate(letterData.tanggal_surat) || <span className={Style.infoInput}>tanggal surat</span>}</p>
