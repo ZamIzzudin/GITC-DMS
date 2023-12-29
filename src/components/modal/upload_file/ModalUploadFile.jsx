@@ -32,7 +32,6 @@ const ModalUploadFile = ({ show, setShow, data, letter }) => {
             }))
         }
     }
-    console.log(data)
 
     return (
         <div>

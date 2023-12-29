@@ -58,8 +58,6 @@ const CreateConfirmationLetter = () => {
         dispatch(AsyncCreateLetter(letterData))
     }
 
-    console.log(letterData)
-
     return (
 
         <div className='container'>
@@ -87,62 +85,3 @@ const CreateConfirmationLetter = () => {
 }
 
 export default CreateConfirmationLetter
-
-// const [templateOption, setTemplateOption] = useState("Produk saja")
-
-// // informasi Letter
-// const [letterInfo, setLetterInfo] = useState({
-//     nomorSurat: '',
-//     namaPenerbit: '',
-//     tanggalSurat: '',
-//     perihal: '',
-//     mediaRef: '',
-//     tanggalRef: '',
-//     jenisPermohonan: '',
-//     catatan: '',
-// });
-
-// //informasi Customer
-// const [customerInfo, setCustomerInfo] = useState({
-//     namaTertuju: '',
-//     jabatan: '',
-//     namaPerusahaan: '',
-//     alamatPerusahaan: '',
-// });
-
-// // informasi produk
-// const [productInfo, setProductInfo] = useState({
-//     category: '',
-//     subCategory: '',
-// });
-
-// //informasi kegiatan
-// const [infoKegiatan, setInfoKegiatan] = useState({
-//     jumlahProduk: 1,
-//     produkForms: [
-//         {
-//             jenisKegiatan: '',
-//             tanggalKegiatan: '',
-//             jumlahPeserta: '',
-//             biayaMeal: '',
-//             kursUSD: '',
-//             biaya: '',
-//             totalBiayaKegiatan: "",
-//             totalBiayaMeals: "",
-//             durasi: '',
-//         }
-//     ],
-//     totalBiaya: 0
-// });
-
-// // console.log(letterInfo)
-
-// //term n condition
-// const [infoTNC, setInfoTNC] = useState({
-//     jumlahTNC: 1,
-//     TNC: [
-//         {
-//             detail: ''
-//         }
-//     ]
-// });

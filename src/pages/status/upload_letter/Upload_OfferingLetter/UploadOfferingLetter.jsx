@@ -46,8 +46,6 @@ const UploadOfferingLetter = () => {
         file: null
     });
 
-    console.log(letterData)
-
     function getData() {
         dispatch(AsyncUploadLetter(letterData))
     }

@@ -21,14 +21,11 @@ const ModalAddAccess = ({ showAddForm, setShowAddForm }) => {
 
     const handleAddAccess = (e) => {
         e.preventDefault();
-        console.log("klik")
         try {
             dispatch(AsyncAddUser({ username, displayName, password, role }));
             handleClose()
         } catch (err) {
             console.error(err);
-        } finally {
-            console.log("done")
         }
     }
 

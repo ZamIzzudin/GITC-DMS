@@ -1,19 +1,22 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
 import InputFile from '../../../tools/inputFile'
 
-import { formatDate, formatDateToLetterNumber } from '../../../tools/FormatDate'
+import { formatDateToLetterNumber } from '../../../tools/FormatDate'
 import Style from "./inputLetter.module.css"
 import Products from "../../../../utils/Product.json"
 
 
 const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, editLetter }) => {
-
+    const { auth = {} } = useSelector(states => states)
     const [typeDurasi, setTypeDurasi] = useState([]);
     const [inputDurasi, setInputDurasi] = useState('');
     const [file, setFile] = useState(null)
+
+    const [isDisabled, setIsDisabled] = useState((editLetter && (auth.role !== 'Admin' && auth.role !== 'Sysadmin')) ? true : false);
 
 
     const productCode = Products.categories.find((cat) => cat.name === letterData.category)
@@ -53,7 +56,6 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
     };
 
     const handleDurasiChange = (index, value) => {
-        console.log(`Updating typeDurasi[${index}] to ${value}`);
         setTypeDurasi((prevTypeDurasi) => {
             const newTypeDurasi = [...prevTypeDurasi];
             newTypeDurasi[index] = value;
@@ -83,13 +85,13 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
         });
     };
 
-    // console.log(letterData)
-
     const renderTNC = () => {
         return letterData.TNC.map((tnc, index) => (
             <Form.Group key={index} controlId={`TNC-${index}`} className="mb-2">
                 <Form.Label>Term n Condition ke-{index + 1}</Form.Label>
                 <Form.Control type="text" size='md'
+                    required
+                    disabled={isDisabled}
                     value={tnc.detail}
                     onChange={(e) => handleTNCChange(index, 'detail', e.target.value)}
                 />
@@ -104,6 +106,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                 <Form.Group controlId={`jenisPenawaran-${index}`} className="mb-2">
                     <Form.Label>Jenis Penawaran</Form.Label>
                     <Form.Control type="text" size='md'
+                        required
+                        disabled={isDisabled}
                         value={form.jenis_penawaran}
                         onChange={(e) => handlePenawaranFormsChange(index, 'jenis_penawaran', e.target.value)}
                     />
@@ -112,19 +116,21 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Label>Durasi</Form.Label>
                     <InputGroup className="mb-3">
                         <Form.Control type="number" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={form.durasi.match(/\d+/)}
                             onChange={(e) => {
-                                // console.log(e.target.value, index);
                                 setInputDurasi(e.target.value)
                                 const input = e.target.value;
                                 if (input) {
                                     handlePenawaranFormsChange(index, 'durasi', input + ' ' + typeDurasi[index]);
                                 }
-                                // console.log(infoKegiatan.produkForms)
                             }
                             }
                         />
                         <Form.Select
+                            required
+                            disabled={isDisabled}
                             value={form.durasi.split(' ')[1]}
                             onChange={(e) => {
                                 handleDurasiChange(index, e.target.value)
@@ -132,7 +138,6 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                                 if (input) {
                                     handlePenawaranFormsChange(index, 'durasi', inputDurasi + ' ' + input);
                                 }
-                                // console.log(infoKegiatan.produkForms)
                             }} >
                             <option>choose</option>
                             <option>jam</option>
@@ -146,6 +151,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <InputGroup className="mb-3">
                         <InputGroup.Text id="biaya1">Rp</InputGroup.Text>
                         <Form.Control type="number" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={form.biaya}
                             onChange={(e) => handlePenawaranFormsChange(index, 'biaya', e.target.value)}
                         />
@@ -158,14 +165,12 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!file && !editLetter) {
-            console.log("create")
             getData()
         }
         if (editLetter) {
             editLetter()
         }
         if (file) {
-            console.log("upload")
             getData()
         }
     }
@@ -185,22 +190,18 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                         isUpload && (<Form.Group controlId="nomor_surat" className="mb-2">
                             <Form.Label>Nomor Surat</Form.Label>
                             <Form.Control type="text" size='sm'
+                                required
+                                disabled={isDisabled}
                                 value={letterData.nomor_surat}
                                 onChange={(e) => { setLetterData({ ...letterData, nomor_surat: e.target.value }) }}
                             />
                         </Form.Group>)
-                        // : (
-                        //     <Form.Group controlId="nomor_surat" className="mb-2">
-                        //         <Form.Label>Nomor Surat <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*otomatis</span></Form.Label>
-                        //         <Form.Control type="text" size='sm' readOnly
-                        //             value={letterData.nomor_surat}
-                        //         />
-                        //     </Form.Group>
-                        // )
                     }
                     <Form.Group controlId="namaPenerbit" className="mb-2">
                         <Form.Label>Nama Penanda Tangan</Form.Label>
                         <Form.Control
+                            required
+                            disabled={isDisabled}
                             placeholder='ex: Vonny Franciska Pinontoan'
                             type="text" size='sm'
                             value={letterData.nama_penerbit}
@@ -209,6 +210,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="tanggalSurat" className="mb-2">
                         <Form.Label>Tanggal Surat</Form.Label>
                         <Form.Control type="date" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={letterData.tanggal_surat}
                             onChange={(e) => { setLetterData({ ...letterData, tanggal_surat: e.target.value }) }}
                         />
@@ -216,6 +219,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="subject" className="mb-2">
                         <Form.Label>Subject/Perihal</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={letterData.perihal}
                             onChange={(e) => { setLetterData({ ...letterData, perihal: e.target.value }) }}
                         />
@@ -223,6 +228,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="mediaReferensi" className="mb-2">
                         <Form.Label>Media Referensi</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={letterData.media_ref}
                             onChange={(e) => { setLetterData({ ...letterData, media_ref: e.target.value }) }}
                         />
@@ -230,6 +237,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="tanggalReferensi" className="mb-2">
                         <Form.Label>Tanggal Referensi</Form.Label>
                         <Form.Control type="date" size='md'
+                            required
+                            disabled={isDisabled}
                             value={letterData.tanggal_ref}
                             onChange={(e) => { setLetterData({ ...letterData, tanggal_ref: e.target.value }) }}
                         />
@@ -237,6 +246,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="jenisPermohonan" className="mb-2">
                         <Form.Label>Jenis Permohonan</Form.Label>
                         <Form.Control type="text" size='sm'
+                            disabled={isDisabled}
                             value={letterData.jenis_permohonan}
                             onChange={(e) => { setLetterData({ ...letterData, jenis_permohonan: e.target.value }) }}
                         />
@@ -244,6 +254,7 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="catatan" className="mb-2">
                         <Form.Label>Catatan <span style={{ fontSize: "12px", color: "#9D9D9D" }}>*optional</span></Form.Label>
                         <Form.Control as="textarea" size='sm' rows={3}
+                            disabled={isDisabled}
                             value={letterData.catatan}
                             onChange={(e) => { setLetterData({ ...letterData, catatan: e.target.value }) }}
                         />
@@ -255,6 +266,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="namaTertuju" className="mb-2">
                         <Form.Label>Nama Tertuju</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
+                            disabled={isDisabled}
                             placeholder='ex: Ibu Vonny Franciska Pinontoan'
                             value={letterData.nama_tertuju}
                             onChange={(e) => { setLetterData({ ...letterData, nama_tertuju: e.target.value }) }}
@@ -263,6 +276,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="jabatan" className="mb-2">
                         <Form.Label>Jabatan</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={letterData.jabatan}
                             onChange={(e) => { setLetterData({ ...letterData, jabatan: e.target.value }) }}
                         />
@@ -270,6 +285,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="namaPerusahaan" className="mb-2">
                         <Form.Label>Nama Perusahaan</Form.Label>
                         <Form.Control type="text" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={letterData.nama_perusahaan}
                             onChange={(e) => { setLetterData({ ...letterData, nama_perusahaan: e.target.value }) }}
                         />
@@ -277,6 +294,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="alamatPerusahaan" className="mb-2">
                         <Form.Label>Alamat Perusahaan</Form.Label>
                         <Form.Control as="textarea" size='sm'
+                            required
+                            disabled={isDisabled}
                             value={letterData.alamat_perusahaan}
                             onChange={(e) => { setLetterData({ ...letterData, alamat_perusahaan: e.target.value }) }}
                         />
@@ -287,6 +306,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="kategoriProduk" className="mb-2">
                         <Form.Label>Kategori Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
+                            disabled={isDisabled}
                             value={letterData.category}
                             onChange={(e) => { setLetterData({ ...letterData, category: e.target.value }) }}
                         >
@@ -301,6 +322,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="subCategory" className="mb-2">
                         <Form.Label>Jenis Sub-Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
+                            disabled={isDisabled}
                             value={letterData.sub_category}
                             onChange={(e) => { setLetterData({ ...letterData, sub_category: e.target.value }) }}
                         >
@@ -316,6 +339,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="jumlahProduk" className="mb-2">
                         <Form.Label>Jumlah Produk</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
+                            disabled={isDisabled}
                             value={letterData.jumlah_produk}
                             onChange={handleJumlahPenawaranChange}
                         >
@@ -335,6 +360,8 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     <Form.Group controlId="jumlahTnC" className="mb-2">
                         <Form.Label>Jumlah Term n Condition</Form.Label>
                         <Form.Select aria-label="Default select example" size='md'
+                            required
+                            disabled={isDisabled}
                             value={letterData.jumlah_TNC}
                             onChange={handleJumlahTNCChange}
                         >
@@ -354,9 +381,13 @@ const InputOfferingLetter = ({ letterData, setLetterData, isUpload, getData, edi
                     )
                 }
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button type="submit" className={Style.btnSubmit}>
-                        Submit
-                    </Button>
+                    {
+                        (((auth.role === 'Admin' || auth.role === 'Sysadmin') && editLetter) || !editLetter) && (
+                            <Button type="submit" className={Style.btnSubmit} >
+                                Submit
+                            </Button>
+                        )
+                    }
                 </div>
             </Form>
         </div>

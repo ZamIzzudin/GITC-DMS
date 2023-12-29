@@ -108,23 +108,19 @@ const TableAccess = () => {
                 header={headerBodyTemplate}
             >
                 <Column field="id" header="No"
-                    // headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
                     body={(data, e) => e.rowIndex + 1}
                     style={{ textAlign: "center" }}
                 />
                 <Column
                     field="username"
                     header="Nama"
-                // headerStyle={{ borderBottom: "1px solid #000" }}
                 />
                 <Column
                     field="role"
                     header="Authority"
-                // headerStyle={{ borderBottom: "1px solid #000" }}
                 />
                 <Column
                     body={actionBodyTemplate}
-                // headerStyle={{ borderBottom: "1px solid #000" }}
                 />
             </DataTable>
         </div>

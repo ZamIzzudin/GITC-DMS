@@ -26,9 +26,6 @@ const EditConfirmationLetter = () => {
 
     const cleanedRevisi = revisi.filter((value) => value !== undefined && value !== null && value.trim() !== null && value.trim() !== '');
 
-    console.log(dataCL)
-    console.log(revisi)
-    console.log(cleanedRevisi)
     // const [dataCL, setDataCL] = useState(dataConfirmationLetter.find(item => item.id === id))
     async function getData(id) {
         try {
@@ -124,7 +121,7 @@ const EditConfirmationLetter = () => {
                         )
                     }
                     {
-                        (dataCL.status === "submitted" && showRevisiForm === false) && (
+                        (dataCL.status === "submitted" && showRevisiForm === false && auth.role === 'PIC') && (
                             <Button type="button" className={`text-bg-danger ${Style.btnApprove}`}
                                 onClick={() => setShowRevisiForm(!showRevisiForm)}
                             >
@@ -155,61 +152,18 @@ const EditConfirmationLetter = () => {
                 </div>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button type="button" className={`text-bg-success ${Style.btnApprove}`}
-                    onClick={handleApprove}
-                >
-                    Approve
-                </Button>
+                {
+                    auth.role === 'PIC' && (
+                        <Button type="button" className={`text-bg-success ${Style.btnApprove}`}
+                            onClick={handleApprove}
+                        >
+                            Approve
+                        </Button>
+                    )
+                }
             </div>
         </div>
     )
 }
 
 export default EditConfirmationLetter
-
-// const [editDataCL, setEditDataCL] = useState({
-//     template_option: dataCL ? dataCL.template_option : "faw",
-//     nomor_surat: dataCL ? dataCL.nomor_surat : "",
-//     nama_penerbit: dataCL ? dataCL.nama_penerbit : "",
-//     tanggal_surat: dataCL ? dataCL.tanggal_surat : "",
-//     perihal: dataCL ? dataCL.perihal : "",
-//     media_ref: dataCL ? dataCL.media_ref : "",
-//     tanggal_ref: dataCL ? dataCL.tanggal_ref : "",
-//     jenis_permohonan: dataCL ? dataCL.jenis_permohonan : "",
-//     catatan: dataCL ? dataCL.catatan : "",
-//     nama_tertuju: dataCL ? dataCL.nama_tertuju : "",
-//     jabatan: dataCL ? dataCL.jabatan : "",
-//     nama_perusahaan: dataCL ? dataCL.nama_perusahaan : "",
-//     alamat_perusahaan: dataCL ? dataCL.alamat_perusahaan : "",
-//     category: dataCL ? dataCL.category : "",
-//     sub_category: dataCL ? dataCL.sub_category : "",
-//     jumlah_produk: dataCL ? dataCL.jumlah_produk : "",
-//     produk_forms: dataCL ? dataCL.produk_forms : "",
-//     total_biaya: dataCL ? dataCL.total_biaya : "",
-//     jumlah_TNC: dataCL ? dataCL.jumlah_TNC : "",
-//     TNC: dataCL ? dataCL.TNC : ""
-// });
-
-
-// const [editDataCL, setEditDataCL] = useState({
-//     template_option: dataCL.template_option,
-//     nomor_surat: dataCL.nomor_surat,
-//     nama_penerbit: dataCL.nama_penerbit,
-//     tanggal_surat: dataCL.tanggal_surat,
-//     perihal: dataCL.perihal,
-//     media_ref: dataCL.media_ref,
-//     tanggal_ref: dataCL.tanggal_ref,
-//     jenis_permohonan: dataCL.jenis_permohonan,
-//     catatan: dataCL.catatan,
-//     nama_tertuju: dataCL.nama_tertuju,
-//     jabatan: dataCL.jabatan,
-//     nama_perusahaan: dataCL.nama_perusahaan,
-//     alamat_perusahaan: dataCL.alamat_perusahaan,
-//     category: dataCL.category,
-//     sub_category: dataCL.sub_category,
-//     jumlah_produk: dataCL.jumlah_produk,
-//     produk_forms: dataCL.produk_forms,
-//     total_biaya: dataCL.total_biaya,
-//     jumlah_TNC: dataCL.jumlah_TNC,
-//     TNC: dataCL.TNC
-// });

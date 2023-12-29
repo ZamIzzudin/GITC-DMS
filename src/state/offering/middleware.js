@@ -42,7 +42,6 @@ function AsyncCreateLetter(payload) {
             })
         } catch (err) {
             console.error(err);
-            console.log('erorr')
             Swal.fire({
                 icon: 'error',
                 title: 'Update Failed',
@@ -75,7 +74,6 @@ function AsyncUploadLetter(payload) {
             })
         } catch (err) {
             console.error(err);
-            console.log('erorr')
             Swal.fire({
                 icon: 'error',
                 title: 'Upload Gagal',
@@ -107,7 +105,6 @@ function AsyncEditLetter(id = null, payload) {
             })
         } catch (err) {
             console.error(err);
-            console.log('error edit letter')
             Swal.fire({
                 icon: 'error',
                 title: 'Update Gagal',
@@ -123,7 +120,6 @@ function AsyncRevisiLetter(id = null, paylaod) {
     return async dispatch => {
         dispatch(showLoading())
         try {
-            console.log(paylaod)
             const response = await api.RevisiOfferLetter(id, paylaod);
 
             if (response.info !== undefined) {
@@ -141,7 +137,6 @@ function AsyncRevisiLetter(id = null, paylaod) {
             })
         } catch (err) {
             console.error(err);
-            console.log('error need revision')
             Swal.fire({
                 icon: 'error',
                 title: 'Revision Input Failed',
@@ -174,7 +169,6 @@ function AsyncApproveLetter(id) {
             })
         } catch (err) {
             console.error(err);
-            console.log('erorr')
             Swal.fire({
                 icon: 'error',
                 title: 'Approve Letter Failed',
@@ -206,7 +200,6 @@ function AsyncUploadFileOfferLetter(id = null, payload) {
             })
         } catch (err) {
             console.error(err);
-            console.log('erorr')
             Swal.fire({
                 icon: 'error',
                 title: 'Upload File Failed',
@@ -217,42 +210,5 @@ function AsyncUploadFileOfferLetter(id = null, payload) {
         dispatch(hideLoading())
     }
 }
-
-
-// function AsyncEditUser(id, payload) {
-//     return async dispatch => {
-//         dispatch(showLoading())
-//         try {
-//             const response = await api.EditUser(id, payload);
-
-//             if (response.info !== undefined) {
-//                 throw new Error()
-//             }
-//             dispatch(AsyncGetUsers())
-
-//         } catch (err) {
-//             console.error(err);
-//             console.log('erorr')
-//         }
-//         dispatch(hideLoading())
-//     }
-// }
-
-// function AsyncDeleteUser(id) {
-//     return async dispatch => {
-//         dispatch(showLoading());
-//         try {
-//             const response = await api.DeleteUser(id);
-//             if (response.info !== undefined) {
-//                 throw new Error()
-//             }
-//             dispatch(AsyncGetUsers())
-//         } catch (err) {
-//             console.error(err);
-//             dispatch(GetUsersActions([]));
-//         }
-//         dispatch(hideLoading());
-//     }
-// }
 
 export { AsyncGetOfferings, AsyncCreateLetter, AsyncUploadLetter, AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter, AsyncUploadFileOfferLetter }

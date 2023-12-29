@@ -14,7 +14,6 @@ const api = (() => {
         };
 
         const response = await axios.post(url, data)
-        // console.log(response.data)
         return response;
     }
 
@@ -108,7 +107,6 @@ const api = (() => {
     }
 
     async function RevisiConfirmLetter(id, payload) {
-        console.log("api call")
         const url = baseUrl + `/confirm/revision/${id}`;
 
         const data = {
@@ -138,8 +136,6 @@ const api = (() => {
         const response = await axios.post(url, form);
         return response;
     }
-
-
 
     // Offering
     async function GetOfferingLetter() {
@@ -175,7 +171,6 @@ const api = (() => {
     }
 
     async function RevisiOfferLetter(id, payload) {
-        console.log("api call")
         const url = baseUrl + `/offer/revision/${id}`;
 
         const data = {

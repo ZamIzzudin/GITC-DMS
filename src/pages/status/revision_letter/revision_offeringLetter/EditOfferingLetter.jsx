@@ -14,6 +14,7 @@ import { AsyncEditLetter, AsyncRevisiLetter, AsyncApproveLetter } from '../../..
 import Style from "./editLetter.module.css"
 
 const EditOfferingLetter = () => {
+    const { auth = {} } = useSelector(states => states)
     const dispatch = useDispatch();
     const { id } = useParams();
     const [dataOL, setDataOL] = useState({})
@@ -22,10 +23,6 @@ const EditOfferingLetter = () => {
     const [revisi, setRevisi] = useState([])
 
     const cleanedRevisi = revisi.filter((value) => value !== undefined && value !== null && value.trim() !== null && value.trim() !== '');
-
-
-    console.log(revisi)
-    console.log(cleanedRevisi)
 
     async function getData(id) {
         try {
@@ -114,7 +111,7 @@ const EditOfferingLetter = () => {
                         )
                     }
                     {
-                        (dataOL.status === "submitted" && showRevisiForm === false) && (
+                        (dataOL.status === "submitted" && showRevisiForm === false && auth.role === 'PIC') && (
                             <Button type="button" className={`text-bg-danger ${Style.btnApprove}`}
                                 onClick={() => setShowRevisiForm(!showRevisiForm)}
                             >
@@ -145,12 +142,15 @@ const EditOfferingLetter = () => {
                 </div>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button type="button"
-                    className={`text-bg-success ${Style.btnApprove}`}
-                    onClick={() => handleApprove()}
-                >
-                    Approve
-                </Button>
+                {
+                    auth.role === 'PIC' && (
+                        <Button type="button" className={`text-bg-success ${Style.btnApprove}`}
+                            onClick={handleApprove}
+                        >
+                            Approve
+                        </Button>
+                    )
+                }
             </div>
         </div>
     )

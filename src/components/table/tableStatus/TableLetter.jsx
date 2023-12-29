@@ -2,49 +2,37 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
-import { AsyncGetConfirms } from '../../../state/confirm/middleware'
-import { AsyncGetOfferings } from '../../../state/offering/middleware'
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 
+import { AsyncGetConfirms } from '../../../state/confirm/middleware'
+import { AsyncGetOfferings } from '../../../state/offering/middleware'
 import { formatDate } from '../../tools/FormatDate';
 import api from '../../../utils/api';
-
 import ModalUploadFile from '../../modal/upload_file/ModalUploadFile';
-
-// import { dataConfirmationLetter, offeringLetterData } from '../../../utils/DummyData';
 
 import style from './tableLetter.module.css'
 
 const TableLetter = () => {
     const { confirms = [], offers = [] } = useSelector(states => states)
+    const { auth = {} } = useSelector(states => states)
     const dispatch = useDispatch()
-
-
     const navigate = useNavigate();
-    // const [data, setData] = useState([])
     const [letterOption, setLetterOption] = useState("Confirmation Letter")
     const [filters, setFilters] = useState(null);
     const [globalFilterValue, setGlobalFilterValue] = useState("");
     const [dropdown, setDropdown] = useState(false);
     const [showUploadModal, setShowUploadModal] = useState(false)
     const [selectedData, setSelectedData] = useState([]);
-    // const [loading, setLoading] = useState(false);
-    // const [showCreateForm, setShowCreateForm] = useState(false);
-    // const [showUploadForm, setShowUploadForm] = useState(false);
 
-    const typeLetterData = letterOption.toLowerCase().replace(/\s+/g, '-');
     const letter = ["Confirmation Letter", "Offering Letter"];
 
     //letter option
     const handleOptionClick = (option) => {
         setLetterOption(option);
-        // navigate(`/status/${typeLetterData.toLowerCase().replace(/\s+/g, '-')}`);
         setDropdown(false);
-        // setLoading()
     };
 
     async function getData(id) {
@@ -56,16 +44,12 @@ const TableLetter = () => {
             console.error('Kesalahan mengambil data:', error);
         }
     }
-
-
     //getData
     useEffect(() => {
         if (letterOption === "Confirmation Letter") {
             dispatch(AsyncGetConfirms(1))
-            // setData(dataConfirmationLetter);
         } else if (letterOption === "Offering Letter") {
             dispatch(AsyncGetOfferings(1))
-            // setData(offeringLetterData)
         }
         initFilters();
     }, [dispatch, letterOption])
@@ -95,7 +79,6 @@ const TableLetter = () => {
     };
 
     const handleEditClick = (id) => {
-        console.log(id)
         letterOption === "Confirmation Letter"
             ? navigate(`/edit/confirmation-letter/${id}`)
             : letterOption === "Offering Letter"
@@ -153,12 +136,18 @@ const TableLetter = () => {
                     </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "30px", }}>
-                    <button className={`btn`} style={{ backgroundColor: "#9D9D9D" }}
-                        onClick={handleUploadClick}
-                    >Upload</button>
-                    <button className={`btn`} style={{ backgroundColor: "#164391" }}
-                        onClick={handleCreateClick}
-                    >Create</button>
+                    {
+                        auth.role !== 'Guest' && (
+                            <React.Fragment>
+                                <button className={`btn`} style={{ backgroundColor: "#9D9D9D" }}
+                                    onClick={handleUploadClick}
+                                >Upload</button>
+                                <button className={`btn`} style={{ backgroundColor: "#164391" }}
+                                    onClick={handleCreateClick}
+                                >Create</button>
+                            </React.Fragment>
+                        )
+                    }
                     <span className="p-input-icon-left " style={{ display: "flex", justifyContent: "center" }}>
                         <i className="pi pi-search" />
                         <InputText
@@ -202,7 +191,6 @@ const TableLetter = () => {
             <p>{date}</p>
         )
     }
-
     //upload column template in library primeReact
     const uploadScanBodyTemplate = (rowData) => {
         return (
@@ -210,14 +198,14 @@ const TableLetter = () => {
                 {
                     rowData.status === "done" ? (
                         <i className="pi pi-eye" style={{ cursor: "pointer" }}
-                            // onClick={() => navigate(`/view/upload-dokumen/${rowData._id}`)}
                             onClick={() => getData(rowData.drive_id)}
                         />)
-                        : rowData.status === "approved" ?
-                            (<i className="pi pi-upload" style={{ cursor: "pointer" }} onClick={() => {
-                                setShowUploadModal(true)
-                                setSelectedData(rowData)
-                            }} />)
+                        : rowData.status === "approved" && auth.role !== "Guest" ?
+                            (<i className="pi pi-upload" style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                    setShowUploadModal(true)
+                                    setSelectedData(rowData)
+                                }} />)
                             : (<span>-</span>)
                 }
             </React.Fragment>
@@ -226,7 +214,6 @@ const TableLetter = () => {
 
     //document column template in library primeReact
     const documentBodyTemplate = (rowData) => {
-        // console.log(rowData._id)
         return (
             <React.Fragment>
                 {
@@ -264,42 +251,35 @@ const TableLetter = () => {
                     <Column
                         field="id"
                         header="No"
-                        // headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
                         body={(data, e) => e.rowIndex + 1}
                         style={{ textAlign: "center" }} />
                     <Column
                         field="nama_tertuju"
                         header="Nama"
                         sortable
-                        // headerStyle={{ borderBottom: "1px solid #000", }}
                         body={nameBodyTemplate} />
                     <Column
                         field="tanggal_surat"
                         header="Tanggal"
                         sortable
-                        // headerStyle={{ borderBottom: "1px solid #000" }}
                         body={dateBodyTemplate} />
                     <Column
                         field="nama_perusahaan"
                         header="Customer"
                         sortable
-                    // headerStyle={{ borderBottom: "1px solid #000" }} 
                     />
                     <Column
                         field="status"
                         header="Status"
                         sortable
-                        // headerStyle={{ borderBottom: "1px solid #000" }}
                         body={statusBodyTemplate} />
                     <Column
                         header=""
-                        // headerStyle={{ borderBottom: "1px solid #000" }}
                         body={uploadScanBodyTemplate}
                         style={{ textAlign: "center" }} />
                     <Column
                         field=""
                         header="Doc"
-                        // headerStyle={{ borderBottom: "1px solid #000", display: "flex", justifyContent: "center" }}
                         body={documentBodyTemplate}
                         style={{ textAlign: "center" }} />
                 </DataTable>

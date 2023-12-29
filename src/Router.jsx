@@ -4,7 +4,6 @@ import { AsyncRefreshToken, AsyncCheckLogin, AsyncLogout } from './state/auth/mi
 import { useSelector, useDispatch } from 'react-redux'
 
 import Layout from './components/layout'
-// import Header from './components/layout/Header'
 import Login from './pages/login'
 import Home from './pages/home'
 import Status from "./pages/status";
@@ -15,14 +14,8 @@ import CreateConfirmationLetter from "./pages/status/create_letter/create_confir
 import CreateOfferingLetter from "./pages/status/create_letter/create_offeringLetter/CreateOfferingLetter";
 import ViewConfirmationLetter from "./pages/status/view_letter/view_confirmationLetter/ViewConfirmationLetter";
 import ViewOfferingLetter from "./pages/status/view_letter/view_offeringLetter/ViewOfferingLetter";
-import ViewUploadFile from "./pages/status/view_letter/view_uploadFile/ViewUploadFile";
 import EditOfferingLetter from "./pages/status/revision_letter/revision_offeringLetter/EditOfferingLetter";
 import EditConfirmationLetter from "./pages/status/revision_letter/revision_confirmationLetter/EditConfirmationLetter";
-
-// import OfferingLetter from "./components/letter/offering-letter/letter_template/OfferingLetter";
-import ConfirmationLetter from "./components/letter/confirmation-letter/letter_template/ConfirmationLetter";
-
-import Loading from "./pages/test"
 
 function AppRouter() {
   const { auth = {} } = useSelector(states => states)
@@ -62,9 +55,8 @@ function AppRouter() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/test" element={<Loading />} />
             <Route path="/status" element={<Status />} />
-            {/* <Route path="/status/:typeLetterData" element={<Layout><Status /></Layout>} /> */}
+
             <Route path="/upload/confirmation-letter" element={<UploadConfirmationLetter />} />
             <Route path="/upload/offering-letter" element={<UploadOfferingLetter />} />
 
@@ -77,11 +69,6 @@ function AppRouter() {
             <Route path="/edit/confirmation-letter/:id" element={<EditConfirmationLetter />} />
             <Route path="/edit/offering-letter/:id" element={<EditOfferingLetter />} />
 
-            <Route path="/view/upload-dokumen/:id" element={<ViewUploadFile />} />
-
-            <Route path="/view/CL" element={<ConfirmationLetter />} />
-            {/* <Route path="/status/offering-letter" element={<Layout><OfferingLetter /></Layout>} />
-        <Route path="/status/confirmation-letter" element={<Layout><ConfirmationLetter /></Layout>} /> */}
             <Route path="/access" element={<Access />} />
           </Routes>
         </Layout>

@@ -490,23 +490,6 @@ const ConfirmationLetter = ({ data, pagesRef }) => {
                                     {letterData.produk_forms.length === 4 && (
                                         renderTotalBiayaUntilPembayaran()
                                     )}
-                                    {/* {letterData.produk_forms.length === 5 && (
-                                        // renderTotalBiaya()
-                                        ""
-                                    )}
-                                    {letterData.produk_forms.length === 6 && (
-                                        renderTotalBiayaUntilLokasi()
-                                    )}
-                                    {letterData.produk_forms.length === 7 && (
-                                        renderTotalBiayaUntilPembayaran()
-                                    )}
-                                    {letterData.produk_forms.length === 8 && (
-                                        <table className={Style.tableKegiatan} style={{ width: "100%" }}>
-                                            <tbody>
-                                                {renderTotalBiaya()}
-                                            </tbody>
-                                        </table>
-                                    )} */}
                                 </React.Fragment>
                             )}
 
@@ -677,65 +660,3 @@ const ConfirmationLetter = ({ data, pagesRef }) => {
 
 export default ConfirmationLetter
 
-
-{/* <React.Fragment>
-<table className={Style.tableKegiatan} style={{ width: "100%" }}>
-    <tbody>
-        <tr>
-            <td style={{ padding: "10px 0" }}>{banyakKegiatan + 1}.</td>
-            <td style={{ padding: "10px 0" }}>Total Biaya</td>
-            <td style={{ padding: "10px 5px" }}>:</td>
-            <td style={{ padding: "10px 0" }}>
-                Rp {infoKegiatan.produkForms.reduce((total, data) => total + data.biaya + data.biayaMeal, 0)} = Rp {infoKegiatan.produkForms.reduce((total, data) => total + data.biaya + data.biayaMeal, 0)} ({terbilang} rupiah)
-            </td>
-        </tr>
-
-        <tr>
-            <td>{banyakKegiatan + 2}.</td>
-            <td style={{ paddingBottom: "10px" }}>Pembayaran</td>
-            <td>:</td>
-            <td style={{ paddingBottom: "10px" }} className={Style.pembayaran}>
-                Dilakukan sebesar 100% dengan cara transfer kepada:
-                <p>Nama Bank : PT.Bank Rakyat Indonesia (Persero), Tbk</p>
-                <p>Alamat <span style={{ marginLeft: "30px" }}>:</span> Jalan Tanah Abang IV, Jakarta</p>
-                <p>No. Rek. <span style={{ marginLeft: "21px" }}>:</span> IDR 0018.01.002013.30.1</p>
-                <p>Atas Nama<span style={{ marginLeft: "9px" }}>:</span> PT Garuda Indonesia (Persero) Tbk</p>
-            </td>
-        </tr>
-        <tr>
-            <td>{banyakKegiatan + 3}.</td>
-            <td>Lokasi</td>
-            <td>:</td>
-            <td style={{ paddingBottom: "10px" }}>
-                <p>Garuda Indonesia Training Center</p>
-                <p>Jl. Duri Kosambi Raya No. 125</p>
-                <p>Jakarta 11750 - Indonesia</p>
-            </td>
-        </tr>
-
-        <tr>
-            <td>{banyakKegiatan + 4}.</td>
-            <td>Cancellation Fee</td>
-            <td>:</td>
-            <td>
-                <p>Pembatalan 1 (satu) hari kerja sebelum pelaksanaan training akan dikenakan charge 100%</p>
-                <p>Pembatalan 2 (dua) sampai 3 (tiga) hari kerja sebelum pelaksanaan training akan dikenakan charge 50%</p>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<div>
-    <p style={{ marginBottom: "1rem" }}>Surat Konfirmasi ini merupakan satu kesatuan yang tidak terpisahkan dengan syarat dan ketentuan umum yang berlaku di Garuda Indonesia Training Center. Surat Konfirmasi ini dapat juga digunakan sebagai INVOICE / penagihan training.</p>
-    <p>Mohon Surat Konfirmasi ini ditanda tangani dan dikirim kembali kepada kami. <br />
-        Terima Kasih.</p>
-</div>
-</React.Fragment> */}
-
-// const ConfirmationLetter = ({ template_option, letterInfo, customerInfo, productInfo, infoKegiatan, infoTNC, totalBiayaMealsPerKegiatan, seTotalBiayaMealsPerKegiatan }) => {
-//     const { nomorSurat, namaPenerbit, tanggalSurat, perihal, mediaRef, tanggalRef, jenisPermohonan, catatan } = letterInfo;
-//     const { namaTertuju, jabatan, namaPerusahaan, alamatPerusahaan } = customerInfo;
-//     const { category, subCategory } = productInfo;
-//     const { jumlahProduk, produkForms: [], totalBiaya } = infoKegiatan;
-//     const { jumlahTNC, TNC: [] } = infoTNC;
-
-//     const banyakKegiatan = infoKegiatan.produkForms.length;
