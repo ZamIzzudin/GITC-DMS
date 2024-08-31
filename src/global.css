@@ -1,17 +1,19 @@
+/** @format */
+
 :root {
   /*=======================Color==================*/
   --color-primary: #022561;
   --color-sec-primary: #164391;
-  --color-secondary: #C9CBFF;
-  --color-green: #00C5C1;
+  --color-secondary: #c9cbff;
+  --color-green: #00c5c1;
   --color-state-info: #577590;
   --color-light-grey: #fafafa;
-  --color-state-success: #90BE6D;
-  --color-state-warning: #F9C74F;
-  --color-state-error: #F94144;
+  --color-state-success: #90be6d;
+  --color-state-warning: #f9c74f;
+  --color-state-error: #f94144;
 
   /*======================Font and Typography==================*/
-  --body-font: 'Poppins', sans-serif;
+  --body-font: "Poppins", sans-serif;
 
   /*====Heading=====*/
   --h1-font-size: 56px;
@@ -31,19 +33,23 @@
 }
 
 /*=======================Root Responsives======================*/
-@media screen and (max-width: 992px) {}
+@media screen and (max-width: 992px) {
+}
 
-@media screen and (max-width: 768px) {}
+@media screen and (max-width: 768px) {
+}
 
-@media screen and (max-width: 480px) {}
+@media screen and (max-width: 480px) {
+}
 
-@media screen and (max-width: 320px) {}
+@media screen and (max-width: 320px) {
+}
 
 * {
   /* margin: 0; */
   /* padding: 0; */
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 main {
@@ -76,7 +82,6 @@ main {
   border: none;
 }
 
-
 .label-wrapper {
   background-color: #8a8a8a;
   position: sticky;
@@ -97,4 +102,9 @@ main {
   background-color: #8a8a8a;
   color: white;
   border: none;
+}
+
+.toggle-wrapper {
+  display: flex;
+  gap: 30px;
 }

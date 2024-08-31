@@ -1,60 +1,65 @@
-import React from 'react'
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+/** @format */
 
-import OfferingLetter from "../../../../components/letter/offering-letter/letter_template/OfferingLetter"
-import { convertToPDF } from '../../../../components/tools/convertToPDF';
-import api from '../../../../utils/api'
+import React from "react";
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+
+import OfferingLetter from "../../../../components/letter/offering-letter/letter_template/OfferingLetter";
+import { convertToPDF } from "../../../../components/tools/convertToPDF";
+import api from "../../../../utils/api";
 
 // import { isiOL, offeringLetterData } from "../../../../utils/DummyData";
 
 const ViewOfferingLetter = () => {
-    const pagesRef = useRef([]);
-    const { id } = useParams();
-    const [dataOL, setDataOL] = useState({})
+  const pagesRef = useRef([]);
+  const { id } = useParams();
+  const [dataOL, setDataOL] = useState({});
 
-    async function getData(id) {
-        const response = await api.GetDetailOfferingLetter(id)
+  async function getData(id) {
+    const response = await api.GetDetailOfferingLetter(id);
 
-        setDataOL(response.data.data)
+    setDataOL(response.data.data);
+  }
+  useEffect(() => {
+    getData(id);
+  }, [id]);
+
+  const handleDownloadClick = async () => {
+    const pages = pagesRef.current.filter(
+      (pageRef) => pageRef.current !== null
+    );
+
+    if (pages && pages.length > 0) {
+      await convertToPDF(pages, "offeringLetter", "download");
     }
-    useEffect(() => {
-        getData(id)
-    }, [id])
+  };
 
-    const handleDownloadClick = async () => {
-        const pages = pagesRef.current.filter((pageRef) => pageRef.current !== null);
-
-        if (pages && pages.length > 0) {
-            await convertToPDF(pages, "offeringLetter");
-        }
-    };
-
-    return (
-        <div className='' style={{ paddingBottom: "50px" }}>
-            <div className='label-wrapper'>
-                <div className={`container label`}>
-                    <span>{dataOL.nomor_surat === "unset" ? 'Offering Letter' : dataOL.nomor_surat}</span>
-                    <i className={`pi pi-download download`} style={{ fontSize: '1rem' }}
-                        onClick={handleDownloadClick}
-                    />
-                </div>
-            </div>
-            <div className='container'>
-                {Object.keys(dataOL).length !== 0 ? (
-                    <OfferingLetter
-                        data={dataOL}
-                        pagesRef={pagesRef}
-                    />
-                ) : null}
-            </div>
+  return (
+    <div className="" style={{ paddingBottom: "50px" }}>
+      <div className="label-wrapper">
+        <div className={`container label`}>
+          <span>
+            {dataOL.nomor_surat === "unset"
+              ? "Offering Letter"
+              : dataOL.nomor_surat}
+          </span>
+          <i
+            className={`pi pi-download download`}
+            style={{ fontSize: "1rem" }}
+            onClick={handleDownloadClick}
+          />
         </div>
-    )
-}
+      </div>
+      <div className="container">
+        {Object.keys(dataOL).length !== 0 ? (
+          <OfferingLetter data={dataOL} pagesRef={pagesRef} />
+        ) : null}
+      </div>
+    </div>
+  );
+};
 
-export default ViewOfferingLetter
-
-
+export default ViewOfferingLetter;
 
 // const updatedPenawaranForms = isiOL.penawaran_forms.map(data => ({
 //     jenisPenawaran: data.jenis_penawaran,
