@@ -167,7 +167,7 @@ const ConfirmationLetter = ({ data, pagesRef }) => {
                         <p>PT CITILINK INDONESIA</p>
                         <p style={{ height: "32px" }}>LEARNING & DEVELOPMENT </p>
                         <div className={Style.tandaTangan} style={{ height: "80px" }}></div>
-                        <p>{letterData.nama_tertuju.split(' ').slice(1).join(' ').toUpperCase() || <span className={Style.infoInput}>NAMA TERTUJU</span>}</p>
+                        <p>{letterData.nama_tertuju.toUpperCase() || <span className={Style.infoInput}>NAMA TERTUJU</span>}</p>
                     </div>
                 </div>
             </div>
